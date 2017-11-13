@@ -6,3 +6,6 @@ Before build the project install next tools.
 
 1. [Homebrew](https://brew.sh/index_ru.html)
 2. [Sourcery](https://github.com/krzysztofzablocki/Sourcery): ```brew install sourcery```
+
+####Master branch build status: 
+![](https://travis-ci.org/[your-username]/MovingHelper.svg?branch=master)
