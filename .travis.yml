@@ -5,10 +5,12 @@ xcode_project: PlayerControls
 xcode_scheme: Demo
 xcode_sdk: iphonesimulator11.1
 
+branches:
+ only:
+ - travis-integration
 
 before_install:
 - brew update
-- brew upgrade xctool
 - brew install carthage
 - carthage update --platform iOS
 
