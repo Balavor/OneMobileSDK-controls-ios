@@ -12,6 +12,7 @@ before_install:
 - brew install carthage
 - cd Demo
 - carthage update --platform iOS
+- cd ..
 
 script:
 - xcodebuild clean build test -project PlayerControls.xcworkspace -scheme Demo -destination 'platform=Simulator,name=iPad Pro (12.9-inch),OS=11.1'
