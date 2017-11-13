@@ -14,4 +14,4 @@ before_install:
 - carthage update --platform iOS
 
 script:
-- fastlane verify
+- xcodebuild clean build test -project PlayerControls.xcworkspace -scheme Demo -destination 'platform=Simulator,name=iPad Pro (12.9-inch),OS=11.1'
