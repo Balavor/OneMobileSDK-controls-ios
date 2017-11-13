@@ -18,6 +18,7 @@
 		069F387F1FB5BB15004FCA7A /* HostWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F387E1FB5BB15004FCA7A /* HostWindow.swift */; };
 		069F38811FB5BB28004FCA7A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F38801FB5BB28004FCA7A /* Extensions.swift */; };
 		069F38821FB5C289004FCA7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEE135081F0FD2F100C47354 /* Assets.xcassets */; };
+		06CDD0151FB9D3D2003131CD /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 06CDD0141FB9D3D2003131CD /* .travis.yml */; };
 		8B0531B91FB4BAE9002AA33F /* CaseWithEmptyProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0691934B1FB0AD1D006D5484 /* CaseWithEmptyProgress.swift */; };
 		8B74AE1B1FB33C8C007B3F47 /* SnapshotTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06208ABD1FAC875400085FF5 /* SnapshotTest.swift */; };
 		8B74AE1C1FB33D05007B3F47 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06208AB21FAC86B300085FF5 /* FBSnapshotTestCase.framework */; };
@@ -86,6 +87,7 @@
 		069193551FB0AE3C006D5484 /* CaseWithPlayTimeIsNotLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseWithPlayTimeIsNotLoading.swift; sourceTree = "<group>"; };
 		069F387E1FB5BB15004FCA7A /* HostWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostWindow.swift; sourceTree = "<group>"; };
 		069F38801FB5BB28004FCA7A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		06CDD0141FB9D3D2003131CD /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		8B74AE181FB33C61007B3F47 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "../../../project copy/New/Demo/Carthage/Build/iOS/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
 		8B74AE1D1FB33E00007B3F47 /* PlayerControls.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; name = PlayerControls.xcworkspace; path = ../PlayerControls.xcworkspace; sourceTree = "<group>"; };
 		DEE134FE1F0FD2F100C47354 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +198,7 @@
 		DEE134F51F0FD2F100C47354 = {
 			isa = PBXGroup;
 			children = (
+				06CDD0141FB9D3D2003131CD /* .travis.yml */,
 				06E744AB1FACDFD9001FC8D7 /* Tests */,
 				DEE135001F0FD2F100C47354 /* Demo */,
 				DEE134FF1F0FD2F100C47354 /* Products */,
@@ -392,6 +395,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CDD0151FB9D3D2003131CD /* .travis.yml in Resources */,
 				DEE1350C1F0FD2F100C47354 /* LaunchScreen.storyboard in Resources */,
 				DEE135091F0FD2F100C47354 /* Assets.xcassets in Resources */,
 			);

@@ -1,0 +1,16 @@
+language: swift
+
+osx_image: xcode9.1
+xcode_project: PlayerControls
+xcode_scheme: Demo
+xcode_sdk: iphonesimulator11.1
+
+
+before_install:
+- brew update
+- brew upgrade xctool
+- brew install carthage
+- carthage update --platform iOS
+
+script:
+- xcodebuild clean build test -project PlayerControls.xcworkspace -scheme Demo -destination 'platform=Simulator,name=iPad Pro (12.9-inch),OS=11.1'
