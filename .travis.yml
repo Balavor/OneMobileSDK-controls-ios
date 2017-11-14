@@ -15,4 +15,4 @@ before_install:
 - cd ..
 
 script:
-- xcodebuild clean build test -workspace PlayerControls.xcworkspace -scheme Demo -destination 'platform:iOS Simulator, id:02A8F368-DAF1-4473-AE19-AB2B6F8ABF13, OS:11.1, name:iPad Pro (12.9-inch)'
+- xcodebuild clean build test -workspace PlayerControls.xcworkspace -scheme Demo -destination 'platform=iOS Simulator, id=02A8F368-DAF1-4473-AE19-AB2B6F8ABF13, OS=11.1, name=iPad Pro (12.9-inch)'
