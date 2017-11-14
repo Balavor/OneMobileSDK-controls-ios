@@ -1,5 +1,4 @@
 language: swift
-os: osx
 osx_image: xcode9.1
 xcode_workspace: PlayerControls
 
@@ -8,6 +7,7 @@ branches:
  - travis-integration
 
 before_install:
+- bundle exec danger
 - brew update
 - brew install sourcery
 - brew install carthage
