@@ -1,7 +1,7 @@
 language: swift
 os: osx
 osx_image: xcode9.1
-xcode_sdk: iphonesimulator11.1
+xcode_workspace: PlayerControls
 
 branches:
  only:
@@ -13,6 +13,7 @@ before_install:
 - cd Demo
 - carthage update --platform iOS
 - cd ..
+- brew cask install fastlane
 
 script:
-- xcodebuild clean build test -workspace PlayerControls.xcworkspace -scheme Demo -destination 'platform=iOS Simulator, id=02A8F368-DAF1-4473-AE19-AB2B6F8ABF13, OS=11.1, name=iPad Pro (12.9-inch)'
+- fastlane verify
