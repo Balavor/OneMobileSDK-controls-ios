@@ -9,6 +9,7 @@ branches:
 
 before_install:
 - brew update
+- brew install sourcery
 - brew install carthage
 - cd Demo
 - carthage update --platform iOS
