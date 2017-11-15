@@ -6,3 +6,5 @@ Before build the project install next tools.
 
 1. [Homebrew](https://brew.sh/index_ru.html)
 2. [Sourcery](https://github.com/krzysztofzablocki/Sourcery): ```brew install sourcery```
+
+[![Build Status](https://travis-ci.org/Balavor/OneMobileSDK-controls-ios.svg?branch=travis-integration)](https://travis-ci.org/Balavor/OneMobileSDK-controls-ios)
