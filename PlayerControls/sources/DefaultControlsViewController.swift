@@ -65,25 +65,24 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     //MARK: Animators
     
-//    @IBOutlet var shadowAnimator: FadeAnimator!
-//    @IBOutlet var compasAnimator: FadeAnimator!
+    @IBOutlet var shadowAnimator: FadeAnimator!
+    @IBOutlet var compasAnimator: FadeAnimator!
     @IBOutlet var playAnimator: FadeAnimator!
     @IBOutlet var pauseAnimator: FadeAnimator!
     @IBOutlet var replayAnimator: FadeAnimator!
-//    @IBOutlet var retryAnimator: FadeAnimator!
-//    @IBOutlet var loadingAnimator: FadeAnimator!
-//    @IBOutlet var playlistAnimator: FadeAnimator!
-//    @IBOutlet var seekTo10SecAnimator: FadeAnimator!
-//    @IBOutlet var airplayLabelAnimator: FadeAnimator!
-//    @IBOutlet var errorAnimator: FadeAnimator!
-//    @IBOutlet var subtitlesAnimator: FadeAnimator!
+    @IBOutlet var retryAnimator: FadeAnimator!
+    @IBOutlet var playlistAnimator: FadeAnimator!
+    @IBOutlet var seekTo10SecAnimator: FadeAnimator!
+    @IBOutlet var airplayLabelAnimator: FadeAnimator!
+    @IBOutlet var errorAnimator: FadeAnimator!
+    @IBOutlet var subtitlesAnimator: FadeAnimator!
 //
 //    @IBOutlet var titleAnimator: SlideAnimator!
 //    @IBOutlet var pipAnimator: SlideAnimator!
 //    @IBOutlet var airplayAnimator: SlideAnimator!
 //    @IBOutlet var settingsAnimator: SlideAnimator!
 //    @IBOutlet var durationAnimator: SlideAnimator!
-//    @IBOutlet var seekerAnimator: SlideAnimator!
+    @IBOutlet var seekerAnimator: SlideAnimator!
 //
 //    @IBOutlet var sideBarAnimator: SlideAnimator!
 //
@@ -101,7 +100,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
-    var animationGroup = AnimatorGroup()
+    var fadeAnimatorGroup = AnimatorGroup()
+    var slideBottomAnimatorGroup = AnimatorGroup()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,7 +115,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         
-        animationGroup.animators = [playAnimator, pauseAnimator, replayAnimator]
+        shadowAnimator.maxAlpha = 0.3
+        
+        fadeAnimatorGroup.animators = [
+            shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecAnimator, playlistAnimator, compasAnimator, airplayLabelAnimator, errorAnimator, subtitlesAnimator]
+        slideBottomAnimatorGroup.animators = []
+        
     }
     
     
@@ -130,11 +135,24 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
-        playAnimator.isAvailable = uiProps.playButtonHidden
-        pauseAnimator.isAvailable = uiProps.pauseButtonHidden
-        replayAnimator.isAvailable = uiProps.replayButtonHidden
+        errorAnimator.isAvailable = !uiProps.errorLabelHidden
+        playAnimator.isAvailable = !uiProps.playButtonHidden
+        pauseAnimator.isAvailable = !uiProps.pauseButtonHidden
+        retryAnimator.isAvailable = !uiProps.retryButtonHidden
+        replayAnimator.isAvailable = !uiProps.replayButtonHidden
+        compasAnimator.isAvailable = !uiProps.compasBodyViewHidden
+        subtitlesAnimator.isAvailable = !uiProps.subtitlesTextLabelHidden
+        airplayLabelAnimator.isAvailable = !uiProps.airplayActiveLabelHidden
+        playlistAnimator.isAvailable = !(uiProps.nextButtonHidden && uiProps.prevButtonHidden)
+        seekTo10SecAnimator.isAvailable = !(uiProps.seekBackButtonHidden && uiProps.seekForwardButtonHidden)
         
-        animationGroup.performAnimation(if: controlsShouldBeVisible)
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0,
+            options: [.beginFromCurrentState, .curveEaseOut],
+            animations: {
+                self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+        }, completion: nil)
         
         //controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading

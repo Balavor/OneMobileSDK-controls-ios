@@ -7,8 +7,8 @@ typealias Props = ContentControlsViewController.Props
 func props() -> Props {
     return Props.player(Props.Player(
         playlist: Props.Playlist(
-            next: nil,
-            prev: nil),
+            next: .nop,
+            prev: .nop),
         item: .playable(Props.Controls(
             airplay: .enabled,
             audible: Props.MediaGroupControl(options: []),
@@ -42,7 +42,7 @@ func props() -> Props {
                         update: .nop,
                         stop: .nop))),
             settings: .enabled(.nop),
-            sideBarViewHidden: true,
+            sideBarViewHidden: false,
             thumbnail: nil,
             title: "Long titel"))))
 }
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let vc = DefaultControlsViewController()
-        vc.view.backgroundColor = .green
+        vc.view.backgroundColor = .red
         vc.view.tintColor = .blue
         vc.props = props()
         vc.sidebarProps = sideProps()

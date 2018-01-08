@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,34 +14,45 @@
                 <outlet property="airPlayView" destination="72o-zQ-Neb" id="H2B-hs-BSd"/>
                 <outlet property="airplayActiveLabel" destination="kPK-Sh-8jh" id="JaP-cu-vma"/>
                 <outlet property="airplayEdgeTrailingConstrains" destination="Vyl-vI-sAn" id="VCW-Qu-Qym"/>
+                <outlet property="airplayLabelAnimator" destination="OQT-po-osx" id="F0k-Gs-ZuI"/>
                 <outlet property="airplayPipTrailingConstrains" destination="oHL-VL-d41" id="QIz-jM-MP2"/>
                 <outlet property="bottomSeekBarConstraint" destination="1rA-Ma-4OD" id="thy-r3-SLe"/>
                 <outlet property="cameraPanGestureRecognizer" destination="ZiF-3w-BsH" id="RtK-Tm-0VF"/>
                 <outlet property="ccTextLabel" destination="SEd-qf-YJr" id="RPz-r8-Q4U"/>
+                <outlet property="compasAnimator" destination="tj7-GH-Z09" id="ElL-7c-gWL"/>
                 <outlet property="compasBodyView" destination="l0O-oR-0Rg" id="KC1-qR-MfN"/>
                 <outlet property="compasDirectionView" destination="6eW-2a-aeL" id="Anp-D7-5hp"/>
                 <outlet property="compassBodyBelowLiveTopConstraint" destination="qaS-Tx-ZER" id="zYF-dC-uGB"/>
                 <outlet property="compassBodyNoLiveTopConstraint" destination="mIu-gb-Ffc" id="uoM-nz-rEp"/>
                 <outlet property="controlsView" destination="fi9-sW-1VX" id="dg0-wz-bBh"/>
                 <outlet property="durationTextLabel" destination="Im0-Vw-2gZ" id="7UT-l7-dfO"/>
+                <outlet property="errorAnimator" destination="8xw-Za-02s" id="mSd-8T-OLE"/>
                 <outlet property="errorLabel" destination="UtD-cb-Wlb" id="ebo-gb-gDd"/>
                 <outlet property="liveDotLabel" destination="5Hj-Mr-azG" id="4IE-zq-M31"/>
                 <outlet property="liveIndicationView" destination="aUE-Db-Ht9" id="3TF-6f-Ijr"/>
                 <outlet property="loadingImageView" destination="ikX-6f-FSq" id="VZj-CY-bUg"/>
                 <outlet property="nextButton" destination="ida-wI-kAP" id="VKy-6n-hIb"/>
+                <outlet property="pauseAnimator" destination="g8G-Ef-4ut" id="wn4-JM-WdT"/>
                 <outlet property="pauseButton" destination="KeK-cX-xXB" id="ItP-y0-YdS"/>
                 <outlet property="pipButton" destination="tGV-rG-prj" id="lzF-NF-w8X"/>
+                <outlet property="playAnimator" destination="L2s-Co-9WD" id="bgw-Je-Pbz"/>
                 <outlet property="playButton" destination="U8A-X2-cyf" id="PIP-Q8-Upy"/>
+                <outlet property="playlistAnimator" destination="Rjf-XP-hee" id="h92-SI-VK4"/>
                 <outlet property="prevButton" destination="73i-r1-qKj" id="ldM-iJ-Bh5"/>
+                <outlet property="replayAnimator" destination="pqz-P1-Yik" id="sHs-Jl-u7A"/>
                 <outlet property="replayButton" destination="wVE-Q8-zOG" id="d5Z-Ur-0jM"/>
+                <outlet property="retryAnimator" destination="IRG-gU-WDM" id="Zgn-xT-WMw"/>
                 <outlet property="retryButton" destination="IVo-gm-8qs" id="xC0-RD-olF"/>
                 <outlet property="seekBackButton" destination="cNh-R2-LdG" id="k98-5r-hS8"/>
                 <outlet property="seekForwardButton" destination="djN-u7-nkt" id="u1p-O8-TOL"/>
+                <outlet property="seekTo10SecAnimator" destination="o1Z-CQ-X87" id="EV9-Ec-rYR"/>
                 <outlet property="seekerView" destination="fAO-vH-cgi" id="mC9-GB-wqD"/>
                 <outlet property="settingsButton" destination="Ddy-Jb-aVD" id="iE1-re-XF5"/>
+                <outlet property="shadowAnimator" destination="YSZ-R2-S8k" id="6h6-Z7-uN7"/>
                 <outlet property="shadowView" destination="m54-Yx-R7K" id="UrZ-Ce-oXW"/>
                 <outlet property="sideBarView" destination="Uc8-v7-96O" id="4eK-qd-dwS"/>
                 <outlet property="subtitlesAirplayTrailingConstrains" destination="W3f-YF-5Xe" id="kJT-VV-QKX"/>
+                <outlet property="subtitlesAnimator" destination="c5Q-7n-g8T" id="BAp-WS-yfE"/>
                 <outlet property="subtitlesEdgeTrailingConstrains" destination="gLr-H3-hip" id="eQz-h0-b2M"/>
                 <outlet property="subtitlesPipTrailingConstrains" destination="PR9-OI-F49" id="2Eo-cw-l5K"/>
                 <outlet property="thumbnailImageView" destination="NKq-bU-tvG" id="6hP-L5-BvJ"/>
@@ -82,7 +93,7 @@ Subtitles</string>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-loading" translatesAutoresizingMaskIntoConstraints="NO" id="ikX-6f-FSq">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-loading" translatesAutoresizingMaskIntoConstraints="NO" id="ikX-6f-FSq" userLabel="Loading Image View">
                             <rect key="frame" x="193" y="113" width="95" height="95"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0O-oR-0Rg">
@@ -103,7 +114,7 @@ Title</string>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVE-Q8-zOG">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVE-Q8-zOG" userLabel="Replay Button">
                             <rect key="frame" x="193" y="113" width="95" height="95"/>
                             <state key="normal" image="icon-replay"/>
                             <state key="highlighted" image="icon-replay-glow"/>
@@ -408,7 +419,7 @@ Title</string>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IVo-gm-8qs">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IVo-gm-8qs" userLabel="Retry Button">
                     <rect key="frame" x="193" y="113" width="95" height="95"/>
                     <state key="normal" image="icon-replay"/>
                     <connections>
@@ -476,6 +487,65 @@ Title</string>
                 <action selector="onCameraPanWith:" destination="-1" id="RBn-Hb-4of"/>
             </connections>
         </panGestureRecognizer>
+        <customObject id="L2s-Co-9WD" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="U8A-X2-cyf" id="yvj-Hw-0Ht"/>
+            </connections>
+        </customObject>
+        <customObject id="g8G-Ef-4ut" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="KeK-cX-xXB" id="f7G-7d-Wg7"/>
+            </connections>
+        </customObject>
+        <customObject id="YSZ-R2-S8k" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="m54-Yx-R7K" id="P8B-On-z3X"/>
+            </connections>
+        </customObject>
+        <customObject id="o1Z-CQ-X87" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outletCollection property="fadingViews" destination="djN-u7-nkt" collectionClass="NSMutableArray" id="51H-vb-DhB"/>
+                <outletCollection property="fadingViews" destination="cNh-R2-LdG" collectionClass="NSMutableArray" id="xBM-WU-yGd"/>
+            </connections>
+        </customObject>
+        <customObject id="tj7-GH-Z09" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outletCollection property="fadingViews" destination="l0O-oR-0Rg" collectionClass="NSMutableArray" id="Tqw-w1-zgJ"/>
+                <outletCollection property="fadingViews" destination="6eW-2a-aeL" collectionClass="NSMutableArray" id="BXa-9L-mKv"/>
+            </connections>
+        </customObject>
+        <customObject id="Rjf-XP-hee" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outletCollection property="fadingViews" destination="ida-wI-kAP" collectionClass="NSMutableArray" id="mhM-ku-HPK"/>
+                <outletCollection property="fadingViews" destination="73i-r1-qKj" collectionClass="NSMutableArray" id="b77-JQ-V51"/>
+            </connections>
+        </customObject>
+        <customObject id="IRG-gU-WDM" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="IVo-gm-8qs" id="bLp-Zd-OQb"/>
+            </connections>
+        </customObject>
+        <customObject id="pqz-P1-Yik" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="wVE-Q8-zOG" id="Fwb-Pe-P4E"/>
+            </connections>
+        </customObject>
+        <customObject id="8xw-Za-02s" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="UtD-cb-Wlb" id="EcS-wl-3rm"/>
+            </connections>
+        </customObject>
+        <customObject id="OQT-po-osx" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="kPK-Sh-8jh" id="mRt-un-NJP"/>
+            </connections>
+        </customObject>
+        <customObject id="c5Q-7n-g8T" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="SEd-qf-YJr" id="AFB-cE-l5M"/>
+            </connections>
+        </customObject>
+        <customObject id="hlb-C6-8ay" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target"/>
     </objects>
     <resources>
         <image name="compas-body" width="30" height="30"/>

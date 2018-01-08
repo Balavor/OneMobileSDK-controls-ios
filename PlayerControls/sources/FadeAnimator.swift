@@ -1,21 +1,24 @@
-// Copyright © 2017 Oath. All rights reserved.
+// Copyright © 2018 Oath. All rights reserved.
 
 import UIKit
 
 class FadeAnimator: NSObject, Animators {
     
-    @IBOutlet var fadingVeiw: UIView!
+    @IBOutlet var fadingView: UIView!
+    @IBOutlet var fadingViews: [UIView]!
     
     var isHidden: Bool = false
-    
+    var maxAlpha: CGFloat = 1
     var isAvailable: Bool = true
     
     func animate(for visibility: Bool) {
-        guard fadingVeiw != nil else { return }
-        if isAvailable {
-            fadingVeiw.alpha = visibility ? 1 : 0
-            isHidden = visibility
+        guard fadingViews == nil else {
+            for view in fadingViews {
+                view.alpha = isAvailable && visibility ?  maxAlpha : 0
+            }
+            return
         }
+        fadingView.alpha = isAvailable && visibility ? maxAlpha : 0
     }
 }
 
