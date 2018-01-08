@@ -76,16 +76,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet var airplayLabelAnimator: FadeAnimator!
     @IBOutlet var errorAnimator: FadeAnimator!
     @IBOutlet var subtitlesAnimator: FadeAnimator!
-//
-//    @IBOutlet var titleAnimator: SlideAnimator!
-//    @IBOutlet var pipAnimator: SlideAnimator!
-//    @IBOutlet var airplayAnimator: SlideAnimator!
-//    @IBOutlet var settingsAnimator: SlideAnimator!
-//    @IBOutlet var durationAnimator: SlideAnimator!
-//    @IBOutlet var seekerAnimator: SlideAnimator!
-//
+
+    @IBOutlet var bottomItemsAnimator: SlideAnimator!
+    @IBOutlet var seekerAnimator: SlideAnimator!
+
     @IBOutlet var sideBarAnimator: SlideAnimator!
-//
+
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
             sideBarView.props = sidebarProps.map { [weak self] in
@@ -102,6 +98,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     var fadeAnimatorGroup = AnimatorGroup()
     var slideBottomAnimatorGroup = AnimatorGroup()
+    var appeared: Bool = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,16 +111,20 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         seekerView.callbacks.onDragFinished = CommandWith { [unowned self] value in
             self.stopSeek(at: value)
         }
-        
         shadowAnimator.maxAlpha = 0.3
-        
-        fadeAnimatorGroup.animators = [
-            shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecAnimator, playlistAnimator, compasAnimator, airplayLabelAnimator, errorAnimator, subtitlesAnimator]
-        
-        slideBottomAnimatorGroup.animators = [sideBarAnimator]
-        
+        fadeAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecAnimator, playlistAnimator, compasAnimator, airplayLabelAnimator, errorAnimator]
+        slideBottomAnimatorGroup.animators = [sideBarAnimator, seekerAnimator, bottomItemsAnimator]
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appeared = true
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        appeared = false
+    }
     
     var task: URLSessionDataTask?
     
@@ -149,16 +150,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
         
-        UIView.animate(
-            withDuration: 0.4,
-            delay: 0,
-            options: [.beginFromCurrentState, .curveEaseOut],
-            animations: {
-                self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-                self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-                self.view.layoutIfNeeded()
-        }, completion: nil)
-        
+        if appeared {
+            fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+            slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+        }
+        //the line that used to hide controls on tap or timer fire
         //controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
         
@@ -309,12 +305,34 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     public func showControls() {
         controlsShouldBeVisible = true
-        view.setNeedsLayout()
+        if appeared {
+            UIView.animate(
+                withDuration: 0.4,
+                delay: 0,
+                options: [.beginFromCurrentState, .curveEaseOut],
+                animations: {
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+            }, completion: nil)
+        } else {
+            self.view.setNeedsLayout()
+        }
     }
     
     public func hideControls() {
         controlsShouldBeVisible = false
-        view.setNeedsLayout()
+        if appeared {
+            UIView.animate(
+                withDuration: 0.4,
+                delay: 0,
+                options: [.beginFromCurrentState, .curveEaseOut],
+                animations: {
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+            }, completion: nil)
+        } else {
+            self.view.setNeedsLayout()
+        }
     }
     
     func setupVisibilityController() {

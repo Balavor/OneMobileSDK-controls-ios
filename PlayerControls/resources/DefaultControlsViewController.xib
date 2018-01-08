@@ -16,7 +16,8 @@
                 <outlet property="airplayEdgeTrailingConstrains" destination="Vyl-vI-sAn" id="VCW-Qu-Qym"/>
                 <outlet property="airplayLabelAnimator" destination="OQT-po-osx" id="F0k-Gs-ZuI"/>
                 <outlet property="airplayPipTrailingConstrains" destination="oHL-VL-d41" id="QIz-jM-MP2"/>
-                <outlet property="bottomSeekBarConstraint" destination="1rA-Ma-4OD" id="thy-r3-SLe"/>
+                <outlet property="bottomItemsAnimator" destination="ldJ-2U-u7D" id="fIh-Ck-Z7C"/>
+                <outlet property="bottomSeekBarConstraint" destination="1rA-Ma-4OD" id="irp-iR-zn0"/>
                 <outlet property="cameraPanGestureRecognizer" destination="ZiF-3w-BsH" id="RtK-Tm-0VF"/>
                 <outlet property="ccTextLabel" destination="SEd-qf-YJr" id="RPz-r8-Q4U"/>
                 <outlet property="compasAnimator" destination="tj7-GH-Z09" id="ElL-7c-gWL"/>
@@ -46,6 +47,7 @@
                 <outlet property="seekBackButton" destination="cNh-R2-LdG" id="k98-5r-hS8"/>
                 <outlet property="seekForwardButton" destination="djN-u7-nkt" id="u1p-O8-TOL"/>
                 <outlet property="seekTo10SecAnimator" destination="o1Z-CQ-X87" id="EV9-Ec-rYR"/>
+                <outlet property="seekerAnimator" destination="kue-3m-Qhf" id="rAB-SN-Mc7"/>
                 <outlet property="seekerView" destination="fAO-vH-cgi" id="mC9-GB-wqD"/>
                 <outlet property="settingsButton" destination="Ddy-Jb-aVD" id="iE1-re-XF5"/>
                 <outlet property="shadowAnimator" destination="YSZ-R2-S8k" id="6h6-Z7-uN7"/>
@@ -248,6 +250,7 @@ Title</string>
                         <constraint firstItem="cNh-R2-LdG" firstAttribute="centerY" secondItem="U8A-X2-cyf" secondAttribute="centerY" id="MDB-2d-aWk"/>
                         <constraint firstItem="fAO-vH-cgi" firstAttribute="leading" secondItem="fi9-sW-1VX" secondAttribute="leading" id="OYY-c7-642"/>
                         <constraint firstAttribute="trailing" secondItem="Uc8-v7-96O" secondAttribute="leading" id="OhI-w6-p0d"/>
+                        <constraint firstAttribute="bottom" secondItem="Ddy-Jb-aVD" secondAttribute="top" constant="-62" id="PDv-8Z-tKD"/>
                         <constraint firstItem="tGV-rG-prj" firstAttribute="leading" secondItem="Ddy-Jb-aVD" secondAttribute="trailing" constant="15" id="PR9-OI-F49"/>
                         <constraint firstItem="m54-Yx-R7K" firstAttribute="centerY" secondItem="U8A-X2-cyf" secondAttribute="centerY" id="PrJ-1T-4v4"/>
                         <constraint firstAttribute="trailing" secondItem="fAO-vH-cgi" secondAttribute="trailing" id="SFG-A0-7XF"/>
@@ -271,6 +274,7 @@ Title</string>
                         </constraint>
                         <constraint firstItem="l0O-oR-0Rg" firstAttribute="top" secondItem="fi9-sW-1VX" secondAttribute="top" constant="20" id="mIu-gb-Ffc"/>
                         <constraint firstItem="tGV-rG-prj" firstAttribute="leading" secondItem="72o-zQ-Neb" secondAttribute="trailing" constant="15" id="oHL-VL-d41"/>
+                        <constraint firstItem="fAO-vH-cgi" firstAttribute="top" secondItem="fi9-sW-1VX" secondAttribute="bottom" constant="20" id="oMx-7A-FGe"/>
                         <constraint firstItem="djN-u7-nkt" firstAttribute="leading" secondItem="U8A-X2-cyf" secondAttribute="trailing" constant="6" id="pG8-cM-rpN"/>
                         <constraint firstItem="fAO-vH-cgi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="U8A-X2-cyf" secondAttribute="bottom" constant="-5" id="put-WR-Szd">
                             <variation key="widthClass=compact" constant="-5"/>
@@ -310,6 +314,7 @@ Title</string>
                             <exclude reference="EEn-7U-jDF"/>
                             <exclude reference="OYY-c7-642"/>
                             <exclude reference="SFG-A0-7XF"/>
+                            <exclude reference="oMx-7A-FGe"/>
                             <exclude reference="put-WR-Szd"/>
                             <exclude reference="2EN-h1-ldw"/>
                             <exclude reference="Bug-m8-Fqm"/>
@@ -324,6 +329,7 @@ Title</string>
                             <exclude reference="pG8-cM-rpN"/>
                             <exclude reference="F2z-D3-yET"/>
                             <exclude reference="iww-Ws-dSP"/>
+                            <exclude reference="PDv-8Z-tKD"/>
                             <exclude reference="gLr-H3-hip"/>
                             <exclude reference="Vyl-vI-sAn"/>
                             <exclude reference="DWa-IY-lCj"/>
@@ -549,6 +555,18 @@ Title</string>
             <connections>
                 <outlet property="activeConstraint" destination="In0-pk-ELt" id="EFA-JN-0qP"/>
                 <outlet property="inactiveConstraint" destination="OhI-w6-p0d" id="DFZ-rn-3dP"/>
+            </connections>
+        </customObject>
+        <customObject id="kue-3m-Qhf" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="activeConstraint" destination="1rA-Ma-4OD" id="xT5-mt-ri1"/>
+                <outlet property="inactiveConstraint" destination="oMx-7A-FGe" id="OUE-qr-0kf"/>
+            </connections>
+        </customObject>
+        <customObject id="ldJ-2U-u7D" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="activeConstraint" destination="Uxr-4B-Jz5" id="Phm-PQ-gS8"/>
+                <outlet property="inactiveConstraint" destination="PDv-8Z-tKD" id="iEu-he-0fl"/>
             </connections>
         </customObject>
     </objects>
