@@ -63,6 +63,30 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var subtitlesEdgeTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesPipTrailingConstrains: NSLayoutConstraint!
     
+    //MARK: Animators
+    
+//    @IBOutlet var shadowAnimator: FadeAnimator!
+//    @IBOutlet var compasAnimator: FadeAnimator!
+    @IBOutlet var playAnimator: FadeAnimator!
+    @IBOutlet var pauseAnimator: FadeAnimator!
+    @IBOutlet var replayAnimator: FadeAnimator!
+//    @IBOutlet var retryAnimator: FadeAnimator!
+//    @IBOutlet var loadingAnimator: FadeAnimator!
+//    @IBOutlet var playlistAnimator: FadeAnimator!
+//    @IBOutlet var seekTo10SecAnimator: FadeAnimator!
+//    @IBOutlet var airplayLabelAnimator: FadeAnimator!
+//    @IBOutlet var errorAnimator: FadeAnimator!
+//    @IBOutlet var subtitlesAnimator: FadeAnimator!
+//
+//    @IBOutlet var titleAnimator: SlideAnimator!
+//    @IBOutlet var pipAnimator: SlideAnimator!
+//    @IBOutlet var airplayAnimator: SlideAnimator!
+//    @IBOutlet var settingsAnimator: SlideAnimator!
+//    @IBOutlet var durationAnimator: SlideAnimator!
+//    @IBOutlet var seekerAnimator: SlideAnimator!
+//
+//    @IBOutlet var sideBarAnimator: SlideAnimator!
+//
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
             sideBarView.props = sidebarProps.map { [weak self] in
@@ -77,6 +101,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
+    var animationGroup = AnimatorGroup()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         seekerView.callbacks.onDragStarted = CommandWith { [unowned self] value in
@@ -88,7 +114,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         seekerView.callbacks.onDragFinished = CommandWith { [unowned self] value in
             self.stopSeek(at: value)
         }
+        
+        animationGroup.animators = [playAnimator, pauseAnimator, replayAnimator]
     }
+    
     
     var task: URLSessionDataTask?
     
@@ -101,7 +130,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
-        controlsView.isHidden = uiProps.controlsViewHidden
+        playAnimator.isAvailable = uiProps.playButtonHidden
+        pauseAnimator.isAvailable = uiProps.pauseButtonHidden
+        replayAnimator.isAvailable = uiProps.replayButtonHidden
+        
+        animationGroup.performAnimation(if: controlsShouldBeVisible)
+        
+        //controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
         
         playButton.isHidden = uiProps.playButtonHidden
@@ -125,9 +160,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         seekBackButton.isHidden = uiProps.seekBackButtonHidden
         seekForwardButton.isHidden = uiProps.seekForwardButtonHidden
-        
+
         sideBarView.isHidden = uiProps.sideBarViewHidden
-        
+
         compasBodyView.isHidden = uiProps.compasBodyViewHidden
         compasDirectionView.isHidden = uiProps.compasDirectionViewHidden
         compasDirectionView.transform = uiProps.compasDirectionViewTransform

@@ -47,6 +47,54 @@ func props() -> Props {
             title: "Long titel"))))
 }
 
+func sideProps() -> [SideBarView.ButtonProps]{
+    
+    let shareIcons = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-share", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-share-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let share = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: shareIcons,
+        handler: .nop)
+    
+    let addIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-add", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-add-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let add = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: addIcon,
+        handler: .nop)
+    
+    let favoriteIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-fav", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-fav-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let favorite = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: favoriteIcon,
+        handler: .nop)
+    
+    let laterIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-later", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-later-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let later = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: laterIcon,
+        handler: .nop)
+    
+    return [later, favorite, share, add]
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -59,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.backgroundColor = .green
         vc.view.tintColor = .blue
         vc.props = props()
+        vc.sidebarProps = sideProps()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc

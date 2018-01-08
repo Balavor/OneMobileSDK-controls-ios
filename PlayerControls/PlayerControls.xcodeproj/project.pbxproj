@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0672C6BD1FFD58F8001E6CC3 /* AnimationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */; };
 		0696270D1FD188A50098494A /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0696270C1FD188A50098494A /* Command.swift */; };
+		249841ED2002D755004CB3FA /* FadeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249841EC2002D755004CB3FA /* FadeAnimator.swift */; };
+		249841EF2002D760004CB3FA /* SlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249841EE2002D760004CB3FA /* SlideAnimator.swift */; };
 		42A7F6581FEC156400CE39C0 /* Defaultable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6571FEC156400CE39C0 /* Defaultable.swift */; };
 		42A7F65A1FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */; };
 		50582F6C1E65C64B00B18908 /* ContentControlsUIProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50582F671E65C64B00B18908 /* ContentControlsUIProps.swift */; };
@@ -69,7 +72,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationGroup.swift; sourceTree = "<group>"; };
 		0696270C1FD188A50098494A /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		249841EC2002D755004CB3FA /* FadeAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeAnimator.swift; sourceTree = "<group>"; };
+		249841EE2002D760004CB3FA /* SlideAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimator.swift; sourceTree = "<group>"; };
 		42A7F6571FEC156400CE39C0 /* Defaultable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaultable.swift; sourceTree = "<group>"; };
 		42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentControlsUIProps+Init.swift"; sourceTree = "<group>"; };
 		50582F5B1E65C41900B18908 /* PlayerControls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerControls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +134,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0672C6BB1FFD586B001E6CC3 /* animations */ = {
+			isa = PBXGroup;
+			children = (
+				0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */,
+				249841EC2002D755004CB3FA /* FadeAnimator.swift */,
+				249841EE2002D760004CB3FA /* SlideAnimator.swift */,
+			);
+			name = animations;
+			sourceTree = "<group>";
+		};
 		50582F511E65C41900B18908 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +181,7 @@
 				50582F8D1E65CD4100B18908 /* time formatter */,
 				50582F8F1E65CD6700B18908 /* ad controls */,
 				50582F901E65CD7300B18908 /* content controls */,
+				0672C6BB1FFD586B001E6CC3 /* animations */,
 			);
 			path = sources;
 			sourceTree = SOURCE_ROOT;
@@ -439,7 +456,10 @@
 			files = (
 				DA73095D1F5FD3AD000A7364 /* EnumPrism.stencil in Sources */,
 				50582F811E65CA0F00B18908 /* AdVideoControls.swift in Sources */,
+				249841EF2002D760004CB3FA /* SlideAnimator.swift in Sources */,
+				0672C6BD1FFD58F8001E6CC3 /* AnimationGroup.swift in Sources */,
 				50582F6E1E65C64B00B18908 /* ContentControlsViewController.swift in Sources */,
+				249841ED2002D755004CB3FA /* FadeAnimator.swift in Sources */,
 				0696270D1FD188A50098494A /* Command.swift in Sources */,
 				50582F7E1E65C96100B18908 /* SeekGestureRecognizer.swift in Sources */,
 				50582F8C1E65CBE600B18908 /* Timer.swift in Sources */,
