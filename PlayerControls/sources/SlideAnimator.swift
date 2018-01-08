@@ -11,8 +11,8 @@ class SlideAnimator: NSObject, Animators {
     var isHidden: Bool = false
     
     func animate(for visibility: Bool) {
-        inactiveConstraint.isActive = visibility
-        activeConstraint.isActive = !visibility
+        inactiveConstraint.isActive = !visibility
+        activeConstraint.isActive = visibility
     }
 }
 

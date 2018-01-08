@@ -82,9 +82,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
 //    @IBOutlet var airplayAnimator: SlideAnimator!
 //    @IBOutlet var settingsAnimator: SlideAnimator!
 //    @IBOutlet var durationAnimator: SlideAnimator!
-    @IBOutlet var seekerAnimator: SlideAnimator!
+//    @IBOutlet var seekerAnimator: SlideAnimator!
 //
-//    @IBOutlet var sideBarAnimator: SlideAnimator!
+    @IBOutlet var sideBarAnimator: SlideAnimator!
 //
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -119,7 +119,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         fadeAnimatorGroup.animators = [
             shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecAnimator, playlistAnimator, compasAnimator, airplayLabelAnimator, errorAnimator, subtitlesAnimator]
-        slideBottomAnimatorGroup.animators = []
+        
+        slideBottomAnimatorGroup.animators = [sideBarAnimator]
         
     }
     
@@ -146,12 +147,16 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         playlistAnimator.isAvailable = !(uiProps.nextButtonHidden && uiProps.prevButtonHidden)
         seekTo10SecAnimator.isAvailable = !(uiProps.seekBackButtonHidden && uiProps.seekForwardButtonHidden)
         
+        sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
+        
         UIView.animate(
             withDuration: 0.4,
             delay: 0,
             options: [.beginFromCurrentState, .curveEaseOut],
             animations: {
                 self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+                self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+                self.view.layoutIfNeeded()
         }, completion: nil)
         
         //controlsView.isHidden = uiProps.controlsViewHidden
