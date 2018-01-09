@@ -96,15 +96,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
-    /////////////////////////////////
-    
-    @IBOutlet weak var propsSegmentControl: UISegmentedControl!
-    
     var fadeAnimatorGroup = AnimatorGroup()
     var slideBottomAnimatorGroup = AnimatorGroup()
     var appeared: Bool = false
-    
-    /////////////////////////////////
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,14 +151,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
         
         if appeared {
-            UIView.animate(
-                withDuration: 0.4,
-                delay: 0,
-                options: [.beginFromCurrentState, .curveEaseOut],
-                animations: {
-                    self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-                    self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-            }, completion: nil)
+            self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+            self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
         }
         //the line that used to hide controls on tap or timer fire
         //controlsView.isHidden = uiProps.controlsViewHidden
@@ -317,12 +305,26 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     public func showControls() {
         controlsShouldBeVisible = true
-        self.view.setNeedsLayout()
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0,
+            options: [.beginFromCurrentState, .curveEaseOut],
+            animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     public func hideControls() {
         controlsShouldBeVisible = false
-        self.view.setNeedsLayout()
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0,
+            options: [.beginFromCurrentState, .curveEaseOut],
+            animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func setupVisibilityController() {

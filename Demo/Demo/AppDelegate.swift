@@ -4,7 +4,7 @@ import UIKit
 import PlayerControls
 
 typealias Props = ContentControlsViewController.Props
-func props() -> Props {
+func baseProps() -> Props {
     return Props.player(Props.Player(
         playlist: Props.Playlist(
             next: .nop,
@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = DefaultControlsViewController()
         vc.view.backgroundColor = .red
         vc.view.tintColor = .blue
-        vc.props = props()
+        vc.props = baseProps()
         vc.sidebarProps = sideProps()
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -117,5 +117,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+//for props animation tests
 
+func otherProps() -> Props {
+    return Props.player(Props.Player(
+        playlist: Props.Playlist(
+            next: nil,
+            prev: .nop),
+        item: .playable(Props.Controls(
+            airplay: .active,
+            audible: Props.MediaGroupControl(options: []),
+            camera: Props.Camera(
+                angles: Props.Angles(
+                    horizontal: 1.57,
+                    vertical: 1.57),
+                moveTo: .nop),
+            error: nil,
+            legible: .external(
+                external: .available(state: .active(text: "Something short")),
+                control: Props.MediaGroupControl(options: [Props.Option(
+                    name: "Option1",
+                    selected: true,
+                    select: .nop)])),
+            live: Props.Live(
+                isHidden: false,
+                dotColor: .blue),
+            loading: false,
+            pictureInPictureControl: .possible(.nop),
+            playbackAction: .replay(.nop),
+            seekbar: Props.Seekbar(
+                duration: 3600,
+                currentTime: 0,
+                progress: 0,
+                buffered: 0.5,
+                seeker: Props.Seeker(
+                    seekTo: .nop,
+                    state: Props.State(
+                        start: .nop,
+                        update: .nop,
+                        stop: .nop))),
+            settings: .hidden,
+            sideBarViewHidden: true,
+            thumbnail: nil,
+            title: "Very very very very very long title"))))
+}
+func noBottomProps() -> Props {
+    return Props.player(Props.Player(
+        playlist: Props.Playlist(
+            next: .nop,
+            prev: .nop),
+        item: .playable(Props.Controls(
+            airplay: .hidden,
+            audible: Props.MediaGroupControl(options: []),
+            camera: Props.Camera(
+                angles: Props.Angles(
+                    horizontal: 3.14,
+                    vertical: 3.14),
+                moveTo: .nop),
+            error: nil,
+            legible: .external(
+                external: .available(state: .active(text: "Something short")),
+                control: Props.MediaGroupControl(options: [Props.Option(
+                    name: "Option1",
+                    selected: true,
+                    select: .nop)])),
+            live: Props.Live(
+                isHidden: true,
+                dotColor: nil),
+            loading: true,
+            pictureInPictureControl: .unsupported,
+            playbackAction: .pause(.nop),
+            seekbar: Props.Seekbar(
+                duration: 3600,
+                currentTime: 1800,
+                progress: 0.5,
+                buffered: 0.7,
+                seeker: Props.Seeker(
+                    seekTo: .nop,
+                    state: Props.State(
+                        start: .nop,
+                        update: .nop,
+                        stop: .nop))),
+            settings: .hidden,
+            sideBarViewHidden: false,
+            thumbnail: nil,
+            title: ""))))
+}
 
