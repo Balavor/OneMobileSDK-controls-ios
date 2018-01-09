@@ -96,9 +96,15 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
+    /////////////////////////////////
+    
+    @IBOutlet weak var propsSegmentControl: UISegmentedControl!
+    
     var fadeAnimatorGroup = AnimatorGroup()
     var slideBottomAnimatorGroup = AnimatorGroup()
     var appeared: Bool = false
+    
+    /////////////////////////////////
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,8 +157,14 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
         
         if appeared {
-            fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-            slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+            UIView.animate(
+                withDuration: 0.4,
+                delay: 0,
+                options: [.beginFromCurrentState, .curveEaseOut],
+                animations: {
+                    self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+                    self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
+            }, completion: nil)
         }
         //the line that used to hide controls on tap or timer fire
         //controlsView.isHidden = uiProps.controlsViewHidden
@@ -305,34 +317,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     public func showControls() {
         controlsShouldBeVisible = true
-        if appeared {
-            UIView.animate(
-                withDuration: 0.4,
-                delay: 0,
-                options: [.beginFromCurrentState, .curveEaseOut],
-                animations: {
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-            }, completion: nil)
-        } else {
-            self.view.setNeedsLayout()
-        }
+        self.view.setNeedsLayout()
     }
     
     public func hideControls() {
         controlsShouldBeVisible = false
-        if appeared {
-            UIView.animate(
-                withDuration: 0.4,
-                delay: 0,
-                options: [.beginFromCurrentState, .curveEaseOut],
-                animations: {
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-            }, completion: nil)
-        } else {
-            self.view.setNeedsLayout()
-        }
+        self.view.setNeedsLayout()
     }
     
     func setupVisibilityController() {
