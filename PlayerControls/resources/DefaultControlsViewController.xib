@@ -16,29 +16,35 @@
                 <outlet property="airplayEdgeTrailingConstrains" destination="Vyl-vI-sAn" id="VCW-Qu-Qym"/>
                 <outlet property="airplayLabelAnimator" destination="OQT-po-osx" id="F0k-Gs-ZuI"/>
                 <outlet property="airplayPipTrailingConstrains" destination="oHL-VL-d41" id="QIz-jM-MP2"/>
+                <outlet property="airplayViewAnimator" destination="Y9Q-Zb-WKN" id="TCn-07-abs"/>
                 <outlet property="bottomItemsAnimator" destination="ldJ-2U-u7D" id="fIh-Ck-Z7C"/>
                 <outlet property="bottomSeekBarConstraint" destination="1rA-Ma-4OD" id="irp-iR-zn0"/>
                 <outlet property="cameraPanGestureRecognizer" destination="ZiF-3w-BsH" id="RtK-Tm-0VF"/>
                 <outlet property="ccTextLabel" destination="SEd-qf-YJr" id="RPz-r8-Q4U"/>
-                <outlet property="compasAnimator" destination="tj7-GH-Z09" id="ElL-7c-gWL"/>
+                <outlet property="compasBodyAnimator" destination="tj7-GH-Z09" id="ElL-7c-gWL"/>
                 <outlet property="compasBodyView" destination="l0O-oR-0Rg" id="KC1-qR-MfN"/>
+                <outlet property="compasDirectionAnimator" destination="jRq-cO-Kyw" id="7tF-Ia-7By"/>
                 <outlet property="compasDirectionView" destination="6eW-2a-aeL" id="Anp-D7-5hp"/>
                 <outlet property="compassBodyBelowLiveTopConstraint" destination="qaS-Tx-ZER" id="zYF-dC-uGB"/>
                 <outlet property="compassBodyNoLiveTopConstraint" destination="mIu-gb-Ffc" id="uoM-nz-rEp"/>
                 <outlet property="controlsView" destination="fi9-sW-1VX" id="dg0-wz-bBh"/>
+                <outlet property="durationAnimator" destination="NaG-fs-iyA" id="lcd-0h-05x"/>
                 <outlet property="durationTextLabel" destination="Im0-Vw-2gZ" id="7UT-l7-dfO"/>
                 <outlet property="errorAnimator" destination="8xw-Za-02s" id="mSd-8T-OLE"/>
                 <outlet property="errorLabel" destination="UtD-cb-Wlb" id="ebo-gb-gDd"/>
+                <outlet property="liveAnimator" destination="jr2-Pk-VDi" id="eAo-pt-1jd"/>
                 <outlet property="liveDotLabel" destination="5Hj-Mr-azG" id="4IE-zq-M31"/>
                 <outlet property="liveIndicationView" destination="aUE-Db-Ht9" id="3TF-6f-Ijr"/>
                 <outlet property="loadingImageView" destination="ikX-6f-FSq" id="VZj-CY-bUg"/>
+                <outlet property="nextAnimator" destination="Rjf-XP-hee" id="BB8-XC-aE5"/>
                 <outlet property="nextButton" destination="ida-wI-kAP" id="VKy-6n-hIb"/>
                 <outlet property="pauseAnimator" destination="g8G-Ef-4ut" id="wn4-JM-WdT"/>
                 <outlet property="pauseButton" destination="KeK-cX-xXB" id="ItP-y0-YdS"/>
+                <outlet property="pipAnimator" destination="N0h-0Q-mpF" id="WA1-7g-MzS"/>
                 <outlet property="pipButton" destination="tGV-rG-prj" id="lzF-NF-w8X"/>
                 <outlet property="playAnimator" destination="L2s-Co-9WD" id="bgw-Je-Pbz"/>
                 <outlet property="playButton" destination="U8A-X2-cyf" id="PIP-Q8-Upy"/>
-                <outlet property="playlistAnimator" destination="Rjf-XP-hee" id="h92-SI-VK4"/>
+                <outlet property="prevAnimator" destination="TAZ-O4-RDH" id="9G3-7a-Vie"/>
                 <outlet property="prevButton" destination="73i-r1-qKj" id="ldM-iJ-Bh5"/>
                 <outlet property="replayAnimator" destination="pqz-P1-Yik" id="sHs-Jl-u7A"/>
                 <outlet property="replayButton" destination="wVE-Q8-zOG" id="d5Z-Ur-0jM"/>
@@ -46,9 +52,11 @@
                 <outlet property="retryButton" destination="IVo-gm-8qs" id="xC0-RD-olF"/>
                 <outlet property="seekBackButton" destination="cNh-R2-LdG" id="k98-5r-hS8"/>
                 <outlet property="seekForwardButton" destination="djN-u7-nkt" id="u1p-O8-TOL"/>
-                <outlet property="seekTo10SecAnimator" destination="o1Z-CQ-X87" id="EV9-Ec-rYR"/>
+                <outlet property="seekTo10SecBackwardAnimator" destination="o1Z-CQ-X87" id="NuZ-LA-Dn3"/>
+                <outlet property="seekTo10SecForwardAnimator" destination="fxy-WQ-8JU" id="cTN-ll-ntz"/>
                 <outlet property="seekerAnimator" destination="kue-3m-Qhf" id="rAB-SN-Mc7"/>
                 <outlet property="seekerView" destination="fAO-vH-cgi" id="mC9-GB-wqD"/>
+                <outlet property="settingsAnimator" destination="4tI-su-ghr" id="nQR-s0-lV1"/>
                 <outlet property="settingsButton" destination="Ddy-Jb-aVD" id="iE1-re-XF5"/>
                 <outlet property="shadowAnimator" destination="YSZ-R2-S8k" id="6h6-Z7-uN7"/>
                 <outlet property="shadowView" destination="m54-Yx-R7K" id="UrZ-Ce-oXW"/>
@@ -59,6 +67,7 @@
                 <outlet property="subtitlesEdgeTrailingConstrains" destination="gLr-H3-hip" id="eQz-h0-b2M"/>
                 <outlet property="subtitlesPipTrailingConstrains" destination="PR9-OI-F49" id="2Eo-cw-l5K"/>
                 <outlet property="thumbnailImageView" destination="NKq-bU-tvG" id="6hP-L5-BvJ"/>
+                <outlet property="titleAnimator" destination="7im-vw-tZl" id="QT7-SR-sMJ"/>
                 <outlet property="videoTitleLabel" destination="98K-SA-Pdv" id="ObX-ZK-rlC"/>
                 <outlet property="view" destination="rFH-6N-3gH" id="KAd-hV-jYD"/>
                 <outlet property="visibleControlsSubtitlesConstraint" destination="gK7-AG-J2d" id="H9u-WM-oL9"/>
@@ -499,35 +508,52 @@ Title</string>
         </panGestureRecognizer>
         <customObject id="L2s-Co-9WD" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outlet property="fadingView" destination="U8A-X2-cyf" id="yvj-Hw-0Ht"/>
+                <outlet property="fadingView" destination="U8A-X2-cyf" id="0yp-5e-XXg"/>
             </connections>
         </customObject>
         <customObject id="g8G-Ef-4ut" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outlet property="fadingView" destination="KeK-cX-xXB" id="f7G-7d-Wg7"/>
+                <outlet property="fadingView" destination="KeK-cX-xXB" id="L3a-2P-v0b"/>
             </connections>
         </customObject>
         <customObject id="YSZ-R2-S8k" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outlet property="fadingView" destination="m54-Yx-R7K" id="P8B-On-z3X"/>
+                <outlet property="fadingView" destination="m54-Yx-R7K" id="ekm-o7-jjl"/>
+            </connections>
+        </customObject>
+        <customObject id="fxy-WQ-8JU" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="djN-u7-nkt" id="KeM-zM-qUV"/>
             </connections>
         </customObject>
         <customObject id="o1Z-CQ-X87" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outletCollection property="fadingViews" destination="djN-u7-nkt" collectionClass="NSMutableArray" id="51H-vb-DhB"/>
-                <outletCollection property="fadingViews" destination="cNh-R2-LdG" collectionClass="NSMutableArray" id="xBM-WU-yGd"/>
+                <outlet property="fadingView" destination="cNh-R2-LdG" id="F09-sE-IiB"/>
             </connections>
         </customObject>
         <customObject id="tj7-GH-Z09" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outletCollection property="fadingViews" destination="l0O-oR-0Rg" collectionClass="NSMutableArray" id="Tqw-w1-zgJ"/>
-                <outletCollection property="fadingViews" destination="6eW-2a-aeL" collectionClass="NSMutableArray" id="BXa-9L-mKv"/>
+                <outlet property="fadingView" destination="l0O-oR-0Rg" id="PNC-I2-IW4"/>
+            </connections>
+        </customObject>
+        <customObject id="jRq-cO-Kyw" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="6eW-2a-aeL" id="vd9-F8-IVD"/>
+            </connections>
+        </customObject>
+        <customObject id="jr2-Pk-VDi" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="aUE-Db-Ht9" id="eEb-i0-5vF"/>
             </connections>
         </customObject>
         <customObject id="Rjf-XP-hee" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outletCollection property="fadingViews" destination="ida-wI-kAP" collectionClass="NSMutableArray" id="mhM-ku-HPK"/>
-                <outletCollection property="fadingViews" destination="73i-r1-qKj" collectionClass="NSMutableArray" id="b77-JQ-V51"/>
+                <outlet property="fadingView" destination="ida-wI-kAP" id="Vxl-4C-ct5"/>
+            </connections>
+        </customObject>
+        <customObject id="TAZ-O4-RDH" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="73i-r1-qKj" id="NQM-cc-2ra"/>
             </connections>
         </customObject>
         <customObject id="IRG-gU-WDM" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
@@ -573,6 +599,31 @@ Title</string>
             <connections>
                 <outletCollection property="inactiveConstraint" destination="PDv-8Z-tKD" collectionClass="NSMutableArray" id="TIg-qa-YZs"/>
                 <outletCollection property="activeConstraint" destination="Uxr-4B-Jz5" collectionClass="NSMutableArray" id="ox3-TX-CfY"/>
+            </connections>
+        </customObject>
+        <customObject id="Y9Q-Zb-WKN" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="72o-zQ-Neb" id="mMU-BR-h8C"/>
+            </connections>
+        </customObject>
+        <customObject id="4tI-su-ghr" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="Ddy-Jb-aVD" id="bqF-1l-6GS"/>
+            </connections>
+        </customObject>
+        <customObject id="N0h-0Q-mpF" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="tGV-rG-prj" id="jJW-hw-5ge"/>
+            </connections>
+        </customObject>
+        <customObject id="7im-vw-tZl" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="98K-SA-Pdv" id="2s7-r2-gXm"/>
+            </connections>
+        </customObject>
+        <customObject id="NaG-fs-iyA" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="Im0-Vw-2gZ" id="H2e-sn-eR0"/>
             </connections>
         </customObject>
     </objects>

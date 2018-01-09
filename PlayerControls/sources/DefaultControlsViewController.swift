@@ -66,20 +66,30 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     //MARK: Animators
     
     @IBOutlet var shadowAnimator: FadeAnimator!
-    @IBOutlet var compasAnimator: FadeAnimator!
     @IBOutlet var playAnimator: FadeAnimator!
     @IBOutlet var pauseAnimator: FadeAnimator!
     @IBOutlet var replayAnimator: FadeAnimator!
     @IBOutlet var retryAnimator: FadeAnimator!
-    @IBOutlet var playlistAnimator: FadeAnimator!
-    @IBOutlet var seekTo10SecAnimator: FadeAnimator!
+    @IBOutlet var nextAnimator: FadeAnimator!
+    @IBOutlet var prevAnimator: FadeAnimator!
+    @IBOutlet var seekTo10SecBackwardAnimator: FadeAnimator!
+    @IBOutlet var seekTo10SecForwardAnimator: FadeAnimator!
     @IBOutlet var airplayLabelAnimator: FadeAnimator!
     @IBOutlet var errorAnimator: FadeAnimator!
     @IBOutlet var subtitlesAnimator: FadeAnimator!
-
-    @IBOutlet var bottomItemsAnimator: SlideAnimator!
+    
+    @IBOutlet var compasBodyAnimator: FadeAnimator!
+    @IBOutlet var compasDirectionAnimator: FadeAnimator!
+    @IBOutlet var liveAnimator: FadeAnimator!
+    
+    @IBOutlet var airplayViewAnimator: FadeAnimator!
+    @IBOutlet var settingsAnimator: FadeAnimator!
+    @IBOutlet var pipAnimator: FadeAnimator!
+    @IBOutlet var titleAnimator: FadeAnimator!
+    @IBOutlet var durationAnimator: FadeAnimator!
+    
     @IBOutlet var seekerAnimator: SlideAnimator!
-
+    @IBOutlet var bottomItemsAnimator: SlideAnimator!
     @IBOutlet var sideBarAnimator: SlideAnimator!
 
     public var sidebarProps: SideBarView.Props = [] {
@@ -98,7 +108,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     var fadeAnimatorGroup = AnimatorGroup()
     var slideBottomAnimatorGroup = AnimatorGroup()
-    var appeared: Bool = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,18 +121,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         shadowAnimator.maxAlpha = 0.3
-        fadeAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecAnimator, playlistAnimator, compasAnimator, airplayLabelAnimator, errorAnimator]
+        fadeAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecBackwardAnimator, compasBodyAnimator, airplayLabelAnimator, errorAnimator]
         slideBottomAnimatorGroup.animators = [sideBarAnimator, seekerAnimator, bottomItemsAnimator]
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        appeared = true
-    }
-    
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        appeared = false
     }
     
     var task: URLSessionDataTask?
@@ -142,18 +141,15 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         pauseAnimator.isAvailable = !uiProps.pauseButtonHidden
         retryAnimator.isAvailable = !uiProps.retryButtonHidden
         replayAnimator.isAvailable = !uiProps.replayButtonHidden
-        compasAnimator.isAvailable = !uiProps.compasBodyViewHidden
+        compasBodyAnimator.isAvailable = !uiProps.compasBodyViewHidden
         subtitlesAnimator.isAvailable = !uiProps.subtitlesTextLabelHidden
         airplayLabelAnimator.isAvailable = !uiProps.airplayActiveLabelHidden
-        playlistAnimator.isAvailable = !(uiProps.nextButtonHidden && uiProps.prevButtonHidden)
-        seekTo10SecAnimator.isAvailable = !(uiProps.seekBackButtonHidden && uiProps.seekForwardButtonHidden)
-        
+        seekTo10SecBackwardAnimator.isAvailable = !uiProps.seekBackButtonHidden
         sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
+        prevAnimator.isAvailable = !uiProps.prevButtonHidden
+        nextAnimator.isAvailable = !uiProps.nextButtonHidden
         
-        if appeared {
-            self.fadeAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-            self.slideBottomAnimatorGroup.performAnimation(if: !self.uiProps.controlsViewHidden)
-        }
+        
         //the line that used to hide controls on tap or timer fire
         //controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
@@ -305,26 +301,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     public func showControls() {
         controlsShouldBeVisible = true
-        UIView.animate(
-            withDuration: 0.4,
-            delay: 0,
-            options: [.beginFromCurrentState, .curveEaseOut],
-            animations: {
-                self.view.setNeedsLayout()
-                self.view.layoutIfNeeded()
-        }, completion: nil)
+        self.view.setNeedsLayout()
     }
     
     public func hideControls() {
         controlsShouldBeVisible = false
-        UIView.animate(
-            withDuration: 0.4,
-            delay: 0,
-            options: [.beginFromCurrentState, .curveEaseOut],
-            animations: {
-                self.view.setNeedsLayout()
-                self.view.layoutIfNeeded()
-        }, completion: nil)
+        self.view.setNeedsLayout()
     }
     
     func setupVisibilityController() {
