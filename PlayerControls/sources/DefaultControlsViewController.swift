@@ -136,19 +136,27 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
-        errorAnimator.isAvailable = !uiProps.errorLabelHidden
-        playAnimator.isAvailable = !uiProps.playButtonHidden
-        pauseAnimator.isAvailable = !uiProps.pauseButtonHidden
-        retryAnimator.isAvailable = !uiProps.retryButtonHidden
-        replayAnimator.isAvailable = !uiProps.replayButtonHidden
-        compasBodyAnimator.isAvailable = !uiProps.compasBodyViewHidden
-        subtitlesAnimator.isAvailable = !uiProps.subtitlesTextLabelHidden
-        airplayLabelAnimator.isAvailable = !uiProps.airplayActiveLabelHidden
-        seekTo10SecBackwardAnimator.isAvailable = !uiProps.seekBackButtonHidden
-        sideBarAnimator.isAvailable = !uiProps.sideBarViewHidden
-        prevAnimator.isAvailable = !uiProps.prevButtonHidden
-        nextAnimator.isAvailable = !uiProps.nextButtonHidden
+        playAnimator.isHidden = uiProps.playButtonHidden
+        pauseAnimator.isHidden = uiProps.pauseButtonHidden
+        replayAnimator.isHidden = uiProps.replayButtonHidden
+        retryAnimator.isHidden = uiProps.retryButtonHidden
+        nextAnimator.isHidden = uiProps.nextButtonHidden
+        prevAnimator.isHidden = uiProps.prevButtonHidden
+        seekTo10SecBackwardAnimator.isHidden = uiProps.seekBackButtonHidden
+        seekTo10SecForwardAnimator.isHidden = uiProps.seekForwardButtonHidden
+        airplayLabelAnimator.isHidden = uiProps.airplayActiveLabelHidden
+        errorAnimator.isHidden = uiProps.errorLabelHidden
+        subtitlesAnimator.isHidden = uiProps.subtitlesTextLabelHidden
         
+        compasBodyAnimator.isHidden = uiProps.compasBodyViewHidden
+        compasDirectionAnimator.isHidden = uiProps.compasDirectionViewHidden
+        liveAnimator.isHidden = uiProps.liveIndicationViewIsHidden
+        
+        airplayViewAnimator.isHidden = uiProps.airplayButtonHidden
+        settingsAnimator.isHidden = uiProps.settingsButtonHidden
+        pipAnimator.isHidden = uiProps.pipButtonHidden
+        titleAnimator.isHidden = uiProps.videoTitleLabelHidden
+        durationAnimator.isHidden = uiProps.durationTextHidden
         
         //the line that used to hide controls on tap or timer fire
         //controlsView.isHidden = uiProps.controlsViewHidden
