@@ -78,6 +78,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet var airplayLabelAnimator: FadeAnimator!
     @IBOutlet var errorAnimator: FadeAnimator!
     @IBOutlet var subtitlesAnimator: FadeAnimator!
+    @IBOutlet var loadingImageAnimator: FadeAnimator!
     
     @IBOutlet var compasBodyAnimator: FadeAnimator!
     @IBOutlet var compasDirectionAnimator: FadeAnimator!
@@ -110,12 +111,35 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     
     var centerAnimatorGroup = AnimatorGroup()
-    var slideBottomAnimatorGroup = AnimatorGroup()
+    var slideAnimatorGroup = AnimatorGroup()
+    var compasAnimationGroup = AnimatorGroup()
+
     var isViewAppeared: Bool = false
-    var areControlsHidden: Bool = false
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        isLoading = uiProps.loading
+        playButton.isHidden = uiProps.playButtonHidden
+        pauseButton.isHidden = uiProps.pauseButtonHidden
+        replayButton.isHidden = uiProps.replayButtonHidden
+        nextButton.isHidden = uiProps.nextButtonHidden
+        prevButton.isHidden = uiProps.prevButtonHidden
+        seekerView.isHidden = uiProps.seekerViewHidden
+        seekBackButton.isHidden = uiProps.seekBackButtonHidden
+        seekForwardButton.isHidden = uiProps.seekForwardButtonHidden
+        sideBarView.isHidden = uiProps.sideBarViewHidden
+        compasBodyView.isHidden = uiProps.compasBodyViewHidden
+        compasDirectionView.isHidden = uiProps.compasDirectionViewHidden
+        videoTitleLabel.isHidden = uiProps.videoTitleLabelHidden
+        durationTextLabel.isHidden = uiProps.durationTextHidden
+        ccTextLabel.isHidden = uiProps.subtitlesTextLabelHidden
+        retryButton.isHidden = uiProps.retryButtonHidden
+        errorLabel.isHidden = uiProps.errorLabelHidden
+        pipButton.isHidden = uiProps.pipButtonHidden
+        settingsButton.isHidden = uiProps.settingsButtonHidden
+        liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
+        airplayActiveLabel.isHidden = uiProps.airplayActiveLabelHidden
+        airPlayView.isHidden = uiProps.airplayButtonHidden
         isViewAppeared = true
     }
     
@@ -136,8 +160,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         shadowAnimator.maxAlpha = 0.3
-        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecBackwardAnimator, compasBodyAnimator, airplayLabelAnimator, errorAnimator]
-        slideBottomAnimatorGroup.animators = [sideBarAnimator, bottomItemsAnimator]
+        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, nextAnimator, prevAnimator, seekTo10SecBackwardAnimator, seekTo10SecForwardAnimator, airplayLabelAnimator, errorAnimator]
+        compasAnimationGroup.animators = [compasBodyAnimator, compasDirectionAnimator]
+        slideAnimatorGroup.animators = [seekerSlideAnimator, bottomItemsAnimator, sideBarAnimator]
     }
     
     var task: URLSessionDataTask?
@@ -147,8 +172,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     //swiftlint:disable cyclomatic_complexity
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        areControlsHidden = uiProps.controlsViewHidden
         
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
@@ -243,6 +266,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         airplayLabelAnimator.isHidden = uiProps.airplayActiveLabelHidden
         errorAnimator.isHidden = uiProps.errorLabelHidden
         subtitlesAnimator.isHidden = uiProps.subtitlesTextLabelHidden
+        loadingImageAnimator.isHidden = !uiProps.loading
         
         compasBodyAnimator.isHidden = uiProps.compasBodyViewHidden
         compasDirectionAnimator.isHidden = uiProps.compasDirectionViewHidden
@@ -259,16 +283,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         //MARK: Animator groups
         
         guard isViewAppeared else { return }
-        if areControlsHidden != uiProps.controlsViewHidden {
-            controlsAnimationGroup.performAnimaiton(forState: uiProps.controlsViewHidden)
-        } else {
-            
-        }
-        // if view appeared
-        //     if uiProps.controlsViewHidden == previous state
-        //         use personal fade animation
-        //     else
-        //         use group animators
+        
+        centerAnimatorGroup.performAnimation(forState: uiProps.controlsViewHidden)
+        compasAnimationGroup.performAnimation(forState: uiProps.controlsViewHidden)
+        
+        if seekerView
+        slideAnimatorGroup.performAnimation(forState: uiProps.controlsViewHidden)
     }
     
     //swiftlint:enable function_body_length
@@ -318,12 +338,18 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     public func showControls() {
         controlsShouldBeVisible = true
-        self.view.setNeedsLayout()
+        UIView.animate(withDuration: 0.4, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     public func hideControls() {
         controlsShouldBeVisible = false
-        self.view.setNeedsLayout()
+        UIView.animate(withDuration: 0.4, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func setupVisibilityController() {

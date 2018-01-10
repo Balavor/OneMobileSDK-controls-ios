@@ -35,6 +35,7 @@
                 <outlet property="liveAnimator" destination="jr2-Pk-VDi" id="eAo-pt-1jd"/>
                 <outlet property="liveDotLabel" destination="5Hj-Mr-azG" id="4IE-zq-M31"/>
                 <outlet property="liveIndicationView" destination="aUE-Db-Ht9" id="3TF-6f-Ijr"/>
+                <outlet property="loadingImageAnimator" destination="96N-1K-EU8" id="dX6-eN-BaV"/>
                 <outlet property="loadingImageView" destination="ikX-6f-FSq" id="VZj-CY-bUg"/>
                 <outlet property="nextAnimator" destination="Rjf-XP-hee" id="BB8-XC-aE5"/>
                 <outlet property="nextButton" destination="ida-wI-kAP" id="VKy-6n-hIb"/>
@@ -119,7 +120,7 @@ Subtitles</string>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="compas-direction" translatesAutoresizingMaskIntoConstraints="NO" id="6eW-2a-aeL">
                             <rect key="frame" x="10" y="20" width="30" height="30"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98K-SA-Pdv">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98K-SA-Pdv" userLabel="Video Title Label">
                             <rect key="frame" x="15" y="263" width="35" height="43"/>
                             <string key="text">Title
 Title</string>
@@ -195,7 +196,7 @@ Title</string>
                                 <action selector="pipButtonTouched" destination="-1" eventType="touchUpInside" id="qcy-N3-td4"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ddy-Jb-aVD">
+                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ddy-Jb-aVD" userLabel="Settings Button">
                             <rect key="frame" x="299" y="267" width="32" height="32"/>
                             <state key="normal" image="icon-sub">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -220,11 +221,11 @@ Title</string>
                             <color key="textColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="Uc8-v7-96O" customClass="SideBarView" customModule="PlayerControls" customModuleProvider="target">
+                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="Uc8-v7-96O" userLabel="Side Bar" customClass="SideBarView" customModule="PlayerControls" customModuleProvider="target">
                             <rect key="frame" x="450" y="0.0" width="30" height="213"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="57" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-vH-cgi" customClass="SeekerControlView" customModule="PlayerControls" customModuleProvider="target">
+                        <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="57" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-vH-cgi" userLabel="Side Bar VIew" customClass="SeekerControlView" customModule="PlayerControls" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="203" width="480" height="54"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <userDefinedRuntimeAttributes>
@@ -607,6 +608,11 @@ Title</string>
                 <outlet property="fadingView" destination="98K-SA-Pdv" id="2s7-r2-gXm"/>
             </connections>
         </customObject>
+        <customObject id="96N-1K-EU8" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="ikX-6f-FSq" id="4rF-Yc-tGG"/>
+            </connections>
+        </customObject>
         <customObject id="2v8-Xn-ApD" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
                 <outlet property="fadingView" destination="fAO-vH-cgi" id="kew-kd-NkM"/>
@@ -620,6 +626,7 @@ Title</string>
         </customObject>
         <customObject id="hlb-C6-8ay" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
+                <outlet property="animatedView" destination="Uc8-v7-96O" id="8xS-ta-SnW"/>
                 <outletCollection property="activeConstraint" destination="In0-pk-ELt" collectionClass="NSMutableArray" id="161-aR-jRX"/>
                 <outletCollection property="inactiveConstraint" destination="OhI-w6-p0d" collectionClass="NSMutableArray" id="Y5D-dB-vgZ"/>
                 <outletCollection property="activeConstraint" destination="EEn-7U-jDF" collectionClass="NSMutableArray" id="niX-Xh-zcx"/>

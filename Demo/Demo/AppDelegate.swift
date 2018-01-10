@@ -108,23 +108,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.tintColor = .blue
         vc.props = baseProps()
         vc.sidebarProps = sideProps()
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 6, repeats: true , block: { (timer) in
-                var time = DispatchTime.now()
-                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                    vc.props = baseProps()
-                })
-                time = DispatchTime.now() + 2
-                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                    vc.props = otherProps()
-                })
-                time = DispatchTime.now() + 4
-                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                    vc.props = noBottomProps()
-                })
-                }
-            )
-        }
+//        if #available(iOS 10.0, *) {
+//            Timer.scheduledTimer(withTimeInterval: 6, repeats: true , block: { (timer) in
+//                var time = DispatchTime.now()
+//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+//                    vc.props = baseProps()
+//                })
+//                time = DispatchTime.now() + 2
+//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+//                    vc.props = otherProps()
+//                })
+//                time = DispatchTime.now() + 4
+//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+//                    vc.props = noBottomProps()
+//                })
+//                }
+//            )
+//        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc

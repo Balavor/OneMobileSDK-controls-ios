@@ -11,8 +11,6 @@ protocol Animators {
 class AnimatorGroup {
     var animators: [Animators]!
     
-    var props: ContentControlsViewController.Props!
-    
     func performAnimation(forState state: Bool) {
         guard !animators.isEmpty else { return }
         for animator in animators {
