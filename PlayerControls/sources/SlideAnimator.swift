@@ -7,7 +7,6 @@ class SlideAnimator: NSObject, Animators {
     @IBOutlet var activeConstraint: [NSLayoutConstraint]!
     @IBOutlet var inactiveConstraint: [NSLayoutConstraint]!
     
-    var isAvailable: Bool = true
     var isHidden: Bool = false
     
     func animate(for visibility: Bool) {

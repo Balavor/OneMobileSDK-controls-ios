@@ -54,7 +54,8 @@
                 <outlet property="seekForwardButton" destination="djN-u7-nkt" id="u1p-O8-TOL"/>
                 <outlet property="seekTo10SecBackwardAnimator" destination="o1Z-CQ-X87" id="NuZ-LA-Dn3"/>
                 <outlet property="seekTo10SecForwardAnimator" destination="fxy-WQ-8JU" id="cTN-ll-ntz"/>
-                <outlet property="seekerAnimator" destination="kue-3m-Qhf" id="rAB-SN-Mc7"/>
+                <outlet property="seekerFadeAnimator" destination="2v8-Xn-ApD" id="m1f-kH-KeI"/>
+                <outlet property="seekerSlideAnimator" destination="kue-3m-Qhf" id="RwD-QD-BY5"/>
                 <outlet property="seekerView" destination="fAO-vH-cgi" id="mC9-GB-wqD"/>
                 <outlet property="settingsAnimator" destination="4tI-su-ghr" id="nQR-s0-lV1"/>
                 <outlet property="settingsButton" destination="Ddy-Jb-aVD" id="iE1-re-XF5"/>
@@ -322,28 +323,28 @@ Title</string>
                             <exclude reference="HWP-bD-q7I"/>
                             <exclude reference="MDB-2d-aWk"/>
                             <exclude reference="sZA-Tb-Cie"/>
-                            <exclude reference="2EN-h1-ldw"/>
-                            <exclude reference="Bug-m8-Fqm"/>
-                            <exclude reference="1RA-jh-Xfd"/>
-                            <exclude reference="sPA-I1-YzI"/>
-                            <exclude reference="y9t-79-v13"/>
-                            <exclude reference="g57-te-Fqp"/>
-                            <exclude reference="hHz-DU-eUK"/>
-                            <exclude reference="xAL-Mr-aiA"/>
-                            <exclude reference="zsd-wr-B4P"/>
-                            <exclude reference="79p-mr-0NO"/>
-                            <exclude reference="pG8-cM-rpN"/>
                             <exclude reference="EEn-7U-jDF"/>
                             <exclude reference="OYY-c7-642"/>
                             <exclude reference="QCC-Du-AOs"/>
                             <exclude reference="SFG-A0-7XF"/>
                             <exclude reference="oMx-7A-FGe"/>
                             <exclude reference="put-WR-Szd"/>
-                            <exclude reference="F2z-D3-yET"/>
-                            <exclude reference="iww-Ws-dSP"/>
+                            <exclude reference="xAL-Mr-aiA"/>
+                            <exclude reference="zsd-wr-B4P"/>
+                            <exclude reference="g57-te-Fqp"/>
+                            <exclude reference="hHz-DU-eUK"/>
+                            <exclude reference="2EN-h1-ldw"/>
+                            <exclude reference="Bug-m8-Fqm"/>
+                            <exclude reference="1RA-jh-Xfd"/>
+                            <exclude reference="sPA-I1-YzI"/>
+                            <exclude reference="y9t-79-v13"/>
                             <exclude reference="PDv-8Z-tKD"/>
                             <exclude reference="gLr-H3-hip"/>
+                            <exclude reference="79p-mr-0NO"/>
+                            <exclude reference="pG8-cM-rpN"/>
                             <exclude reference="Vyl-vI-sAn"/>
+                            <exclude reference="F2z-D3-yET"/>
+                            <exclude reference="iww-Ws-dSP"/>
                             <exclude reference="DWa-IY-lCj"/>
                             <exclude reference="OhI-w6-p0d"/>
                             <exclude reference="xxv-hR-dqd"/>
@@ -367,21 +368,21 @@ Title</string>
                             <include reference="HWP-bD-q7I"/>
                             <include reference="MDB-2d-aWk"/>
                             <include reference="sZA-Tb-Cie"/>
+                            <include reference="EEn-7U-jDF"/>
+                            <include reference="OYY-c7-642"/>
+                            <include reference="SFG-A0-7XF"/>
+                            <include reference="put-WR-Szd"/>
+                            <include reference="xAL-Mr-aiA"/>
+                            <include reference="zsd-wr-B4P"/>
+                            <include reference="g57-te-Fqp"/>
+                            <include reference="hHz-DU-eUK"/>
                             <include reference="2EN-h1-ldw"/>
                             <include reference="Bug-m8-Fqm"/>
                             <include reference="1RA-jh-Xfd"/>
                             <include reference="sPA-I1-YzI"/>
                             <include reference="y9t-79-v13"/>
-                            <include reference="g57-te-Fqp"/>
-                            <include reference="hHz-DU-eUK"/>
-                            <include reference="xAL-Mr-aiA"/>
-                            <include reference="zsd-wr-B4P"/>
                             <include reference="79p-mr-0NO"/>
                             <include reference="pG8-cM-rpN"/>
-                            <include reference="EEn-7U-jDF"/>
-                            <include reference="OYY-c7-642"/>
-                            <include reference="SFG-A0-7XF"/>
-                            <include reference="put-WR-Szd"/>
                             <include reference="F2z-D3-yET"/>
                             <include reference="iww-Ws-dSP"/>
                             <include reference="DWa-IY-lCj"/>
@@ -404,21 +405,21 @@ Title</string>
                             <include reference="HWP-bD-q7I"/>
                             <include reference="MDB-2d-aWk"/>
                             <include reference="sZA-Tb-Cie"/>
+                            <include reference="EEn-7U-jDF"/>
+                            <include reference="OYY-c7-642"/>
+                            <include reference="SFG-A0-7XF"/>
+                            <include reference="put-WR-Szd"/>
+                            <include reference="xAL-Mr-aiA"/>
+                            <include reference="zsd-wr-B4P"/>
+                            <include reference="g57-te-Fqp"/>
+                            <include reference="hHz-DU-eUK"/>
                             <include reference="2EN-h1-ldw"/>
                             <include reference="Bug-m8-Fqm"/>
                             <include reference="1RA-jh-Xfd"/>
                             <include reference="sPA-I1-YzI"/>
                             <include reference="y9t-79-v13"/>
-                            <include reference="g57-te-Fqp"/>
-                            <include reference="hHz-DU-eUK"/>
-                            <include reference="xAL-Mr-aiA"/>
-                            <include reference="zsd-wr-B4P"/>
                             <include reference="79p-mr-0NO"/>
                             <include reference="pG8-cM-rpN"/>
-                            <include reference="EEn-7U-jDF"/>
-                            <include reference="OYY-c7-642"/>
-                            <include reference="SFG-A0-7XF"/>
-                            <include reference="put-WR-Szd"/>
                             <include reference="F2z-D3-yET"/>
                             <include reference="iww-Ws-dSP"/>
                             <include reference="DWa-IY-lCj"/>
@@ -581,12 +582,34 @@ Title</string>
                 <outlet property="fadingView" destination="SEd-qf-YJr" id="AFB-cE-l5M"/>
             </connections>
         </customObject>
-        <customObject id="hlb-C6-8ay" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
+        <customObject id="Y9Q-Zb-WKN" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
-                <outletCollection property="activeConstraint" destination="In0-pk-ELt" collectionClass="NSMutableArray" id="161-aR-jRX"/>
-                <outletCollection property="inactiveConstraint" destination="OhI-w6-p0d" collectionClass="NSMutableArray" id="Y5D-dB-vgZ"/>
-                <outletCollection property="activeConstraint" destination="EEn-7U-jDF" collectionClass="NSMutableArray" id="niX-Xh-zcx"/>
-                <outletCollection property="inactiveConstraint" destination="QCC-Du-AOs" collectionClass="NSMutableArray" id="AUs-Ya-JgD"/>
+                <outlet property="fadingView" destination="72o-zQ-Neb" id="mMU-BR-h8C"/>
+            </connections>
+        </customObject>
+        <customObject id="N0h-0Q-mpF" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="tGV-rG-prj" id="jJW-hw-5ge"/>
+            </connections>
+        </customObject>
+        <customObject id="4tI-su-ghr" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="Ddy-Jb-aVD" id="bqF-1l-6GS"/>
+            </connections>
+        </customObject>
+        <customObject id="NaG-fs-iyA" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="Im0-Vw-2gZ" id="H2e-sn-eR0"/>
+            </connections>
+        </customObject>
+        <customObject id="7im-vw-tZl" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="98K-SA-Pdv" id="2s7-r2-gXm"/>
+            </connections>
+        </customObject>
+        <customObject id="2v8-Xn-ApD" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="fadingView" destination="fAO-vH-cgi" id="kew-kd-NkM"/>
             </connections>
         </customObject>
         <customObject id="kue-3m-Qhf" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
@@ -595,35 +618,18 @@ Title</string>
                 <outletCollection property="inactiveConstraint" destination="oMx-7A-FGe" collectionClass="NSMutableArray" id="e7Z-4M-WxM"/>
             </connections>
         </customObject>
+        <customObject id="hlb-C6-8ay" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outletCollection property="activeConstraint" destination="In0-pk-ELt" collectionClass="NSMutableArray" id="161-aR-jRX"/>
+                <outletCollection property="inactiveConstraint" destination="OhI-w6-p0d" collectionClass="NSMutableArray" id="Y5D-dB-vgZ"/>
+                <outletCollection property="activeConstraint" destination="EEn-7U-jDF" collectionClass="NSMutableArray" id="niX-Xh-zcx"/>
+                <outletCollection property="inactiveConstraint" destination="QCC-Du-AOs" collectionClass="NSMutableArray" id="AUs-Ya-JgD"/>
+            </connections>
+        </customObject>
         <customObject id="ldJ-2U-u7D" customClass="SlideAnimator" customModule="PlayerControls" customModuleProvider="target">
             <connections>
                 <outletCollection property="inactiveConstraint" destination="PDv-8Z-tKD" collectionClass="NSMutableArray" id="TIg-qa-YZs"/>
                 <outletCollection property="activeConstraint" destination="Uxr-4B-Jz5" collectionClass="NSMutableArray" id="ox3-TX-CfY"/>
-            </connections>
-        </customObject>
-        <customObject id="Y9Q-Zb-WKN" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
-            <connections>
-                <outlet property="fadingView" destination="72o-zQ-Neb" id="mMU-BR-h8C"/>
-            </connections>
-        </customObject>
-        <customObject id="4tI-su-ghr" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
-            <connections>
-                <outlet property="fadingView" destination="Ddy-Jb-aVD" id="bqF-1l-6GS"/>
-            </connections>
-        </customObject>
-        <customObject id="N0h-0Q-mpF" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
-            <connections>
-                <outlet property="fadingView" destination="tGV-rG-prj" id="jJW-hw-5ge"/>
-            </connections>
-        </customObject>
-        <customObject id="7im-vw-tZl" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
-            <connections>
-                <outlet property="fadingView" destination="98K-SA-Pdv" id="2s7-r2-gXm"/>
-            </connections>
-        </customObject>
-        <customObject id="NaG-fs-iyA" customClass="FadeAnimator" customModule="PlayerControls" customModuleProvider="target">
-            <connections>
-                <outlet property="fadingView" destination="Im0-Vw-2gZ" id="H2e-sn-eR0"/>
             </connections>
         </customObject>
     </objects>

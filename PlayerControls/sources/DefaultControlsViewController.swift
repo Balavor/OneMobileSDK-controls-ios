@@ -66,6 +66,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     //MARK: Animators
     
     @IBOutlet var shadowAnimator: FadeAnimator!
+    
     @IBOutlet var playAnimator: FadeAnimator!
     @IBOutlet var pauseAnimator: FadeAnimator!
     @IBOutlet var replayAnimator: FadeAnimator!
@@ -88,7 +89,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet var titleAnimator: FadeAnimator!
     @IBOutlet var durationAnimator: FadeAnimator!
     
-    @IBOutlet var seekerAnimator: SlideAnimator!
+    @IBOutlet var seekerFadeAnimator: FadeAnimator!
+    @IBOutlet var seekerSlideAnimator: SlideAnimator!
     @IBOutlet var bottomItemsAnimator: SlideAnimator!
     @IBOutlet var sideBarAnimator: SlideAnimator!
 
@@ -106,8 +108,21 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
-    var fadeAnimatorGroup = AnimatorGroup()
+    
+    var centerAnimatorGroup = AnimatorGroup()
     var slideBottomAnimatorGroup = AnimatorGroup()
+    var isViewAppeared: Bool = false
+    var areControlsHidden: Bool = false
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isViewAppeared = true
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isViewAppeared = false
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,8 +136,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         shadowAnimator.maxAlpha = 0.3
-        fadeAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecBackwardAnimator, compasBodyAnimator, airplayLabelAnimator, errorAnimator]
-        slideBottomAnimatorGroup.animators = [sideBarAnimator, seekerAnimator, bottomItemsAnimator]
+        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, seekTo10SecBackwardAnimator, compasBodyAnimator, airplayLabelAnimator, errorAnimator]
+        slideBottomAnimatorGroup.animators = [sideBarAnimator, bottomItemsAnimator]
     }
     
     var task: URLSessionDataTask?
@@ -133,71 +148,32 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        areControlsHidden = uiProps.controlsViewHidden
+        
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
-        playAnimator.isHidden = uiProps.playButtonHidden
-        pauseAnimator.isHidden = uiProps.pauseButtonHidden
-        replayAnimator.isHidden = uiProps.replayButtonHidden
-        retryAnimator.isHidden = uiProps.retryButtonHidden
-        nextAnimator.isHidden = uiProps.nextButtonHidden
-        prevAnimator.isHidden = uiProps.prevButtonHidden
-        seekTo10SecBackwardAnimator.isHidden = uiProps.seekBackButtonHidden
-        seekTo10SecForwardAnimator.isHidden = uiProps.seekForwardButtonHidden
-        airplayLabelAnimator.isHidden = uiProps.airplayActiveLabelHidden
-        errorAnimator.isHidden = uiProps.errorLabelHidden
-        subtitlesAnimator.isHidden = uiProps.subtitlesTextLabelHidden
-        
-        compasBodyAnimator.isHidden = uiProps.compasBodyViewHidden
-        compasDirectionAnimator.isHidden = uiProps.compasDirectionViewHidden
-        liveAnimator.isHidden = uiProps.liveIndicationViewIsHidden
-        
-        airplayViewAnimator.isHidden = uiProps.airplayButtonHidden
-        settingsAnimator.isHidden = uiProps.settingsButtonHidden
-        pipAnimator.isHidden = uiProps.pipButtonHidden
-        titleAnimator.isHidden = uiProps.videoTitleLabelHidden
-        durationAnimator.isHidden = uiProps.durationTextHidden
-        
-        //the line that used to hide controls on tap or timer fire
-        //controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
         
-        playButton.isHidden = uiProps.playButtonHidden
-        pauseButton.isHidden = uiProps.pauseButtonHidden
-        replayButton.isHidden = uiProps.replayButtonHidden
-        
-        nextButton.isHidden = uiProps.nextButtonHidden
         nextButton.isEnabled = uiProps.nextButtonEnabled
-        prevButton.isHidden = uiProps.prevButtonHidden
         prevButton.isEnabled = uiProps.prevButtonEnabled
         
-        seekerView.isHidden = uiProps.seekerViewHidden
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
         seekerView.progress = uiProps.seekerViewProgress
         seekerView.buffered = uiProps.seekerViewBuffered
-
+        
         let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
         bottomSeekBarConstraint.constant = uiProps.seekbarPositionedAtBottom
             ? 13
             : CGFloat(constant)
         
-        seekBackButton.isHidden = uiProps.seekBackButtonHidden
-        seekForwardButton.isHidden = uiProps.seekForwardButtonHidden
-
-        sideBarView.isHidden = uiProps.sideBarViewHidden
-
-        compasBodyView.isHidden = uiProps.compasBodyViewHidden
-        compasDirectionView.isHidden = uiProps.compasDirectionViewHidden
         compasDirectionView.transform = uiProps.compasDirectionViewTransform
         cameraPanGestureRecognizer.isEnabled = uiProps.cameraPanGestureIsEnabled
-
-        videoTitleLabel.isHidden = uiProps.videoTitleLabelHidden
+        
         videoTitleLabel.text = uiProps.videoTitleLabelText
         
         durationTextLabel.text = uiProps.durationTextLabelText
-        durationTextLabel.isHidden = uiProps.durationTextHidden
         
-        ccTextLabel.isHidden = uiProps.subtitlesTextLabelHidden
         ccTextLabel.text = uiProps.subtitlesTextLabelText
 
         visibleControlsSubtitlesConstraint.constant = uiProps.controlsViewHidden ? 30 : 110
@@ -239,27 +215,60 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             handleThumbnail()
         }
         
-        retryButton.isHidden = uiProps.retryButtonHidden
-        errorLabel.isHidden = uiProps.errorLabelHidden
         errorLabel.text = uiProps.errorLabelText
         
-        pipButton.isHidden = uiProps.pipButtonHidden
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        settingsButton.isHidden = uiProps.settingsButtonHidden
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
-        liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
         liveDotLabel.textColor = uiProps.liveDotColor ?? liveDotLabel.textColor ?? view.tintColor
         
-        airplayActiveLabel.isHidden = uiProps.airplayActiveLabelHidden
         airPlayView.props = AirPlayView.Props(
             icons: AirPlayView.Props.Icons(
                 normal: UIImage.init(named: "icon-airplay", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        airPlayView.isHidden = uiProps.airplayButtonHidden
+        
+        //MARK: Animators
+        
+        playAnimator.isHidden = uiProps.playButtonHidden
+        pauseAnimator.isHidden = uiProps.pauseButtonHidden
+        replayAnimator.isHidden = uiProps.replayButtonHidden
+        retryAnimator.isHidden = uiProps.retryButtonHidden
+        nextAnimator.isHidden = uiProps.nextButtonHidden
+        prevAnimator.isHidden = uiProps.prevButtonHidden
+        seekTo10SecBackwardAnimator.isHidden = uiProps.seekBackButtonHidden
+        seekTo10SecForwardAnimator.isHidden = uiProps.seekForwardButtonHidden
+        airplayLabelAnimator.isHidden = uiProps.airplayActiveLabelHidden
+        errorAnimator.isHidden = uiProps.errorLabelHidden
+        subtitlesAnimator.isHidden = uiProps.subtitlesTextLabelHidden
+        
+        compasBodyAnimator.isHidden = uiProps.compasBodyViewHidden
+        compasDirectionAnimator.isHidden = uiProps.compasDirectionViewHidden
+        liveAnimator.isHidden = uiProps.liveIndicationViewIsHidden
+        
+        airplayViewAnimator.isHidden = uiProps.airplayButtonHidden
+        settingsAnimator.isHidden = uiProps.settingsButtonHidden
+        pipAnimator.isHidden = uiProps.pipButtonHidden
+        titleAnimator.isHidden = uiProps.videoTitleLabelHidden
+        durationAnimator.isHidden = uiProps.durationTextHidden
+        
+        seekerFadeAnimator.isHidden = uiProps.seekerViewHidden
+
+        //MARK: Animator groups
+        
+        guard isViewAppeared else { return }
+        if areControlsHidden != uiProps.controlsViewHidden {
+            controlsAnimationGroup.performAnimaiton(forState: uiProps.controlsViewHidden)
+        } else {
+            
+        }
+        // if view appeared
+        //     if uiProps.controlsViewHidden == previous state
+        //         use personal fade animation
+        //     else
+        //         use group animators
     }
     
     //swiftlint:enable function_body_length

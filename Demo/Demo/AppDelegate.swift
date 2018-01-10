@@ -108,6 +108,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.tintColor = .blue
         vc.props = baseProps()
         vc.sidebarProps = sideProps()
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 6, repeats: true , block: { (timer) in
+                var time = DispatchTime.now()
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = baseProps()
+                })
+                time = DispatchTime.now() + 2
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = otherProps()
+                })
+                time = DispatchTime.now() + 4
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = noBottomProps()
+                })
+                }
+            )
+        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
@@ -127,18 +144,11 @@ func otherProps() -> Props {
         item: .playable(Props.Controls(
             airplay: .active,
             audible: Props.MediaGroupControl(options: []),
-            camera: Props.Camera(
-                angles: Props.Angles(
-                    horizontal: 1.57,
-                    vertical: 1.57),
-                moveTo: .nop),
+            camera: nil,
             error: nil,
             legible: .external(
-                external: .available(state: .active(text: "Something short")),
-                control: Props.MediaGroupControl(options: [Props.Option(
-                    name: "Option1",
-                    selected: true,
-                    select: .nop)])),
+                external: .unavailable,
+                control: Props.MediaGroupControl()),
             live: Props.Live(
                 isHidden: false,
                 dotColor: .blue),
