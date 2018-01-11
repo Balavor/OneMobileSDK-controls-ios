@@ -160,7 +160,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         shadowAnimator.maxAlpha = 0.3
-        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, nextAnimator, prevAnimator, seekTo10SecBackwardAnimator, seekTo10SecForwardAnimator, airplayLabelAnimator, errorAnimator, airplayViewAnimator, pipAnimator, settingsAnimator, seekerFadeAnimator, durationAnimator
+        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, nextAnimator, prevAnimator, seekTo10SecBackwardAnimator, seekTo10SecForwardAnimator, airplayLabelAnimator, errorAnimator, airplayViewAnimator, pipAnimator, settingsAnimator, seekerFadeAnimator, durationAnimator, titleAnimator
         ]
         compasAnimationGroup.animators = [compasBodyAnimator, compasDirectionAnimator]
         slideAnimatorGroup.animators = [sideBarAnimator]
@@ -169,6 +169,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     var task: URLSessionDataTask?
     
     var uiProps: UIProps = UIProps(props: .noPlayer, controlsViewVisible: false)
+    var bottomItemsState = BottomItemsState(
+        seekerIsHidden: true,
+        durationIsHidden: true,
+        titleIsHidden: true,
+        airplayIsHidden: true,
+        pipIsHidden: true,
+        settingsIsHidden: true)
     //swiftlint:disable function_body_length
     //swiftlint:disable cyclomatic_complexity
     public override func viewWillLayoutSubviews() {
@@ -176,6 +183,14 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
+        
+        bottomItemsState = BottomItemsState(
+            seekerIsHidden: seekerView.isHidden,
+            durationIsHidden: durationTextLabel.isHidden,
+            titleIsHidden: videoTitleLabel.isHidden,
+            airplayIsHidden: airPlayView.isHidden,
+            pipIsHidden: pipButton.isHidden,
+            settingsIsHidden: settingsButton.isHidden)
         
         isLoading = uiProps.loading
         
@@ -288,11 +303,15 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         slideAnimatorGroup.performAnimation(forState: uiProps.controlsViewHidden)
     }
     
-    func setUpBottomGroupAnimation(by uiProps: DefaultControlsViewController.UIProps) {
+    func setUpBottomGroupAnimation(from currentState: BottomItemsState, newState: DefaultControlsViewController.UIProps) -> AnimatorGroup {
+        currentState.animate(into: newState)
+        
         //1st state: seeker is up, the rest are not
         //2nd state: button/title is up, seeker is not
         //3rd state: button/title and seeker are up
         //4th state: everything is up
+        let animatorGroup = AnimatorGroup()
+        return animatorGroup
     }
     
     //swiftlint:enable function_body_length

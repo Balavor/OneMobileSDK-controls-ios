@@ -225,7 +225,7 @@ Title</string>
                             <rect key="frame" x="450" y="0.0" width="30" height="213"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="57" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-vH-cgi" userLabel="Side Bar VIew" customClass="SeekerControlView" customModule="PlayerControls" customModuleProvider="target">
+                        <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="57" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-vH-cgi" userLabel="Seek Bar VIew" customClass="SeekerControlView" customModule="PlayerControls" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="203" width="480" height="54"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <userDefinedRuntimeAttributes>
@@ -304,7 +304,6 @@ Title</string>
                         <constraint firstItem="98K-SA-Pdv" firstAttribute="leading" secondItem="fi9-sW-1VX" secondAttribute="leading" constant="15" id="w88-zY-fND"/>
                         <constraint firstItem="Ddy-Jb-aVD" firstAttribute="centerY" secondItem="72o-zQ-Neb" secondAttribute="centerY" id="wBh-pZ-zXo"/>
                         <constraint firstItem="wVE-Q8-zOG" firstAttribute="centerY" secondItem="U8A-X2-cyf" secondAttribute="centerY" id="xAL-Mr-aiA"/>
-                        <constraint firstItem="Uc8-v7-96O" firstAttribute="top" secondItem="fi9-sW-1VX" secondAttribute="top" constant="-63" id="xxv-hR-dqd"/>
                         <constraint firstItem="U8A-X2-cyf" firstAttribute="centerX" secondItem="fi9-sW-1VX" secondAttribute="centerX" id="y9t-79-v13"/>
                         <constraint firstItem="wVE-Q8-zOG" firstAttribute="centerX" secondItem="U8A-X2-cyf" secondAttribute="centerX" id="zsd-wr-B4P"/>
                     </constraints>
@@ -348,7 +347,6 @@ Title</string>
                             <exclude reference="iww-Ws-dSP"/>
                             <exclude reference="DWa-IY-lCj"/>
                             <exclude reference="OhI-w6-p0d"/>
-                            <exclude reference="xxv-hR-dqd"/>
                             <exclude reference="PR9-OI-F49"/>
                             <exclude reference="eTt-xT-Hay"/>
                         </mask>
