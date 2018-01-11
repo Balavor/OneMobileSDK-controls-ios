@@ -10,8 +10,13 @@ class FadeAnimator: NSObject, Animators {
     var isHidden: Bool = false
     
     func animate(for visibility: Bool) {
-        fadingView.alpha = !visibility && !isHidden ? maxAlpha : 0
-        fadingView.isHidden = visibility && isHidden
+        if fadingView.alpha == 0 {
+            fadingView.isHidden = visibility && isHidden
+            fadingView.alpha = !visibility && !isHidden ? maxAlpha : 0
+        } else {
+            fadingView.alpha = !visibility && !isHidden ? maxAlpha : 0
+            fadingView.isHidden = visibility && isHidden
+        }
     }
 }
 

@@ -10,7 +10,10 @@ open class ContentControlsViewController: UIViewController {
         didSet {
             guard isViewLoaded else { return }
             settingsViewController?.props = ContentControlsViewController.settingProps(from: props)
-            view.setNeedsLayout()
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+            }, completion: nil)
         }
     }
     

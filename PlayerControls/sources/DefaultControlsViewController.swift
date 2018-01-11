@@ -160,9 +160,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.stopSeek(at: value)
         }
         shadowAnimator.maxAlpha = 0.3
-        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, nextAnimator, prevAnimator, seekTo10SecBackwardAnimator, seekTo10SecForwardAnimator, airplayLabelAnimator, errorAnimator]
+        centerAnimatorGroup.animators = [shadowAnimator, playAnimator, pauseAnimator, replayAnimator, retryAnimator, nextAnimator, prevAnimator, seekTo10SecBackwardAnimator, seekTo10SecForwardAnimator, airplayLabelAnimator, errorAnimator, airplayViewAnimator, pipAnimator, settingsAnimator, seekerFadeAnimator, durationAnimator
+        ]
         compasAnimationGroup.animators = [compasBodyAnimator, compasDirectionAnimator]
-        slideAnimatorGroup.animators = [seekerSlideAnimator, bottomItemsAnimator, sideBarAnimator]
+        slideAnimatorGroup.animators = [sideBarAnimator]
     }
     
     var task: URLSessionDataTask?
@@ -281,14 +282,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         seekerFadeAnimator.isHidden = uiProps.seekerViewHidden
 
         //MARK: Animator groups
-        
         guard isViewAppeared else { return }
-        
         centerAnimatorGroup.performAnimation(forState: uiProps.controlsViewHidden)
         compasAnimationGroup.performAnimation(forState: uiProps.controlsViewHidden)
-        
-        if seekerView
         slideAnimatorGroup.performAnimation(forState: uiProps.controlsViewHidden)
+    }
+    
+    func setUpBottomGroupAnimation(by uiProps: DefaultControlsViewController.UIProps) {
+        //1st state: seeker is up, the rest are not
+        //2nd state: button/title is up, seeker is not
+        //3rd state: button/title and seeker are up
+        //4th state: everything is up
     }
     
     //swiftlint:enable function_body_length

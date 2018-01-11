@@ -108,23 +108,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.tintColor = .blue
         vc.props = baseProps()
         vc.sidebarProps = sideProps()
-//        if #available(iOS 10.0, *) {
-//            Timer.scheduledTimer(withTimeInterval: 6, repeats: true , block: { (timer) in
-//                var time = DispatchTime.now()
-//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-//                    vc.props = baseProps()
-//                })
-//                time = DispatchTime.now() + 2
-//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-//                    vc.props = otherProps()
-//                })
-//                time = DispatchTime.now() + 4
-//                DispatchQueue.main.asyncAfter(deadline: time, execute: {
-//                    vc.props = noBottomProps()
-//                })
-//                }
-//            )
-//        }
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 8, repeats: true , block: { (timer) in
+                var time = DispatchTime.now()
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = baseProps()
+                })
+                time = DispatchTime.now() + 2
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = noSeekerProps()
+                })
+                time = DispatchTime.now() + 4
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = otherProps()
+                })
+                time = DispatchTime.now() + 6
+                DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                    vc.props = noBottomProps()
+                })
+                }
+            )
+        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
@@ -142,7 +146,7 @@ func otherProps() -> Props {
             next: nil,
             prev: .nop),
         item: .playable(Props.Controls(
-            airplay: .active,
+            airplay: .hidden,
             audible: Props.MediaGroupControl(options: []),
             camera: nil,
             error: nil,
@@ -166,16 +170,41 @@ func otherProps() -> Props {
                         start: .nop,
                         update: .nop,
                         stop: .nop))),
-            settings: .hidden,
+            settings: .enabled(.nop),
             sideBarViewHidden: true,
             thumbnail: nil,
             title: "Very very very very very long title"))))
 }
+
+func noSeekerProps() -> Props {
+    return Props.player(Props.Player(
+        playlist: nil,
+        item: .playable(Props.Controls(
+            airplay: .enabled,
+            audible: Props.MediaGroupControl(options: []),
+            camera: nil,
+            error: nil,
+            legible: .external(
+                external: .unavailable,
+                control: Props.MediaGroupControl()),
+            live: Props.Live(
+                isHidden: false,
+                dotColor: .blue),
+            loading: false,
+            pictureInPictureControl: .unsupported,
+            playbackAction: .none,
+            seekbar: nil,
+            settings: .enabled(.nop),
+            sideBarViewHidden: false,
+            thumbnail: nil,
+            title: "Very very very very very long title"))))
+}
+
 func noBottomProps() -> Props {
     return Props.player(Props.Player(
         playlist: Props.Playlist(
             next: .nop,
-            prev: .nop),
+            prev: nil),
         item: .playable(Props.Controls(
             airplay: .hidden,
             audible: Props.MediaGroupControl(options: []),
@@ -209,7 +238,7 @@ func noBottomProps() -> Props {
                         update: .nop,
                         stop: .nop))),
             settings: .hidden,
-            sideBarViewHidden: false,
+            sideBarViewHidden: true,
             thumbnail: nil,
             title: ""))))
 }
