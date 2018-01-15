@@ -10,7 +10,7 @@ func props() -> Props {
             next: nil,
             prev: nil),
         item: .playable(Props.Controls(
-            airplay: .enabled,
+            airplay: .hidden,
             audible: Props.MediaGroupControl(options: []),
             camera: Props.Camera(
                 angles: Props.Angles(
@@ -84,7 +84,7 @@ func props2() -> Props {
                         start: .nop,
                         update: .nop,
                         stop: .nop))),
-            settings: .hidden,
+            settings: .enabled(.nop),
             sideBarViewHidden: true,
             thumbnail: nil,
             title: "Long titel"))))
@@ -110,9 +110,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
             vc.props = props()
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
             vc.props = props2()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            vc.props = props()
         }
         
         

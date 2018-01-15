@@ -65,7 +65,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     @IBOutlet private var settingsAnimator: Animator!
     @IBOutlet var videoTitleAnimator: Animator!
-    
+    @IBOutlet var airplayAnimator: Animator!
     
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -95,10 +95,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     var task: URLSessionDataTask?
+    var apearedOnce: Bool = false
     
     var uiProps: UIProps = UIProps(props: .noPlayer, controlsViewVisible: false)
     //swiftlint:disable function_body_length
     //swiftlint:disable cyclomatic_complexity
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        apearedOnce = true
+    }
+    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -152,7 +159,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         visibleControlsSubtitlesConstraint.constant = uiProps.controlsViewHidden ? 30 : 110
         airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
         airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
-        //subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden 
+        //subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
         subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
         subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
         
@@ -197,8 +204,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         //settingsButton.isHidden = uiProps.settingsButtonHidden
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
-        settingsAnimator.isHidden = uiProps.settingsButtonHidden
-        
+        if !apearedOnce {
+             settingsButton.isHidden = uiProps.settingsButtonHidden
+        } else {
+           settingsAnimator.isHidden = uiProps.settingsButtonHidden
+        }
         
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
@@ -211,7 +221,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        airPlayView.isHidden = uiProps.airplayButtonHidden
+        if !apearedOnce {
+            airPlayView.isHidden = uiProps.airplayButtonHidden
+        } else {
+           airplayAnimator.isHidden = uiProps.airplayButtonHidden
+        }
     }
     
     //swiftlint:enable function_body_length
