@@ -63,6 +63,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var subtitlesEdgeTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesPipTrailingConstrains: NSLayoutConstraint!
     
+    @IBOutlet private var settingsAnimator: Animator!
+    @IBOutlet var videoTitleAnimator: Animator!
+    
+    
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
             sideBarView.props = sidebarProps.map { [weak self] in
@@ -100,6 +104,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
+        //let currentState = Botom...
+        //let expectedAnimatioms = setUp(from: currentState, to: uiProps)
+        //settingAnimator.animationType = expectedAnimations.settingsType
         
         controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
@@ -145,7 +152,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         visibleControlsSubtitlesConstraint.constant = uiProps.controlsViewHidden ? 30 : 110
         airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
         airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
-        subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden 
+        //subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden 
         subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
         subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
         
@@ -188,8 +195,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         pipButton.isHidden = uiProps.pipButtonHidden
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        settingsButton.isHidden = uiProps.settingsButtonHidden
+        //settingsButton.isHidden = uiProps.settingsButtonHidden
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
+        settingsAnimator.isHidden = uiProps.settingsButtonHidden
+        
+        
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
         liveDotLabel.textColor = uiProps.liveDotColor ?? liveDotLabel.textColor ?? view.tintColor

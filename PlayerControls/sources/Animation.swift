@@ -19,7 +19,7 @@ class Animator: NSObject, HiddenAnimator {
     @IBOutlet var activeConstraints: [NSLayoutConstraint]!
     @IBOutlet var inavtiveConstraints: [NSLayoutConstraint]!
     
-    var animationType: AnimationType?
+    var animationType: AnimationType? = .slide
     var isHidden: Bool = false {
         didSet {
             switch animationType {
@@ -27,8 +27,9 @@ class Animator: NSObject, HiddenAnimator {
                 fade()
             case .slide?:
                 slide()
+                print("drop on slide")
             case nil:
-                break
+                print("drop on nill")
             }
         }
     }
@@ -44,8 +45,8 @@ class Animator: NSObject, HiddenAnimator {
         view.setNeedsUpdateConstraints()
         UIView.animate(
             withDuration: 0.3,
-            animations: self.view.superview!.layoutIfNeeded
-        )
+            animations: self.view.superview!.layoutIfNeeded,
+        ) 
         
         self.view.isHidden = self.isHidden
         
