@@ -113,8 +113,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     var centerAnimatorGroup = AnimatorGroup()
     var slideAnimatorGroup = AnimatorGroup()
     var compasAnimationGroup = AnimatorGroup()
-
-    var isViewAppeared: Bool = false
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -373,6 +371,48 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    func setupBottomItemsAimators(from oldState: BottomItemsState, to newState: DefaultControlsViewController.UIProps) -> [String] {
+        var animationsArray: [String] = []
+        
+        if oldState.seekerIsHidden != newState.seekerViewHidden {
+            animationsArray.append(newState.airplayButtonHidden && newState.pipButtonHidden && newState.settingsButtonHidden && newState.videoTitleLabelHidden
+                ? "[Seeker slides]"
+                : "[Seeker fades]")
+        } else {
+            animationsArray.append("[Seeker has no animation]")
+        }
+        
+        animationsArray.append(oldState.titleIsHidden != newState.videoTitleLabelHidden
+            ? "[Title slides]"
+            : "[Title has no animation]")
+        
+        let buttonsState = (oldState.settingsIsHidden == newState.settingsButtonHidden,
+                            oldState.airplayIsHidden == newState.airplayButtonHidden,
+                            oldState.pipIsHidden == newState.pipButtonHidden)
+        
+        switch buttonsState {
+        case (true, true, true):
+            animationsArray.append("[No animations for buttons]")
+        case (false, true, true):
+            animationsArray.append("[Settings slides]")
+        case (true, false, true):
+            animationsArray.append("[AirPlay and Settings slide]")
+        case (true, false, false):
+            animationsArray.append(newState.airplayButtonHidden != newState.pipButtonHidden
+                ? "[Settings slides, Appearing button slides, disappearing button fades]"
+                : "[Setting, PiP and AirPlay slide]")
+        case (false, false, true):
+            animationsArray.append(newState.airplayButtonHidden != newState.settingsButtonHidden
+                ? "[Appearing button slides, disappearing button fades]"
+                : "[Setting and AirPlay slide]")
+        case (true, true, false),
+             (false, true, false),
+             (false, false, false):
+            animationsArray.append("[PiP, Settings and AirPlay slide]")
+        }
+        return animationsArray
     }
     
     func setupVisibilityController() {

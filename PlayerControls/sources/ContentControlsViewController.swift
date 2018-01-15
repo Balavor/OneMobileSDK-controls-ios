@@ -6,10 +6,14 @@ public protocol Prism {}
 /// video controls.
 open class ContentControlsViewController: UIViewController {
     public weak var settingsViewController: SettingsViewController?
+    var isViewAppeared: Bool = false
     public var props: Props = .noPlayer {
         didSet {
             guard isViewLoaded else { return }
+            
             settingsViewController?.props = ContentControlsViewController.settingProps(from: props)
+            guard isViewAppeared else { self.view.setNeedsLayout(); return }
+            
             UIView.animate(withDuration: 0.4, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()

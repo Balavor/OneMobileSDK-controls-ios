@@ -9,9 +9,8 @@
 /* Begin PBXBuildFile section */
 		0672C6BD1FFD58F8001E6CC3 /* AnimationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */; };
 		0696270D1FD188A50098494A /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0696270C1FD188A50098494A /* Command.swift */; };
+		06C506EB200CD25F00643B18 /* Amimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C506EA200CD25F00643B18 /* Amimator.swift */; };
 		06E0E70C2007D26500A5BE11 /* BottomItemsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E0E70B2007D26500A5BE11 /* BottomItemsState.swift */; };
-		249841ED2002D755004CB3FA /* FadeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249841EC2002D755004CB3FA /* FadeAnimator.swift */; };
-		249841EF2002D760004CB3FA /* SlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249841EE2002D760004CB3FA /* SlideAnimator.swift */; };
 		42A7F6581FEC156400CE39C0 /* Defaultable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6571FEC156400CE39C0 /* Defaultable.swift */; };
 		42A7F65A1FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */; };
 		50582F6C1E65C64B00B18908 /* ContentControlsUIProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50582F671E65C64B00B18908 /* ContentControlsUIProps.swift */; };
@@ -75,9 +74,8 @@
 /* Begin PBXFileReference section */
 		0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationGroup.swift; sourceTree = "<group>"; };
 		0696270C1FD188A50098494A /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		06C506EA200CD25F00643B18 /* Amimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amimator.swift; sourceTree = "<group>"; };
 		06E0E70B2007D26500A5BE11 /* BottomItemsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomItemsState.swift; sourceTree = "<group>"; };
-		249841EC2002D755004CB3FA /* FadeAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeAnimator.swift; sourceTree = "<group>"; };
-		249841EE2002D760004CB3FA /* SlideAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimator.swift; sourceTree = "<group>"; };
 		42A7F6571FEC156400CE39C0 /* Defaultable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaultable.swift; sourceTree = "<group>"; };
 		42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentControlsUIProps+Init.swift"; sourceTree = "<group>"; };
 		50582F5B1E65C41900B18908 /* PlayerControls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerControls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,9 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				0672C6BC1FFD58F8001E6CC3 /* AnimationGroup.swift */,
-				249841EC2002D755004CB3FA /* FadeAnimator.swift */,
-				249841EE2002D760004CB3FA /* SlideAnimator.swift */,
 				06E0E70B2007D26500A5BE11 /* BottomItemsState.swift */,
+				06C506EA200CD25F00643B18 /* Amimator.swift */,
 			);
 			name = animations;
 			sourceTree = "<group>";
@@ -458,11 +455,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA73095D1F5FD3AD000A7364 /* EnumPrism.stencil in Sources */,
+				06C506EB200CD25F00643B18 /* Amimator.swift in Sources */,
 				50582F811E65CA0F00B18908 /* AdVideoControls.swift in Sources */,
-				249841EF2002D760004CB3FA /* SlideAnimator.swift in Sources */,
 				0672C6BD1FFD58F8001E6CC3 /* AnimationGroup.swift in Sources */,
 				50582F6E1E65C64B00B18908 /* ContentControlsViewController.swift in Sources */,
-				249841ED2002D755004CB3FA /* FadeAnimator.swift in Sources */,
 				0696270D1FD188A50098494A /* Command.swift in Sources */,
 				50582F7E1E65C96100B18908 /* SeekGestureRecognizer.swift in Sources */,
 				50582F8C1E65CBE600B18908 /* Timer.swift in Sources */,
