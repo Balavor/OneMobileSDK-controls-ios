@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0696270D1FD188A50098494A /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0696270C1FD188A50098494A /* Command.swift */; };
 		42161FC8200CD19C00131523 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42161FC7200CD19C00131523 /* Animation.swift */; };
+		4216EEEE201111C200F34C22 /* BottomItemsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216EEED201111C100F34C22 /* BottomItemsAnimation.swift */; };
 		42A7F6581FEC156400CE39C0 /* Defaultable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6571FEC156400CE39C0 /* Defaultable.swift */; };
 		42A7F65A1FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */; };
 		50582F6C1E65C64B00B18908 /* ContentControlsUIProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50582F671E65C64B00B18908 /* ContentControlsUIProps.swift */; };
@@ -72,6 +73,7 @@
 /* Begin PBXFileReference section */
 		0696270C1FD188A50098494A /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		42161FC7200CD19C00131523 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		4216EEED201111C100F34C22 /* BottomItemsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomItemsAnimation.swift; sourceTree = "<group>"; };
 		42A7F6571FEC156400CE39C0 /* Defaultable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaultable.swift; sourceTree = "<group>"; };
 		42A7F6591FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentControlsUIProps+Init.swift"; sourceTree = "<group>"; };
 		50582F5B1E65C41900B18908 /* PlayerControls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerControls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +220,7 @@
 		50582F911E65CD7B00B18908 /* default */ = {
 			isa = PBXGroup;
 			children = (
+				4216EEED201111C100F34C22 /* BottomItemsAnimation.swift */,
 				50582F6A1E65C64B00B18908 /* DefaultControlsViewController.swift */,
 				50582F6B1E65C64B00B18908 /* DefaultControlsViewController.xib */,
 				42161FC7200CD19C00131523 /* Animation.swift */,
@@ -457,6 +460,7 @@
 				50F4713B1F5980A000C35AEF /* SettingCell.swift in Sources */,
 				50582F8A1E65CBE600B18908 /* ControlsVisibilityController.swift in Sources */,
 				DA036B641FB20BBB00BD0728 /* AirPlayActiveView.swift in Sources */,
+				4216EEEE201111C200F34C22 /* BottomItemsAnimation.swift in Sources */,
 				42A7F65A1FEC230D00CE39C0 /* ContentControlsUIProps+Init.swift in Sources */,
 				50F471351F5958E900C35AEF /* SettingsViewController.swift in Sources */,
 				50F471391F597F0700C35AEF /* SettingsViewController+TableView.swift in Sources */,

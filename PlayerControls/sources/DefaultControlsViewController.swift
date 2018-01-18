@@ -59,13 +59,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var compassBodyNoLiveTopConstraint: NSLayoutConstraint!
     @IBOutlet private var airplayPipTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var airplayEdgeTrailingConstrains: NSLayoutConstraint!
-    @IBOutlet private var subtitlesAirplayTrailingConstrains: NSLayoutConstraint!
+    //@IBOutlet private var subtitlesAirplayTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesEdgeTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesPipTrailingConstrains: NSLayoutConstraint!
+    @IBOutlet private var subtitlesAirplayTrailingConstrains: NSLayoutConstraint!
     
-    @IBOutlet private var settingsAnimator: Animator!
-    @IBOutlet var videoTitleAnimator: Animator!
-    @IBOutlet var airplayAnimator: Animator!
+    @IBOutlet private var settingConstraints: Constraints!
+    @IBOutlet private var airplayConstraints: Constraints!
     
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -105,15 +105,160 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         apearedOnce = true
     }
+    enum AnimationType {
+        case fade, slide, move, `none`
+    }
+    
+    func performSettingsButtonAnimation(type: AnimationType, isHidden: Bool) {
+        switch (type, isHidden) {
+        case (.fade, true):
+            print("Set in fade out")
+            settingsButton.alpha = 1
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveLinear],
+                           animations: {
+                            self.settingsButton.alpha = 0
+                            self.view.layoutIfNeeded() },
+                           completion: { _ in self.settingsButton.isHidden = isHidden })
+            
+        case (.fade, false):
+            print("Set in fade in")
+            settingsButton.alpha = 0
+            settingsButton.isHidden = false
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveLinear],
+                           animations: { self.settingsButton.alpha = 1 },
+                           completion: nil)
+            
+        case (.slide, true):
+            print("Set in slide down")
+            settingConstraints.activeConstraints.forEach { $0.isActive = false }
+            settingConstraints.inavtiveConstraints.forEach { $0.isActive = true }
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseIn],
+                           animations: self.view.layoutIfNeeded,
+                           completion: { _ in
+                            self.settingsButton.isHidden = isHidden
+                            self.settingConstraints.inavtiveConstraints.forEach { $0.isActive = false }
+                            self.settingConstraints.activeConstraints.forEach { $0.isActive = true }})
+            
+        case (.slide, false):
+            print("Set in slide up")
+            settingConstraints.activeConstraints.forEach { $0.isActive = false }
+            settingConstraints.inavtiveConstraints.forEach { $0.isActive = true }
+            
+            airPlayView.isHidden = isHidden
+            self.view.layoutIfNeeded()
+            
+            settingConstraints.inavtiveConstraints.forEach { $0.isActive = false }
+            settingConstraints.activeConstraints.forEach { $0.isActive = true }
+            
+            self.settingsButton.isHidden = false
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseIn],
+                           animations: self.view.layoutIfNeeded,
+                           completion: nil)
+            
+        case (.move, _):
+            print("Set in move")
+            return
+            
+        case (.none, _):
+            return
+        }
+    }
+    
+    func performAirPlayButtonAnimation(type: AnimationType, isHidden: Bool) {
+        switch (type, isHidden) {
+        case (.fade, true):
+            print("AP in fade out")
+            airPlayView.alpha = 1
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveLinear],
+                           animations: {
+                            self.airPlayView.alpha = 0
+                            self.view.layoutIfNeeded() },
+                           completion: { _ in self.airPlayView.isHidden = isHidden })
+            
+        case (.fade, false):
+            print("AP in fade in")
+            airPlayView.alpha = 0
+            airPlayView.isHidden = isHidden
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveLinear],
+                           animations: { self.airPlayView.alpha = 1 },
+                           completion: nil)
+            
+        case (.slide, true):
+            print("AP in slide down")
+            airplayConstraints.activeConstraints.forEach { $0.isActive = false }
+            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = true }
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseIn],
+                           animations: self.view.layoutIfNeeded,
+                           completion: { _ in
+                            self.airPlayView.isHidden = isHidden
+                            self.airplayConstraints.inavtiveConstraints.forEach { $0.isActive = !isHidden }
+                            self.airplayConstraints.activeConstraints.forEach { $0.isActive = isHidden } })
+            
+        case (.slide, false):
+            print("AP in slide up")
+            airplayConstraints.activeConstraints.forEach { $0.isActive = isHidden }
+            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = !isHidden }
+            
+            airPlayView.isHidden = isHidden
+            self.view.layoutIfNeeded()
+            
+            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = isHidden }
+            airplayConstraints.activeConstraints.forEach { $0.isActive = !isHidden }
+            
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseIn, .beginFromCurrentState],
+                           animations: self.view.layoutIfNeeded,
+                           completion: nil)
+            
+        case (.move, _):
+            print("AP in move")
+            return
+            
+        case (.none, _):
+            print("AP does nothing")
+            return
+        }
+    }
     
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
-        //let currentState = Botom...
-        //let expectedAnimatioms = setUp(from: currentState, to: uiProps)
-        //settingAnimator.animationType = expectedAnimations.settingsType
+        
+        let currenState = BottomItemsState(seekerViewHidden: seekerView.isHidden,
+                                           airplayButtonHidden: airPlayView.isHidden,
+                                           pipButtonHidden: pipButton.isHidden,
+                                           settingsButtonHidden: settingsButton.isHidden,
+                                           videoTitleLabelHidden: videoTitleLabel.isHidden)
+        
+        let futureState = BottomItemsState(seekerViewHidden: uiProps.seekerViewHidden,
+                                           airplayButtonHidden: uiProps.airplayButtonHidden,
+                                           pipButtonHidden: uiProps.pipButtonHidden,
+                                           settingsButtonHidden: uiProps.settingsButtonHidden,
+                                           videoTitleLabelHidden: uiProps.videoTitleLabelHidden)
+        
+        let animationTypes = determineBottomAnimationType(from: currenState, to: futureState)
         
         controlsView.isHidden = uiProps.controlsViewHidden
         isLoading = uiProps.loading
@@ -131,7 +276,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
         seekerView.progress = uiProps.seekerViewProgress
         seekerView.buffered = uiProps.seekerViewBuffered
-
+        
         let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
         bottomSeekBarConstraint.constant = uiProps.seekbarPositionedAtBottom
             ? 13
@@ -146,7 +291,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         compasDirectionView.isHidden = uiProps.compasDirectionViewHidden
         compasDirectionView.transform = uiProps.compasDirectionViewTransform
         cameraPanGestureRecognizer.isEnabled = uiProps.cameraPanGestureIsEnabled
-
+        
         videoTitleLabel.isHidden = uiProps.videoTitleLabelHidden
         videoTitleLabel.text = uiProps.videoTitleLabelText
         
@@ -155,13 +300,14 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         ccTextLabel.isHidden = uiProps.subtitlesTextLabelHidden
         ccTextLabel.text = uiProps.subtitlesTextLabelText
-
+        
         visibleControlsSubtitlesConstraint.constant = uiProps.controlsViewHidden ? 30 : 110
-        airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
-        airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
+        
         //subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
         subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
         subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
+        airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
+        airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
         
         thumbnailImageView.isHidden = uiProps.thumbnailImageViewHidden
         
@@ -202,14 +348,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         pipButton.isHidden = uiProps.pipButtonHidden
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        //settingsButton.isHidden = uiProps.settingsButtonHidden
-        settingsButton.isEnabled = uiProps.settingsButtonEnabled
-        if !apearedOnce {
-             settingsButton.isHidden = uiProps.settingsButtonHidden
+        if apearedOnce {
+            performSettingsButtonAnimation(type: animationTypes.settingsAnimationType, isHidden: uiProps.settingsButtonHidden)
         } else {
-           settingsAnimator.isHidden = uiProps.settingsButtonHidden
+            settingsButton.isHidden = uiProps.settingsButtonHidden
         }
-        
+        settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
         liveDotLabel.textColor = uiProps.liveDotColor ?? liveDotLabel.textColor ?? view.tintColor
@@ -221,10 +365,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        if !apearedOnce {
-            airPlayView.isHidden = uiProps.airplayButtonHidden
+        if apearedOnce {
+            performAirPlayButtonAnimation(type: animationTypes.airplayAnimationType, isHidden: uiProps.airplayButtonHidden)
         } else {
-           airplayAnimator.isHidden = uiProps.airplayButtonHidden
+            airPlayView.isHidden = uiProps.airplayButtonHidden
         }
     }
     
@@ -254,7 +398,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     func updateVisibilityController( //swiftlint:disable:this cyclomatic_complexity
         from old: ContentControlsViewController.Props,
-             to new: ContentControlsViewController.Props) {
+        to new: ContentControlsViewController.Props) {
         
         func isVideoPlaying(for props: ContentControlsViewController.Props) -> Bool {
             guard case .player(let player) = props else { return false }
@@ -296,7 +440,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         onPlayEvent = CommandWith { visibilityController.play() }
         onPauseEvent = CommandWith { visibilityController.pause() }
     }
- 
+    
     @IBAction private func playButtonTouched() {
         uiProps.playButtonAction.perform()
         onUserInteraction?.perform()
@@ -304,7 +448,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     @IBAction private func pauseButtonTouched() {
         uiProps.pauseButtonAction.perform()
-		onUserInteraction?.perform()
+        onUserInteraction?.perform()
     }
     
     @IBAction private func replayButtonTouched() {
@@ -324,17 +468,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     private func startSeek(from progress: CGFloat) {
         uiProps.startSeekAction.perform(with: .init(progress))
-		onUserInteraction?.perform()
+        onUserInteraction?.perform()
     }
     
     private func updateSeek(to progress: CGFloat) {
         uiProps.updateSeekAction.perform(with: .init(progress))
-		onUserInteraction?.perform()
+        onUserInteraction?.perform()
     }
     
     private func stopSeek(at progress: CGFloat) {
         uiProps.stopSeekAction.perform(with: .init(progress))
-		onUserInteraction?.perform()
+        onUserInteraction?.perform()
     }
     
     @IBAction private func seekForwardButtonTouched() {
@@ -378,3 +522,4 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         uiProps.settingsButtonAction.perform()
     }
 }
+
