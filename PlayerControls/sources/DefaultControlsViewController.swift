@@ -115,62 +115,91 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             print("Set in fade out")
             settingsButton.alpha = 1
             
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveLinear],
-                           animations: {
-                            self.settingsButton.alpha = 0
-                            self.view.layoutIfNeeded() },
-                           completion: { _ in self.settingsButton.isHidden = isHidden })
+            CATransaction.begin()
+            
+            CATransaction.setCompletionBlock({
+                self.settingsButton.isHidden = true
+                })
+            
+            let animation = CABasicAnimation(keyPath: "opacity")
+            animation.duration = 0.5
+            
+            settingsButton.layer.add(animation, forKey: "opacity")
+            settingsButton.alpha = 0.1
+            
+            CATransaction.commit()
+            
             
         case (.fade, false):
             print("Set in fade in")
             settingsButton.alpha = 0
             settingsButton.isHidden = false
             
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveLinear],
-                           animations: { self.settingsButton.alpha = 1 },
-                           completion: nil)
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                CATransaction.begin()
+                
+                let animation = CABasicAnimation(keyPath: "opacity")
+                animation.duration = 0.5
+                
+                self.settingsButton.layer.add(animation, forKey: "opacity")
+                self.settingsButton.alpha = 1
+                
+                CATransaction.commit()
+                
+            }
+            CATransaction.commit()
             
         case (.slide, true):
             print("Set in slide down")
-            settingConstraints.activeConstraints.forEach { $0.isActive = false }
-            settingConstraints.inavtiveConstraints.forEach { $0.isActive = true }
+            settingConstraints.toggleToMakeInVisible()
             
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveEaseIn],
-                           animations: self.view.layoutIfNeeded,
-                           completion: { _ in
-                            self.settingsButton.isHidden = isHidden
-                            self.settingConstraints.inavtiveConstraints.forEach { $0.isActive = false }
-                            self.settingConstraints.activeConstraints.forEach { $0.isActive = true }})
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.settingsButton.isHidden = true
+                self.settingConstraints.toggleToMakeVisible()
+            })
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            
+            settingsButton.layer.add(animation, forKey: "position")
+            CATransaction.commit()
             
         case (.slide, false):
             print("Set in slide up")
-            settingConstraints.activeConstraints.forEach { $0.isActive = false }
-            settingConstraints.inavtiveConstraints.forEach { $0.isActive = true }
             
-            airPlayView.isHidden = isHidden
-            self.view.layoutIfNeeded()
+            CATransaction.begin()
+            airplayConstraints.toggleToMakeInVisible()
             
-            settingConstraints.inavtiveConstraints.forEach { $0.isActive = false }
-            settingConstraints.activeConstraints.forEach { $0.isActive = true }
-            
-            self.settingsButton.isHidden = false
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveEaseIn],
-                           animations: self.view.layoutIfNeeded,
-                           completion: nil)
+            CATransaction.setCompletionBlock {
+                
+                CATransaction.begin()
+                self.settingsButton.isHidden = false
+                let animation = CABasicAnimation(keyPath: "position")
+                animation.duration = 0.5
+                
+                self.settingsButton.layer.add(animation, forKey: "posiotion")
+                self.settingConstraints.toggleToMakeVisible()
+                
+                CATransaction.commit()
+                
+            }
+            CATransaction.commit()
             
         case (.move, _):
             print("Set in move")
-            return
+            CATransaction.begin()
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            
+            settingsButton.layer.add(animation, forKey: "position")
+            
+            CATransaction.commit()
             
         case (.none, _):
+            print("Set does nothing")
             return
         }
     }
@@ -180,59 +209,82 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         case (.fade, true):
             print("AP in fade out")
             airPlayView.alpha = 1
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveLinear],
-                           animations: {
-                            self.airPlayView.alpha = 0
-                            self.view.layoutIfNeeded() },
-                           completion: { _ in self.airPlayView.isHidden = isHidden })
+            
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.airPlayView.isHidden = true
+                })
+            let animation = CABasicAnimation(keyPath: "opacity")
+            animation.duration = 0.5
+            
+            airPlayView.layer.add(animation, forKey: "position")
+            airPlayView.alpha = 0.1
+            
+            CATransaction.commit()
             
         case (.fade, false):
             print("AP in fade in")
-            airPlayView.alpha = 0
-            airPlayView.isHidden = isHidden
-            
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveLinear],
-                           animations: { self.airPlayView.alpha = 1 },
-                           completion: nil)
+            airPlayView.alpha = 0.1
+            airPlayView.isHidden = false
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                CATransaction.begin()
+                
+                let animation = CABasicAnimation(keyPath: "opacity")
+                animation.duration = 0.5
+                
+                self.airPlayView.layer.add(animation, forKey: "opacity")
+                self.airPlayView.alpha = 1
+                CATransaction.commit()
+                })
+            CATransaction.commit()
             
         case (.slide, true):
             print("AP in slide down")
-            airplayConstraints.activeConstraints.forEach { $0.isActive = false }
-            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = true }
+            airplayConstraints.toggleToMakeInVisible()
             
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveEaseIn],
-                           animations: self.view.layoutIfNeeded,
-                           completion: { _ in
-                            self.airPlayView.isHidden = isHidden
-                            self.airplayConstraints.inavtiveConstraints.forEach { $0.isActive = !isHidden }
-                            self.airplayConstraints.activeConstraints.forEach { $0.isActive = isHidden } })
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.airPlayView.isHidden = true
+                self.airplayConstraints.toggleToMakeVisible()
+            })
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            
+            airPlayView.layer.add(animation, forKey: "position")
+            CATransaction.commit()
             
         case (.slide, false):
             print("AP in slide up")
-            airplayConstraints.activeConstraints.forEach { $0.isActive = isHidden }
-            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = !isHidden }
+            CATransaction.begin()
+            airplayConstraints.toggleToMakeInVisible()
             
-            airPlayView.isHidden = isHidden
-            self.view.layoutIfNeeded()
-            
-            airplayConstraints.inavtiveConstraints.forEach { $0.isActive = isHidden }
-            airplayConstraints.activeConstraints.forEach { $0.isActive = !isHidden }
-            
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.curveEaseIn, .beginFromCurrentState],
-                           animations: self.view.layoutIfNeeded,
-                           completion: nil)
+            CATransaction.setCompletionBlock {
+                
+                CATransaction.begin()
+                self.airPlayView.isHidden = false
+                let animation = CABasicAnimation(keyPath: "position")
+                animation.duration = 0.5
+                
+                self.airPlayView.layer.add(animation, forKey: "posiotion")
+                self.airplayConstraints.toggleToMakeVisible()
+                
+                CATransaction.commit()
+                
+            }
+            CATransaction.commit()
             
         case (.move, _):
             print("AP in move")
-            return
+            CATransaction.begin()
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            
+            airPlayView.layer.add(animation, forKey: "position")
+            
+            CATransaction.commit()
             
         case (.none, _):
             print("AP does nothing")
