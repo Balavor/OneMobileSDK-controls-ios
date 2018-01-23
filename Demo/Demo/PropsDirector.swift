@@ -7,6 +7,7 @@ struct ButtonsProps {
     let settingsState: DefaultControlsViewController.Props.Settings
     let airplayState: DefaultControlsViewController.Props.AirPlay
     let pipState: DefaultControlsViewController.Props.PictureInPictureControl
+    let seekerState: DefaultControlsViewController.Props.Seekbar?
 }
 
 class PropsDirector {
@@ -17,7 +18,15 @@ class PropsDirector {
     
     
     init() {
-        buttonProps = [ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop))]
+        buttonProps = [ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled,
+                                    pipState: .possible(.nop),
+                                    seekerState: Props.Seekbar(duration: 3600,
+                                                               currentTime: 1800,
+                                                               progress: 0.5,
+                                                               buffered: 0.7,
+                                                               seeker: Props.Seeker(
+                                                                seekTo: .nop,
+                                                                state: Props.State())))]
     }
     
     func updateProps() -> DefaultControlsViewController.Props {
@@ -53,17 +62,18 @@ class PropsDirector {
                 loading: false,
                 pictureInPictureControl: buttonProps.pipState,
                 playbackAction: .play(.nop),
-                seekbar: Props.Seekbar(
-                    duration: 3600,
-                    currentTime: 1800,
-                    progress: 0.5,
-                    buffered: 0.7,
-                    seeker: Props.Seeker(
-                        seekTo: .nop,
-                        state: Props.State(
-                            start: .nop,
-                            update: .nop,
-                            stop: .nop))),
+                seekbar: buttonProps.seekerState,
+//                Props.Seekbar(
+//                    duration: 3600,
+//                    currentTime: 1800,
+//                    progress: 0.5,
+//                    buffered: 0.7,
+//                    seeker: Props.Seeker(
+//                        seekTo: .nop,
+//                        state: Props.State(
+//                            start: .nop,
+//                            update: .nop,
+//                            stop: .nop))),
                 settings: buttonProps.settingsState,
                 sideBarViewHidden: false,
                 thumbnail: nil,

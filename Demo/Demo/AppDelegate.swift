@@ -18,16 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let propsDirector = PropsDirector()
         
-        propsDirector.buttonProps.append(contentsOf: propsAllButtonsVisible())
-        propsDirector.buttonProps.append(contentsOf: propsTwoButtonsVisible())
-        propsDirector.buttonProps.append(contentsOf: propsOneButtonVisible())
+        propsDirector.buttonProps.append(contentsOf: propsAirPlayOnly())
+//        propsDirector.buttonProps.append(contentsOf: propsTwoButtonsVisible())
+//        propsDirector.buttonProps.append(contentsOf: propsOneButtonVisible())
         vc.props = baseProps()
         
-        if #available(iOS 10.0, *) {
-            let timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (_) in
-                vc.props = propsDirector.updateProps()
-            }
-        }
+//        if #available(iOS 10.0, *) {
+//            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (_) in
+//                vc.props = propsDirector.updateProps()
+//            }
+//        }
+        
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
@@ -36,76 +38,120 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-func propsAllButtonsVisible() -> [ButtonsProps] {
+//func propsAllButtonsVisible() -> [ButtonsProps] {
+//    let props: [ButtonsProps] = [
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop))
+//    ]
+//    return props
+//}
+
+//func propsTwoButtonsVisible() -> [ButtonsProps] {
+//    let props: [ButtonsProps] = [
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
+//    ]
+//    return props
+//}
+
+//func propsOneButtonVisible() -> [ButtonsProps] {
+//    let props: [ButtonsProps] = [
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
+//        ]
+//    return props
+//}
+
+func propsWithPipOnly() -> [ButtonsProps] {
     let props: [ButtonsProps] = [
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled,
+                     pipState: .possible(.nop),
+                     seekerState: Props.Seekbar(
+                        duration: 3600,
+                        currentTime: 1800,
+                        progress: 0.5,
+                        buffered: 0.7,
+                        seeker: Props.Seeker(
+                            seekTo: .nop,
+                            state: Props.State(
+                                start: .nop,
+                                update: .nop,
+                                stop: .nop)))),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        //ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .impossible, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
         
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop))
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil)
     ]
     return props
 }
 
-func propsTwoButtonsVisible() -> [ButtonsProps] {
+func propsAirPlayOnly() -> [ButtonsProps] {
     let props: [ButtonsProps] = [
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
     ]
-    return props
-}
-
-func propsOneButtonVisible() -> [ButtonsProps] {
-    let props: [ButtonsProps] = [
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-        
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-        
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
-        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
-        ]
     return props
 }
 

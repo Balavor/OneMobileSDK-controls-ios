@@ -222,7 +222,7 @@ extension DefaultControlsViewController {
             
             settingsButtonHidden = props.player?.item.playable?.settings.isHidden ?? true
             
-            settingsButtonEnabled = props.player?.item.playable?.settings.enabled != nil
+            settingsButtonEnabled = (props.player?.item.playable?.settings.enabled != nil)
             
             settingsButtonAction = props.player?.item.playable?.settings.enabled ?? .nop
             
