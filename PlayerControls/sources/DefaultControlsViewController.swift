@@ -98,15 +98,16 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     var task: URLSessionDataTask?
-    var apearedOnce: Bool = false
+    
+    public var animationsAllowed: Bool? = nil
     
     var uiProps: UIProps = UIProps(props: .noPlayer, controlsViewVisible: false)
     //swiftlint:disable function_body_length
     //swiftlint:disable cyclomatic_complexity
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        apearedOnce = true
+        guard animationsAllowed == nil else { return }
+        animationsAllowed = true
     }
     
     enum AnimationType {
@@ -114,7 +115,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performSettingsButtonAnimation(type: AnimationType, isHidden: Bool) {
-        guard apearedOnce else { settingsButton.isHidden = isHidden; return }
+        guard let isAnimationsAllowed = animationsAllowed, isAnimationsAllowed else { settingsButton.isHidden = isHidden; return }
+        
         switch (type, isHidden) {
         case (.fade, true):
             print("Set in fade out")
@@ -208,6 +210,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performAirPlayButtonAnimation(type: AnimationType, isHidden: Bool) {
+        guard let isAnimationsAllowed = animationsAllowed, isAnimationsAllowed else { airPlayView.isHidden = isHidden; return }
+        
         switch (type, isHidden) {
         case (.fade, true):
             print("AP in fade out")
@@ -292,6 +296,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performPipButtonAnimation(type: AnimationType, isHidden: Bool) {
+        guard let isAnimationsAllowed = animationsAllowed, isAnimationsAllowed else { pipButton.isHidden = isHidden; return }
+        
         switch (type, isHidden) {
         case (.fade, true):
             print("PiP in fade out")
@@ -377,6 +383,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performSeekerAnimation(type: AnimationType, isHidden: Bool) {
+        guard let isAnimationsAllowed = animationsAllowed, isAnimationsAllowed else { seekerView.isHidden = isHidden; return }
         switch (type, isHidden) {
         case (.fade, true):
             print("Seeker in fade out")
@@ -448,6 +455,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performTitleAnimation(type: AnimationType, isHidden: Bool) {
+        guard let isAnimationsAllowed = animationsAllowed, isAnimationsAllowed else { videoTitleLabel.isHidden = isHidden; return }
+        
         switch (type, isHidden) {
         case (.fade, true):
             print("Titel in fade out")
@@ -554,7 +563,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         let animationTypes = determineBottomAnimationType(from: currenState, to: futureState)
         
-        //controlsView.isHidden = u  iProps.controlsViewHidden
+        //controlsView.isHidden = iProps.controlsViewHidden
         isLoading = uiProps.loading
         shadowView.isHidden = uiProps.controlsViewHidden
         
@@ -633,10 +642,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         retryButton.isHidden = uiProps.retryButtonHidden
         errorLabel.isHidden = uiProps.errorLabelHidden
         errorLabel.text = uiProps.errorLabelText
-
-        //pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        //settingsButton.isEnabled = uiProps.settingsButtonEnabled
+        //i suggest to replace animation functions on a functions that totaly set up a button to handle enabled states before/after animation
+        // performSettingsAnimation => setUpSettingsButton
+        if let areAnimationsAllowed = animationsAllowed, !areAnimationsAllowed {
+            pipButton.isEnabled = uiProps.pipButtonEnabled
+            settingsButton.isEnabled = uiProps.settingsButtonEnabled
+        }
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
         liveDotLabel.textColor = uiProps.liveDotColor ?? liveDotLabel.textColor ?? view.tintColor
@@ -648,18 +660,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        if apearedOnce {
-            performSeekerAnimation(type: animationTypes.seekerAnimationType, isHidden: uiProps.seekerViewHidden)
-            performPipButtonAnimation(type: animationTypes.pipAnimationType, isHidden: uiProps.pipButtonHidden)
-            performSettingsButtonAnimation(type: animationTypes.settingsAnimationType, isHidden: uiProps.settingsButtonHidden)
-            performAirPlayButtonAnimation(type: animationTypes.airplayAnimationType, isHidden: uiProps.airplayButtonHidden)
-            
-        } else {
-            seekerView.isHidden = uiProps.seekerViewHidden
-            pipButton.isHidden = uiProps.pipButtonHidden
-            settingsButton.isHidden = uiProps.settingsButtonHidden
-            airPlayView.isHidden = uiProps.airplayButtonHidden
-        }
+        performSeekerAnimation(type: animationTypes.seekerAnimationType, isHidden: uiProps.seekerViewHidden)
+        performPipButtonAnimation(type: animationTypes.pipAnimationType, isHidden: uiProps.pipButtonHidden)
+        performSettingsButtonAnimation(type: animationTypes.settingsAnimationType, isHidden: uiProps.settingsButtonHidden)
+        performAirPlayButtonAnimation(type: animationTypes.airplayAnimationType, isHidden: uiProps.airplayButtonHidden)
     }
     
     //swiftlint:enable function_body_length

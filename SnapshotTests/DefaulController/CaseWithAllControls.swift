@@ -9,6 +9,7 @@ class CaseSeekbarWithAllControls: SnapshotTest {
         let controller = DefaultControlsViewController()
         controller.view.backgroundColor = .red
         controller.view.tintColor = .blue
+        controller.animationsAllowed = false
         
         controller.props = DefaultControlsViewController.Props.player(
             DefaultControlsViewController.Props.Player { player in
