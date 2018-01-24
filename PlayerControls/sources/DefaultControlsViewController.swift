@@ -123,6 +123,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.settingsButton.isHidden = true
+                self.settingsButton.isEnabled = self.uiProps.settingsButtonEnabled
             })
             
             let animation = CABasicAnimation(keyPath: "opacity")
@@ -150,6 +151,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             }
             settingsButton.alpha = 0
             settingsButton.isHidden = false
+            settingsButton.isEnabled = uiProps.settingsButtonEnabled
             CATransaction.commit()
             
         case (.slide, true):
@@ -158,6 +160,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.settingsButton.isHidden = true
+                self.settingsButton.isEnabled = self.uiProps.settingsButtonEnabled
                 self.settingConstraints.toggleToMakeVisible()
             })
             settingConstraints.toggleToMakeInVisible()
@@ -182,6 +185,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 CATransaction.commit()
             }
             settingConstraints.toggleToMakeInVisible()
+            self.settingsButton.isEnabled = self.uiProps.settingsButtonEnabled
             CATransaction.commit()
             
         case (.move, _):
@@ -294,6 +298,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.pipButton.isHidden = true
+                self.pipButton.isEnabled = self.uiProps.pipButtonEnabled
             })
             pipButton.alpha = 1
             let animation = CABasicAnimation(keyPath: "opacity")
@@ -319,6 +324,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             })
             pipButton.alpha = 0.1
             pipButton.isHidden = false
+            pipButton.isEnabled = uiProps.pipButtonEnabled
             CATransaction.commit()
             
         case (.slide, true):
@@ -342,6 +348,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 
                 CATransaction.begin()
                 self.pipButton.isHidden = false
+                self.pipButton.isEnabled = self.uiProps.pipButtonEnabled
                 let animation = CABasicAnimation(keyPath: "position")
                 animation.duration = 0.5
                 
@@ -643,10 +650,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         errorLabel.isHidden = uiProps.errorLabelHidden
         errorLabel.text = uiProps.errorLabelText
 
-        pipButton.isEnabled = uiProps.pipButtonEnabled
+        //pipButton.isEnabled = uiProps.pipButtonEnabled
         
         
-        settingsButton.isEnabled = uiProps.settingsButtonEnabled
+        //settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
         liveDotLabel.textColor = uiProps.liveDotColor ?? liveDotLabel.textColor ?? view.tintColor
