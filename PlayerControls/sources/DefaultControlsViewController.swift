@@ -68,6 +68,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var airplayConstraints: Constraints!
     @IBOutlet private var pipConstraints: Constraints!
     @IBOutlet private var seekerConstraints: Constraints!
+    @IBOutlet private var videoTitleConstraints: Constraints!
     
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -113,13 +114,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     }
     
     func performSettingsButtonAnimation(type: AnimationType, isHidden: Bool) {
+        guard apearedOnce else { settingsButton.isHidden = isHidden; return }
         switch (type, isHidden) {
         case (.fade, true):
             print("Set in fade out")
             settingsButton.alpha = 1
             
             CATransaction.begin()
-            
             CATransaction.setCompletionBlock({
                 self.settingsButton.isHidden = true
             })
@@ -135,9 +136,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.fade, false):
             print("Set in fade in")
-            settingsButton.alpha = 0
-            settingsButton.isHidden = false
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock {
                 CATransaction.begin()
@@ -149,20 +147,20 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.settingsButton.alpha = 1
                 
                 CATransaction.commit()
-                
             }
+            settingsButton.alpha = 0
+            settingsButton.isHidden = false
             CATransaction.commit()
             
         case (.slide, true):
             print("Set in slide down")
-            settingConstraints.toggleToMakeInVisible()
             
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.settingsButton.isHidden = true
                 self.settingConstraints.toggleToMakeVisible()
             })
-            
+            settingConstraints.toggleToMakeInVisible()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
             
@@ -171,12 +169,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.slide, false):
             print("Set in slide up")
-            
             CATransaction.begin()
-            settingConstraints.toggleToMakeInVisible()
-            
             CATransaction.setCompletionBlock {
-                
                 CATransaction.begin()
                 self.settingsButton.isHidden = false
                 let animation = CABasicAnimation(keyPath: "position")
@@ -186,8 +180,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.settingConstraints.toggleToMakeVisible()
                 
                 CATransaction.commit()
-                
             }
+            settingConstraints.toggleToMakeInVisible()
             CATransaction.commit()
             
         case (.move, _):
@@ -199,7 +193,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
-            
             settingsButton.layer.add(animation, forKey: "position")
             
             CATransaction.commit()
@@ -214,12 +207,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         switch (type, isHidden) {
         case (.fade, true):
             print("AP in fade out")
-            airPlayView.alpha = 1
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.airPlayView.isHidden = true
             })
+            airPlayView.alpha = 1
             let animation = CABasicAnimation(keyPath: "opacity")
             animation.duration = 0.5
             
@@ -247,7 +239,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.slide, true):
             print("AP in slide down")
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.airPlayView.isHidden = true
@@ -256,7 +247,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
-            
             airPlayView.layer.add(animation, forKey: "position")
             airplayConstraints.toggleToMakeInVisible()
             CATransaction.commit()
@@ -264,10 +254,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         case (.slide, false):
             print("AP in slide up")
             CATransaction.begin()
-            airplayConstraints.toggleToMakeInVisible()
-            
             CATransaction.setCompletionBlock {
-                
                 CATransaction.begin()
                 self.airPlayView.isHidden = false
                 let animation = CABasicAnimation(keyPath: "position")
@@ -277,18 +264,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.airplayConstraints.toggleToMakeVisible()
                 
                 CATransaction.commit()
-                
             }
+            airplayConstraints.toggleToMakeInVisible()
             CATransaction.commit()
             
         case (.move, _):
             print("AP in move")
-            pipEdgeTrailingConstrains.isActive = !uiProps.pipButtonHidden
+            //pipEdgeTrailingConstrains.isActive = !uiProps.pipButtonHidden
             airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
             self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
             CATransaction.begin()
-
-
+            
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
             
@@ -305,12 +291,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         switch (type, isHidden) {
         case (.fade, true):
             print("PiP in fade out")
-            pipButton.alpha = 1
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.pipButton.isHidden = true
             })
+            pipButton.alpha = 1
             let animation = CABasicAnimation(keyPath: "opacity")
             animation.duration = 0.5
             
@@ -321,8 +306,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.fade, false):
             print("PiP in fade in")
-            pipButton.alpha = 0.1
-            pipButton.isHidden = false
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 CATransaction.begin()
@@ -334,29 +317,27 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.pipButton.alpha = 1
                 CATransaction.commit()
             })
+            pipButton.alpha = 0.1
+            pipButton.isHidden = false
             CATransaction.commit()
             
         case (.slide, true):
             print("PiP in slide down")
-            
             CATransaction.begin()
-            pipConstraints.toggleToMakeInVisible()
             CATransaction.setCompletionBlock({
                 self.pipButton.isHidden = true
                 self.pipConstraints.toggleToMakeVisible()
             })
-            
+            pipConstraints.toggleToMakeInVisible()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
-            
             pipButton.layer.add(animation, forKey: "position")
+            
             CATransaction.commit()
             
         case (.slide, false):
             print("PiP in slide up")
             CATransaction.begin()
-            pipConstraints.toggleToMakeInVisible()
-            
             CATransaction.setCompletionBlock {
                 
                 CATransaction.begin()
@@ -368,8 +349,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.pipConstraints.toggleToMakeVisible()
                 
                 CATransaction.commit()
-                
             }
+            pipConstraints.toggleToMakeInVisible()
             CATransaction.commit()
             
         case (.move, _):
@@ -378,7 +359,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
-            
             pipButton.layer.add(animation, forKey: "position")
             
             CATransaction.commit()
@@ -393,12 +373,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         switch (type, isHidden) {
         case (.fade, true):
             print("Seeker in fade out")
-            seekerView.alpha = 1
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.seekerView.isHidden = true
             })
+            seekerView.alpha = 1
             let animation = CABasicAnimation(keyPath: "opacity")
             animation.duration = 0.5
             
@@ -409,9 +388,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.fade, false):
             print("Seeker in fade in")
+            CATransaction.begin()
             seekerView.alpha = 0.1
             seekerView.isHidden = false
-            CATransaction.begin()
             CATransaction.setCompletionBlock({
                 CATransaction.begin()
                 
@@ -426,8 +405,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.slide, true):
             print("Seeker in slide down")
-            seekerConstraints.toggleToMakeInVisible()
-            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 self.seekerView.isHidden = true
@@ -436,8 +413,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.5
-            
             seekerView.layer.add(animation, forKey: "position")
+            seekerConstraints.toggleToMakeInVisible()
+            
             CATransaction.commit()
             
         case (.slide, false):
@@ -448,12 +426,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             CATransaction.setCompletionBlock {
                 
                 CATransaction.begin()
-                self.seekerView.isHidden = false
+                
                 let animation = CABasicAnimation(keyPath: "position")
                 animation.duration = 0.5
                 
                 self.pipButton.layer.add(animation, forKey: "posiotion")
                 self.seekerConstraints.toggleToMakeVisible()
+                self.seekerView.isHidden = false
                 
                 CATransaction.commit()
                 
@@ -473,6 +452,93 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
         case (.none, _):
             print("Seekerr does nothing")
+            return
+        }
+    }
+    
+    func performTitleAnimation(type: AnimationType, isHidden: Bool) {
+        switch (type, isHidden) {
+        case (.fade, true):
+            print("Titel in fade out")
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.videoTitleLabel.isHidden = true
+            })
+            videoTitleLabel.alpha = 1
+            let animation = CABasicAnimation(keyPath: "opacity")
+            animation.duration = 0.5
+            
+            videoTitleLabel.layer.add(animation, forKey: "position")
+            videoTitleLabel.alpha = 0.1
+            
+            CATransaction.commit()
+            
+        case (.fade, false):
+            print("Titel in fade in")
+            CATransaction.begin()
+            videoTitleLabel.alpha = 0.1
+            videoTitleLabel.isHidden = false
+            CATransaction.setCompletionBlock({
+                CATransaction.begin()
+                
+                let animation = CABasicAnimation(keyPath: "opacity")
+                animation.duration = 0.5
+                
+                self.seekerView.layer.add(animation, forKey: "opacity")
+                self.seekerView.alpha = 1
+                CATransaction.commit()
+            })
+            CATransaction.commit()
+            
+        case (.slide, true):
+            print("Titel in slide down")
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.videoTitleLabel.isHidden = true
+                self.seekerConstraints.toggleToMakeVisible()
+            })
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            videoTitleLabel.layer.add(animation, forKey: "position")
+            seekerConstraints.toggleToMakeInVisible()
+            
+            CATransaction.commit()
+            
+        case (.slide, false):
+            print("Titel in slide up")
+            CATransaction.begin()
+            seekerConstraints.toggleToMakeInVisible()
+            
+            CATransaction.setCompletionBlock {
+                
+                CATransaction.begin()
+                
+                let animation = CABasicAnimation(keyPath: "position")
+                animation.duration = 0.5
+                
+                self.videoTitleLabel.layer.add(animation, forKey: "posiotion")
+                self.seekerConstraints.toggleToMakeVisible()
+                self.videoTitleLabel.isHidden = false
+                
+                CATransaction.commit()
+                
+            }
+            CATransaction.commit()
+            
+        case (.move, _):
+            print("Titel in move")
+            CATransaction.begin()
+            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.5
+            
+            videoTitleLabel.layer.add(animation, forKey: "position")
+            
+            CATransaction.commit()
+            
+        case (.none, _):
+            print("Titel does nothing")
             return
         }
     }
@@ -497,8 +563,9 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         let animationTypes = determineBottomAnimationType(from: currenState, to: futureState)
         
-        //controlsView.isHidden = uiProps.controlsViewHidden
+        //controlsView.isHidden = u  iProps.controlsViewHidden
         isLoading = uiProps.loading
+        shadowView.isHidden = uiProps.controlsViewHidden
         
         playButton.isHidden = uiProps.playButtonHidden
         pauseButton.isHidden = uiProps.pauseButtonHidden
@@ -509,11 +576,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         prevButton.isHidden = uiProps.prevButtonHidden
         prevButton.isEnabled = uiProps.prevButtonEnabled
         
-        if apearedOnce {
-            performSeekerAnimation(type: animationTypes.seekerAnimationType, isHidden: uiProps.seekerViewHidden)
-        } else {
-        seekerView.isHidden = uiProps.seekerViewHidden
-        }
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
         seekerView.progress = uiProps.seekerViewProgress
         seekerView.buffered = uiProps.seekerViewBuffered
@@ -580,19 +642,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         retryButton.isHidden = uiProps.retryButtonHidden
         errorLabel.isHidden = uiProps.errorLabelHidden
         errorLabel.text = uiProps.errorLabelText
-        
-        if apearedOnce {
-            performPipButtonAnimation(type: animationTypes.pipAnimationType, isHidden: uiProps.pipButtonHidden)
-        } else {
-            pipButton.isHidden = uiProps.pipButtonHidden
-        }
+
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        if apearedOnce {
-            performSettingsButtonAnimation(type: animationTypes.settingsAnimationType, isHidden: uiProps.settingsButtonHidden)
-        } else {
-            settingsButton.isHidden = uiProps.settingsButtonHidden
-        }
+        
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
         liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
@@ -606,16 +659,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
         if apearedOnce {
+            performSeekerAnimation(type: animationTypes.seekerAnimationType, isHidden: uiProps.seekerViewHidden)
+            performPipButtonAnimation(type: animationTypes.pipAnimationType, isHidden: uiProps.pipButtonHidden)
+            performSettingsButtonAnimation(type: animationTypes.settingsAnimationType, isHidden: uiProps.settingsButtonHidden)
             performAirPlayButtonAnimation(type: animationTypes.airplayAnimationType, isHidden: uiProps.airplayButtonHidden)
+            
         } else {
+            seekerView.isHidden = uiProps.seekerViewHidden
+            pipButton.isHidden = uiProps.pipButtonHidden
+            settingsButton.isHidden = uiProps.settingsButtonHidden
             airPlayView.isHidden = uiProps.airplayButtonHidden
         }
-        
-        
-
-        print("pip\(pipButton.isHidden)")
-        print("airPlay\(airPlayView.isHidden)")
-        print("settings\(settingsButton.isHidden)")
     }
     
     //swiftlint:enable function_body_length
