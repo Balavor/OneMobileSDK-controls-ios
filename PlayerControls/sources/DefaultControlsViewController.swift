@@ -380,35 +380,19 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         switch (type, isHidden) {
         case (.fade, true):
             print("Seeker in fade out")
-            CATransaction.begin()
-            CATransaction.setCompletionBlock({
-                self.seekerView.isHidden = true
-            })
-            seekerView.alpha = 1
-            let animation = CABasicAnimation(keyPath: "opacity")
+            let animation = CATransition()
+            animation.type = kCATransitionFade
             animation.duration = 0.5
-            
-            seekerView.layer.add(animation, forKey: "position")
-            seekerView.alpha = 0.1
-            
-            CATransaction.commit()
+            self.seekerView.layer.add(animation, forKey: nil)
+            seekerView.isHidden = true
             
         case (.fade, false):
             print("Seeker in fade in")
-            CATransaction.begin()
-            seekerView.alpha = 0.1
+            let animation = CATransition()
+            animation.type = kCATransitionFade
+            animation.duration = 0.5
+            self.seekerView.layer.add(animation, forKey: nil)
             seekerView.isHidden = false
-            CATransaction.setCompletionBlock({
-                CATransaction.begin()
-                
-                let animation = CABasicAnimation(keyPath: "opacity")
-                animation.duration = 0.5
-                
-                self.seekerView.layer.add(animation, forKey: "opacity")
-                self.seekerView.alpha = 1
-                CATransaction.commit()
-            })
-            CATransaction.commit()
             
         case (.slide, true):
             print("Seeker in slide down")
@@ -483,7 +467,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         case (.fade, false):
             print("Titel in fade in")
             CATransaction.begin()
-            videoTitleLabel.alpha = 0.1
+            videoTitleLabel.alpha = 0
             videoTitleLabel.isHidden = false
             CATransaction.setCompletionBlock({
                 CATransaction.begin()
@@ -651,7 +635,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         errorLabel.text = uiProps.errorLabelText
 
         //pipButton.isEnabled = uiProps.pipButtonEnabled
-        
         
         //settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
