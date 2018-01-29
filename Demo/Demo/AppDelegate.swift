@@ -4,11 +4,159 @@ import UIKit
 import PlayerControls
 
 typealias Props = ContentControlsViewController.Props
-func props() -> Props {
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let vc = DefaultControlsViewController()
+        vc.view.backgroundColor = .red
+        vc.view.tintColor = .blue
+
+        let propsDirector = PropsDirector()
+        
+        propsDirector.buttonProps.append(contentsOf: propsAirPlayOnly())
+        propsDirector.buttonProps.append(contentsOf: propsCombination2())
+//        propsDirector.buttonProps.append(contentsOf: propsOneButtonVisible())
+        vc.props = baseProps()
+        
+//        if #available(iOS 10.0, *) {
+//            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (_) in
+//                vc.props = propsDirector.updateProps()
+//            }
+//        }
+        
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = vc
+        window?.makeKeyAndVisible()
+        
+        return true
+    }
+}
+
+//func propsAllButtonsVisible() -> [ButtonsProps] {
+//    let props: [ButtonsProps] = [
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop))
+//    ]
+//    return props
+//}
+
+//func propsTwoButtonsVisible() -> [ButtonsProps] {
+//    let props: [ButtonsProps] = [
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
+//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
+//    ]
+//    return props
+//}
+
+func propsCombination2() -> [ButtonsProps] {
+    let props: [ButtonsProps] = [
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+    ]
+    return props
+}
+
+func propsWithPipOnly() -> [ButtonsProps] {
+    let props: [ButtonsProps] = [
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled,
+                     pipState: .possible(.nop),
+                     seekerState: Props.Seekbar(
+                        duration: 3600,
+                        currentTime: 1800,
+                        progress: 0.5,
+                        buffered: 0.7,
+                        seeker: Props.Seeker(
+                            seekTo: .nop,
+                            state: Props.State(
+                                start: .nop,
+                                update: .nop,
+                                stop: .nop)))),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        //ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .impossible, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
+        
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil)
+    ]
+    return props
+}
+
+func propsAirPlayOnly() -> [ButtonsProps] {
+    let props: [ButtonsProps] = [
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop), seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported, seekerState: nil),
+        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop), seekerState: nil),
+    ]
+    return props
+}
+
+func baseProps() -> Props {
     return Props.player(Props.Player(
         playlist: Props.Playlist(
-            next: nil,
-            prev: nil),
+            next: .nop,
+            prev: .nop),
         item: .playable(Props.Controls(
             airplay: .enabled,
             audible: Props.MediaGroupControl(options: []),
@@ -42,28 +190,56 @@ func props() -> Props {
                         update: .nop,
                         stop: .nop))),
             settings: .enabled(.nop),
-            sideBarViewHidden: true,
+            sideBarViewHidden: false,
             thumbnail: nil,
             title: "Long titel"))))
 }
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+func sideProps() -> [SideBarView.ButtonProps]{
     
-    var window: UIWindow?
+    let shareIcons = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-share", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-share-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        let vc = DefaultControlsViewController()
-        vc.view.backgroundColor = .green
-        vc.view.tintColor = .blue
-        vc.props = props()
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = vc
-        window?.makeKeyAndVisible()
-        
-        return true
-    }
+    let share = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: shareIcons,
+        handler: .nop)
+    
+    let addIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-add", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-add-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let add = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: addIcon,
+        handler: .nop)
+    
+    let favoriteIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-fav", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-fav-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let favorite = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: favoriteIcon,
+        handler: .nop)
+    
+    let laterIcon = SideBarView.ButtonProps.Icons(
+        normal: UIImage(named: "icon-later", in: Bundle(for: SideBarView.self), compatibleWith: nil)!,
+        selected: nil,
+        highlighted: UIImage(named: "icon-later-active", in: Bundle(for: SideBarView.self), compatibleWith: nil))
+    
+    let later = SideBarView.ButtonProps(
+        isEnabled: true,
+        isSelected: false,
+        icons: laterIcon,
+        handler: .nop)
+    
+    return [later, favorite, share, add]
 }
-
