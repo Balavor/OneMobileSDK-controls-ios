@@ -67,6 +67,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var subtitlesPipTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesBottomConstraint: NSLayoutConstraint!
     
+    
+    @IBOutlet var sideBarConstraints: AnimationsConstraint!
+    
+    
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
             sideBarView.props = sidebarProps.map { [weak self] in
@@ -221,6 +225,17 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         view.layer.add(animation, forKey: "hidden")
         view.isHidden = state
+    }
+
+    func performSideBarAnimation(isHidden: Bool) {
+        switch isHidden {
+        case true:
+            CATransaction.begin()
+            
+            CATransaction.commit()
+        case false:
+            <#code#>
+        }
     }
     
     func bottomSlideGroup() { }
