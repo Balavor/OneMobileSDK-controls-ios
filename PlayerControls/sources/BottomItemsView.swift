@@ -18,8 +18,9 @@ struct BottomItemsState {
 }
 
 enum AnimationType {
-    case fade, slide, move, `none`
+    case fade, `none`
 }
+
 struct BottomItemsAnimationTypes {
     
     let seekerAnimationType: AnimationType
@@ -42,6 +43,8 @@ struct BottomItemsConstraints {
 
 class BottomItemsView: UIView {
     
+    
+    
     func setupSettignsConstraints(bottomItemsStates: BottomItemsState, animationTypes: BottomItemsAnimationTypes) -> BottomItemsConstraints {
         
         return BottomItemsConstraints(
@@ -51,6 +54,13 @@ class BottomItemsView: UIView {
             subtitlesEdgeTrailingConstraintActive: true,
             subtitlesPipTrailingConstraintActive: true
         )
+    }
+    
+    var bottomItemsNewState: BottomItemsState?
+    var airplayBuuton: UIView?
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
     
     func determineBottomItemsAnimationType(from oldState: BottomItemsState, to newState: BottomItemsState) -> BottomItemsAnimationTypes {
@@ -162,5 +172,19 @@ extension BottomItemsAnimationTypes: Equatable {
             && lhs.pipAnimationType == rhs.pipAnimationType
             && lhs.settingsAnimationType == rhs.settingsAnimationType
     }
-    
+}
+
+extension DefaultControlsViewController {
+    func seekerAnimationType(bottomItemsOldState: Bool, bottomItemsNewState: Bool) -> AnimationType {
+        switch (bottomItemsOldState, bottomItemsNewState) {
+        case (true, true):
+            return .none
+        case (false, true):
+            return .none
+        case (true, false):
+            return .fade
+        case (false, false):
+            return .fade
+        }
+    }
 }
