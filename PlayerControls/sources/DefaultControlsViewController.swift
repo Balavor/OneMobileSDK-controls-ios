@@ -56,6 +56,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var liveIndicationView: UIView!
     @IBOutlet private var liveDotLabel: UILabel!
     
+    @IBOutlet private var bottomItemsViewConstraint: NSLayoutConstraint!
     @IBOutlet private var visibleControlsSubtitlesConstraint: NSLayoutConstraint!
     @IBOutlet private var bottomSeekBarConstraint: NSLayoutConstraint!
     @IBOutlet private var compassBodyBelowLiveTopConstraint: NSLayoutConstraint!
@@ -67,9 +68,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var subtitlesPipTrailingConstrains: NSLayoutConstraint!
     @IBOutlet private var subtitlesBottomConstraint: NSLayoutConstraint!
     
-    
-    @IBOutlet var sideBarConstraints: AnimationsConstraint!
-    
+    @IBOutlet private var sideBarConstraints: AnimationsConstraint!
     
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -126,17 +125,36 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         nextButton.isEnabled = uiProps.nextButtonEnabled
         prevButton.isEnabled = uiProps.prevButtonEnabled
         
-        //MARK: Seeker
-        seekerView.isHidden = uiProps.seekerViewHidden
+        //MARK: BottomItems
+        let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
+        if uiProps.controlsViewHidden {
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
+                self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
+                self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
+                self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
+                self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
+            })
+            performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
+            CATransaction.commit()
+        } else {
+            performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
+            airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
+            airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
+            subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
+            subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
+            subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
+        }
+        
+        
+        performSeekerSlideAnimation(inHidden: uiProps.seekerViewHidden, withConstant: constant)
+        
+//        seekerView.isHidden = uiProps.seekerViewHidden
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
         seekerView.progress = uiProps.seekerViewProgress
         seekerView.buffered = uiProps.seekerViewBuffered
 
-        let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
-        bottomSeekBarConstraint.constant = uiProps.seekbarPositionedAtBottom
-            ? 13
-            : CGFloat(constant)
-        
         performFadeAnimation(for: seekBackButton, inHiddenState: uiProps.seekBackButtonHidden)
         performFadeAnimation(for: seekForwardButton, inHiddenState: uiProps.seekForwardButtonHidden)
         
@@ -159,18 +177,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         videoTitleLabel.text = uiProps.videoTitleLabelText
         
         durationTextLabel.text = uiProps.durationTextLabelText
-        performFadeAnimation(for: durationTextLabel, inHiddenState: uiProps.durationTextHidden)
         
         ccTextLabel.isHidden = uiProps.subtitlesTextLabelHidden
         ccTextLabel.text = uiProps.subtitlesTextLabelText
 
         visibleControlsSubtitlesConstraint.constant = uiProps.controlsViewHidden ? 30 : 110
-        airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
-        airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
-        subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden 
-        subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
-        subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
-        
+
         thumbnailImageView.isHidden = uiProps.thumbnailImageViewHidden
         
         if let url = uiProps.thumbnailImageUrl {
@@ -210,10 +222,10 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         performFadeAnimation(for: errorLabel, inHiddenState: uiProps.errorLabelHidden)
         errorLabel.text = uiProps.errorLabelText
         //MARK: Buttons
-        pipButton.isHidden = uiProps.pipButtonHidden
+        //pipButton.isHidden = uiProps.pipButtonHidden
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        settingsButton.isHidden = uiProps.settingsButtonHidden
+        //settingsButton.isHidden = uiProps.settingsButtonHidden
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
         performFadeAnimation(for: liveIndicationView, inHiddenState: uiProps.liveIndicationViewIsHidden)
@@ -226,28 +238,81 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        airPlayView.isHidden = uiProps.airplayButtonHidden
+        //airPlayView.isHidden = uiProps.airplayButtonHidden
     }
+    
+    var animationDuration: CFTimeInterval = 3.4
     
     func performFadeAnimation(for view: UIView, inHiddenState state: Bool) {
         let animation = CATransition()
         animation.type = kCATransitionFade
-        animation.duration = 0.4
+        animation.duration = animationDuration
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         view.layer.add(animation, forKey: "hidden")
         view.isHidden = state
     }
-
+    
+    func performSeekerSlideAnimation(inHidden state: Bool, withConstant constant: Int) {
+        switch state {
+        case true:
+            CATransaction.begin()
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = animationDuration
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            seekerView.layer.add(animation, forKey: "position")
+            durationTextLabel.layer.add(animation, forKey: "position")
+            bottomSeekBarConstraint.constant = uiProps.seekbarPositionedAtBottom
+                ? -13 - seekerView.frame.height
+                : CGFloat(-constant) - (seekerView.frame.height / 2)
+            CATransaction.commit()
+        case false:
+            CATransaction.begin()
+            seekerView.isHidden = false
+            durationTextLabel.isHidden = false
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = animationDuration
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            seekerView.layer.add(animation, forKey: "position")
+            durationTextLabel.layer.add(animation, forKey: "position")
+            bottomSeekBarConstraint.constant = uiProps.seekbarPositionedAtBottom
+                ? 13
+                : CGFloat(constant)
+            CATransaction.commit()
+        }
+    }
+    
+    func performBottomItemsSlideAnimation(inHidden state: Bool, withConstant constant: Int) {
+        switch state {
+        case true:
+            CATransaction.begin()
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = animationDuration
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            self.bottomItemsView.layer.add(animation, forKey: "position")
+            bottomItemsViewConstraint.constant = -(CGFloat(constant) + bottomItemsView.frame.height + seekerView.frame.height)
+            CATransaction.commit()
+        case false:
+            CATransaction.begin()
+            bottomItemsView.isHidden = false
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = animationDuration
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            bottomItemsView.layer.add(animation, forKey: "position")
+            bottomItemsViewConstraint.constant = 0
+            CATransaction.commit()
+        }
+    }
+    
     func performSideBarAnimation(isHidden: Bool) {
         switch isHidden {
-        case true:
+            case true:
             CATransaction.begin()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.4
             sideBarView.layer.add(animation, forKey: "position")
             sideBarConstraints.toggleToInVisible()
             CATransaction.commit()
-        case false:
+            case false:
             CATransaction.begin()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.4
@@ -256,9 +321,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             CATransaction.commit()
         }
     }
-    
-    func bottomSlideGroup() { }
-    
     //swiftlint:enable function_body_length
     //swiftlint:enable cyclomatic_complexity
     

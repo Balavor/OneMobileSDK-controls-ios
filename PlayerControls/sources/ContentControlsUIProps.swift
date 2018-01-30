@@ -233,7 +233,7 @@ extension DefaultControlsViewController {
             airplayActiveLabelHidden = !(props.player?.item.playable?.airplay.isActive ?? false)  || controlsHidden
             airplayButtonHidden = (props.player?.item.playable?.airplay.isHidden ?? true)  || controlsHidden
             
-            liveIndicationViewIsHidden = props.player?.item.playable?.live.isHidden ?? true || controlsHidden
+            liveIndicationViewIsHidden = props.player?.item.playable?.live.isHidden ?? true
             
             liveDotColor = props.player?.item.playable?.live.dotColor?.color ?? nil
             
