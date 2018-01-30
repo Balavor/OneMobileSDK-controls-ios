@@ -84,7 +84,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             }
         }
     }
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         seekerView.callbacks.onDragStarted = CommandWith { [unowned self] value in
@@ -98,6 +98,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         }
     }
     
+    var isApperared = false
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isApperared = true
+    }
     var task: URLSessionDataTask?
     
     var uiProps: UIProps = UIProps(props: .noPlayer, controlsViewVisible: false)
@@ -136,7 +141,13 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         performFadeAnimation(for: seekForwardButton, inHiddenState: uiProps.seekForwardButtonHidden)
         
         //MARK: Sidebar
-        sideBarView.isHidden = uiProps.sideBarViewHidden
+        if isApperared {
+            performSideBarAnimation(isHidden: uiProps.sideBarViewHidden)
+        } else {
+            sideBarView.isHidden = uiProps.sideBarViewHidden
+        }
+        
+        //sideBarView.isHidden = uiProps.sideBarViewHidden
         
         performFadeAnimation(for: compasBodyView, inHiddenState: uiProps.compasBodyViewHidden)
         performFadeAnimation(for: compasDirectionView, inHiddenState: uiProps.compasDirectionViewHidden)
@@ -231,10 +242,18 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         switch isHidden {
         case true:
             CATransaction.begin()
-            
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.4
+            sideBarView.layer.add(animation, forKey: "position")
+            sideBarConstraints.toggleToInVisible()
             CATransaction.commit()
         case false:
-            <#code#>
+            CATransaction.begin()
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.4
+            self.sideBarView.layer.add(animation, forKey: "position")
+            self.sideBarConstraints.toggleToVisible()
+            CATransaction.commit()
         }
     }
     

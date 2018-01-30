@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         propsDirector.buttonProps.append(contentsOf: propsCombination2())
 //        propsDirector.buttonProps.append(contentsOf: propsOneButtonVisible())
         vc.props = baseProps()
-        
+        vc.sidebarProps = sideProps()
 //        if #available(iOS 10.0, *) {
 //            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (_) in
 //                vc.props = propsDirector.updateProps()
