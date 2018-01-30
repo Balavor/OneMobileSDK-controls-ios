@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = DefaultControlsViewController()
         vc.view.backgroundColor = .red
         vc.view.tintColor = .blue
+        vc.props = baseProps()
+        vc.sidebarProps = sideProps()
         let director = PropsDirector2(viewController: vc)
         if #available(iOS 10.0, *) {
             Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in
