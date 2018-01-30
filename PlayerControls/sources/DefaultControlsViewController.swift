@@ -241,7 +241,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         //airPlayView.isHidden = uiProps.airplayButtonHidden
     }
     
-    var animationDuration: CFTimeInterval = 3.4
+    var animationDuration: CFTimeInterval = 0.4
     
     func performFadeAnimation(for view: UIView, inHiddenState state: Bool) {
         let animation = CATransition()
@@ -305,14 +305,14 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     
     func performSideBarAnimation(isHidden: Bool) {
         switch isHidden {
-            case true:
+        case true:
             CATransaction.begin()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.4
             sideBarView.layer.add(animation, forKey: "position")
             sideBarConstraints.toggleToInVisible()
             CATransaction.commit()
-            case false:
+        case false:
             CATransaction.begin()
             let animation = CABasicAnimation(keyPath: "position")
             animation.duration = 0.4
@@ -320,6 +320,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             self.sideBarConstraints.toggleToVisible()
             CATransaction.commit()
         }
+        sideBarView.isHidden = false
     }
     //swiftlint:enable function_body_length
     //swiftlint:enable cyclomatic_complexity

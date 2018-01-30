@@ -15,21 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = DefaultControlsViewController()
         vc.view.backgroundColor = .red
         vc.view.tintColor = .blue
-
-        let propsDirector = PropsDirector()
-        
-        propsDirector.buttonProps.append(contentsOf: propsAirPlayOnly())
-        propsDirector.buttonProps.append(contentsOf: propsCombination2())
-//        propsDirector.buttonProps.append(contentsOf: propsOneButtonVisible())
-        vc.props = baseProps()
-        vc.sidebarProps = sideProps()
-//        if #available(iOS 10.0, *) {
-//            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (_) in
-//                vc.props = propsDirector.updateProps()
-//            }
-//        }
-        
-        
+        let director = PropsDirector2(viewController: vc)
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in
+                director.go()
+            })
+        } else {
+            // Fallback on earlier versions
+        }
+    
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
