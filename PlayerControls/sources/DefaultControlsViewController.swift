@@ -56,9 +56,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
     @IBOutlet private var liveIndicationView: UIView!
     @IBOutlet private var liveDotLabel: UILabel!
     
+    //MARK: Slide constraints
     @IBOutlet private var bottomItemsViewConstraint: NSLayoutConstraint!
+    @IBOutlet private var bottomItemsToPlayerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private var seekerPushingBottomItemaConstraint: NSLayoutConstraint!
+    
     @IBOutlet private var visibleControlsSubtitlesConstraint: NSLayoutConstraint!
-    @IBOutlet private var bottomSeekBarConstraint: NSLayoutConstraint!
     @IBOutlet private var compassBodyBelowLiveTopConstraint: NSLayoutConstraint!
     @IBOutlet private var compassBodyNoLiveTopConstraint: NSLayoutConstraint!
     @IBOutlet private var airplayPipTrailingConstrains: NSLayoutConstraint!
@@ -132,6 +135,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         //MARK: BottomItems
         let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
+        performSeekerSlideAnimation(inHidden: uiProps.seekerViewHidden, withConstant: constant)
         if uiProps.controlsViewHidden {
             CATransaction.begin()
             CATransaction.setCompletionBlock({
@@ -144,8 +148,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
             CATransaction.commit()
         } else {
-            performBottomItemsSlideAnimation(inHidden: (uiProps.controlsViewHidden || (uiProps.airplayButtonHidden && uiProps.pipButtonHidden && uiProps.settingsButtonHidden)),
-                                             withConstant: constant)
+            performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
             airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
             airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
             subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
@@ -155,6 +158,8 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         
         let seekerBarAnimationType = seekerAnimationType(bottomItemsOldState: bottomItemsView.isHidden, bottomItemsNewState: uiProps.bottomItemsHidden)
         performSeekerAnimation(animation: seekerBarAnimationType, inHidden: uiProps.seekerViewHidden)
+        
+
         
 //        seekerView.isHidden = uiProps.seekerViewHidden
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
@@ -231,7 +236,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         pipButton.isHidden = uiProps.pipButtonHidden
         pipButton.isEnabled = uiProps.pipButtonEnabled
         
-        //settingsButton.isHidden = uiProps.settingsButtonHidden
+        settingsButton.isHidden = uiProps.settingsButtonHidden
         settingsButton.isEnabled = uiProps.settingsButtonEnabled
         
         performFadeAnimation(for: liveIndicationView, inHiddenState: uiProps.liveIndicationViewIsHidden)
@@ -244,7 +249,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 selected: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!,
                 highlighted: UIImage.init(named: "icon-airplay-active", in: Bundle(for: AirPlayView.self), compatibleWith: nil)!)
         )
-        //airPlayView.isHidden = uiProps.airplayButtonHidden
+        airPlayView.isHidden = uiProps.airplayButtonHidden
     }
     
     var animationDuration: CFTimeInterval = 0.4
