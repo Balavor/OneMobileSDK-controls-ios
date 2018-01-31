@@ -1,4 +1,23 @@
 import MediaPlayer
+
+final class Delegate: NSObject, CAAnimationDelegate {
+    let didStart: ((CAAnimation) -> ())?
+    let didStop: ((CAAnimation, Bool) -> ())?
+    
+    init(didStart: ((CAAnimation) -> ())? = nil, didStop: ((CAAnimation, Bool) -> ())? = nil) {
+    self.didStart = didStart
+    self.didStop = didStop
+    }
+    
+    func animationDidStart(_ anim: CAAnimation) {
+        self.didStart?(anim)
+    }
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        self.didStop?(anim, flag)
+    }
+}
+
 //  Copyright © 2017 Oath. All rights reserved.
 /// This class contains all controls that
 /// are defined for Player View Controller default UI.
@@ -117,6 +136,17 @@ public final class DefaultControlsViewController: ContentControlsViewController,
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
+        
+        var afterAnimationActions: [() -> ()] = []
+        func afterAnimation(block: @escaping () -> ()) {
+            afterAnimationActions.append(block)
+        }
+        
+        var beforeAnimationActions: [() -> ()] = []
+        func beforeAnimatino(block: @escaping () -> ()) {
+            beforeAnimationActions.append(block)
+        }
+        
         if animationEnabled {
             let oldState = BottomItemsState(seekerViewHidden: true, airplayButtonHidden: uiProps.airplayButtonHidden, pipButtonHidden: true, settingsButtonHidden: true, videoTitleLabelHidden: true)
             let newState = BottomItemsState(seekerViewHidden: true, airplayButtonHidden: uiProps.airplayButtonHidden, pipButtonHidden: true, settingsButtonHidden: true, videoTitleLabelHidden: true)
@@ -192,9 +222,23 @@ public final class DefaultControlsViewController: ContentControlsViewController,
         }
         
         
+        if uiProps.seekerViewHidden {
+            // Constraint
+            afterAnimation {
+                self.seekerView.isHidden = true
+                self.seekerView.progress = self.uiProps.seekerViewProgress
+                self.seekerView.buffered = self.uiProps.seekerViewBuffered
+            }
+        } else {
+            self.seekerView.isHidden = false
+            self.seekerView.progress = self.uiProps.seekerViewProgress
+            self.seekerView.buffered = self.uiProps.seekerViewBuffered
+            // Constrint
+            
+        }
+        
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
-        seekerView.progress = uiProps.seekerViewProgress
-        seekerView.buffered = uiProps.seekerViewBuffered
+        
         
         compasDirectionView.transform = uiProps.compasDirectionViewTransform
         cameraPanGestureRecognizer.isEnabled = uiProps.cameraPanGestureIsEnabled
@@ -313,30 +357,27 @@ public final class DefaultControlsViewController: ContentControlsViewController,
         }
     }
     
-    func performSideBarAnimation(isHidden: Bool) {
-        let animation = CABasicAnimation(keyPath: "position")
-        animation.duration = 0.4
+    func performSideBarAnimation(isHidden: Bool, animated: Bool = true) {
+        if animated {
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.duration = 0.4
+            animation.delegate = Delegate(didStop: { _, completed in
+                guard completed else { return }
+                self.performSideBarAnimation(isHidden: self.uiProps.sideBarViewHidden, animated: false)
+            })
+            
+            self.sideBarView.layer.add(animation, forKey: "position")
+            
+        }
+        
         switch isHidden {
         case true:
-            CATransaction.setCompletionBlock({
-                self.sideBarView.isHidden = true
-                self.sideBarConstraints.toggleToVisible()
-            })
-            self.sideBarView.layer.add(animation, forKey: "position")
             self.sideBarConstraints.toggleToInVisible()
-            
+            if !animated { self.sideBarView.isHidden = true }
         case false:
-            sideBarConstraints.toggleToInVisible()
-            sideBarView.isHidden = false
-            
-            CATransaction.flush()
-            
-            self.sideBarView.layer.add(animation, forKey: "position")
+            self.sideBarView.isHidden = false
             self.sideBarConstraints.toggleToVisible()
-
         }
-        //CATransaction.flush()
-        print("sidebar\(sideBarView.isHidden)")
     }
     
     /// Alpha for shadow view.

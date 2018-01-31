@@ -79,15 +79,14 @@ Subtitles</string>
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
-                <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m54-Yx-R7K" userLabel="Shadow View">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fi9-sW-1VX" userLabel="Controls view">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <subviews>
+                        <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m54-Yx-R7K" userLabel="Shadow View">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-loading" translatesAutoresizingMaskIntoConstraints="NO" id="ikX-6f-FSq">
                             <rect key="frame" x="193" y="113" width="95" height="95"/>
                         </imageView>
@@ -231,11 +230,11 @@ Title</string>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="Uc8-v7-96O" customClass="SideBarView" customModule="PlayerControls" customModuleProvider="target">
-                            <rect key="frame" x="450" y="0.0" width="30" height="213"/>
+                            <rect key="frame" x="450" y="0.0" width="30" height="223"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="57" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-vH-cgi" customClass="SeekerControlView" customModule="PlayerControls" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="203" width="480" height="54"/>
+                            <rect key="frame" x="0.0" y="213" width="480" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="height">
@@ -264,7 +263,7 @@ Title</string>
                         <constraint firstItem="l0O-oR-0Rg" firstAttribute="leading" secondItem="fi9-sW-1VX" secondAttribute="leading" constant="10" id="JdE-Uf-1u0"/>
                         <constraint firstItem="cNh-R2-LdG" firstAttribute="centerY" secondItem="U8A-X2-cyf" secondAttribute="centerY" id="MDB-2d-aWk"/>
                         <constraint firstItem="fAO-vH-cgi" firstAttribute="leading" secondItem="fi9-sW-1VX" secondAttribute="leading" id="OYY-c7-642"/>
-                        <constraint firstAttribute="trailing" secondItem="Uc8-v7-96O" secondAttribute="trailing" id="Ohx-0e-0yL"/>
+                        <constraint firstAttribute="trailing" secondItem="Uc8-v7-96O" secondAttribute="trailing" constant="0.5" id="Ohx-0e-0yL"/>
                         <constraint firstItem="1mO-du-9Sg" firstAttribute="top" secondItem="fAO-vH-cgi" secondAttribute="bottom" constant="13" id="Qb1-pS-46F"/>
                         <constraint firstAttribute="trailing" secondItem="fAO-vH-cgi" secondAttribute="trailing" id="SFG-A0-7XF"/>
                         <constraint firstItem="fAO-vH-cgi" firstAttribute="top" secondItem="Uc8-v7-96O" secondAttribute="bottom" constant="-10" id="UdF-CY-C2C"/>
@@ -294,6 +293,7 @@ Title</string>
                         <constraint firstItem="fAO-vH-cgi" firstAttribute="top" secondItem="fi9-sW-1VX" secondAttribute="bottom" id="x9U-jy-S7g"/>
                         <constraint firstItem="wVE-Q8-zOG" firstAttribute="centerY" secondItem="U8A-X2-cyf" secondAttribute="centerY" id="xAL-Mr-aiA"/>
                         <constraint firstItem="U8A-X2-cyf" firstAttribute="centerX" secondItem="fi9-sW-1VX" secondAttribute="centerX" id="y9t-79-v13"/>
+                        <constraint firstAttribute="trailing" secondItem="Uc8-v7-96O" secondAttribute="trailing" constant="-31" id="yyh-fG-ity"/>
                         <constraint firstItem="wVE-Q8-zOG" firstAttribute="centerX" secondItem="U8A-X2-cyf" secondAttribute="centerX" id="zsd-wr-B4P"/>
                     </constraints>
                     <variation key="default">
@@ -329,6 +329,7 @@ Title</string>
                             <exclude reference="pG8-cM-rpN"/>
                             <exclude reference="F2z-D3-yET"/>
                             <exclude reference="iww-Ws-dSP"/>
+                            <exclude reference="yyh-fG-ity"/>
                             <exclude reference="eTt-xT-Hay"/>
                         </mask>
                     </variation>
@@ -449,25 +450,31 @@ Title</string>
             <constraints>
                 <constraint firstItem="NKq-bU-tvG" firstAttribute="top" secondItem="rFH-6N-3gH" secondAttribute="top" id="24r-Hq-M3g"/>
                 <constraint firstAttribute="bottom" secondItem="fi9-sW-1VX" secondAttribute="bottom" id="33F-58-Fc1"/>
+                <constraint firstAttribute="trailing" secondItem="m54-Yx-R7K" secondAttribute="trailing" id="8Ls-76-dSe"/>
+                <constraint firstAttribute="bottom" secondItem="Uc8-v7-96O" secondAttribute="bottom" constant="97" id="9fK-nJ-96q"/>
                 <constraint firstItem="UtD-cb-Wlb" firstAttribute="centerY" secondItem="fi9-sW-1VX" secondAttribute="centerY" constant="-60" id="Jcc-XU-IcT">
                     <variation key="heightClass=regular-widthClass=regular" constant="-120"/>
                 </constraint>
+                <constraint firstItem="m54-Yx-R7K" firstAttribute="top" secondItem="rFH-6N-3gH" secondAttribute="top" id="Kox-cn-mBy"/>
                 <constraint firstItem="aUE-Db-Ht9" firstAttribute="top" secondItem="rFH-6N-3gH" secondAttribute="top" constant="20" id="Ltn-5c-dL9"/>
                 <constraint firstItem="SEd-qf-YJr" firstAttribute="centerX" secondItem="rFH-6N-3gH" secondAttribute="centerX" id="MSf-YW-nEL"/>
                 <constraint firstItem="IVo-gm-8qs" firstAttribute="centerX" secondItem="rFH-6N-3gH" secondAttribute="centerX" id="OHb-kq-aUG"/>
                 <constraint firstItem="kPK-Sh-8jh" firstAttribute="centerX" secondItem="rFH-6N-3gH" secondAttribute="centerX" id="QGR-7P-ruj"/>
                 <constraint firstItem="IVo-gm-8qs" firstAttribute="centerY" secondItem="rFH-6N-3gH" secondAttribute="centerY" id="TOg-Wb-PbB"/>
                 <constraint firstAttribute="bottom" secondItem="NKq-bU-tvG" secondAttribute="bottom" id="Vog-pm-tOS"/>
+                <constraint firstItem="m54-Yx-R7K" firstAttribute="leading" secondItem="rFH-6N-3gH" secondAttribute="leading" id="XID-DN-xr2"/>
                 <constraint firstItem="NKq-bU-tvG" firstAttribute="leading" secondItem="rFH-6N-3gH" secondAttribute="leading" id="cUc-Ko-vsy"/>
                 <constraint firstItem="fi9-sW-1VX" firstAttribute="top" secondItem="rFH-6N-3gH" secondAttribute="top" id="cbb-BO-G5L"/>
                 <constraint firstItem="UtD-cb-Wlb" firstAttribute="centerX" secondItem="rFH-6N-3gH" secondAttribute="centerX" id="daT-2G-R8Z"/>
                 <constraint firstAttribute="trailing" secondItem="fi9-sW-1VX" secondAttribute="trailing" id="eNx-qY-amb"/>
                 <constraint firstItem="IVo-gm-8qs" firstAttribute="top" secondItem="kPK-Sh-8jh" secondAttribute="bottom" constant="20" id="egj-dM-sVx"/>
+                <constraint firstItem="m54-Yx-R7K" firstAttribute="centerY" secondItem="IVo-gm-8qs" secondAttribute="centerY" id="fLj-T3-QjW"/>
                 <constraint firstAttribute="bottom" secondItem="SEd-qf-YJr" secondAttribute="bottom" constant="110" id="gK7-AG-J2d"/>
                 <constraint firstAttribute="trailing" secondItem="NKq-bU-tvG" secondAttribute="trailing" id="giY-J7-3C9"/>
                 <constraint firstItem="aUE-Db-Ht9" firstAttribute="leading" secondItem="rFH-6N-3gH" secondAttribute="leading" constant="10" id="j2C-Zf-cIb"/>
                 <constraint firstItem="UtD-cb-Wlb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rFH-6N-3gH" secondAttribute="leading" constant="40" id="ute-YD-JsE"/>
                 <constraint firstItem="fi9-sW-1VX" firstAttribute="leading" secondItem="rFH-6N-3gH" secondAttribute="leading" id="vK8-8v-dJz"/>
+                <constraint firstItem="m54-Yx-R7K" firstAttribute="centerY" secondItem="rFH-6N-3gH" secondAttribute="centerY" id="yvn-kw-g0N"/>
                 <constraint firstItem="Uc8-v7-96O" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UtD-cb-Wlb" secondAttribute="trailing" constant="10" id="zXm-Sx-0Uw"/>
             </constraints>
             <connections>
@@ -481,7 +488,12 @@ Title</string>
                 <action selector="onCameraPanWith:" destination="-1" id="RBn-Hb-4of"/>
             </connections>
         </panGestureRecognizer>
-        <customObject id="upj-p5-xIP" customClass="AnimationsConstraint" customModule="PlayerControls" customModuleProvider="target"/>
+        <customObject id="upj-p5-xIP" customClass="AnimationsConstraint" customModule="PlayerControls" customModuleProvider="target">
+            <connections>
+                <outlet property="inVisibleConstraint" destination="yyh-fG-ity" id="CVq-e8-cmR"/>
+                <outlet property="visibleConstraint" destination="Ohx-0e-0yL" id="uKi-rh-hSD"/>
+            </connections>
+        </customObject>
     </objects>
     <resources>
         <image name="compas-body" width="30" height="30"/>
