@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.tintColor = .blue
         vc.props = baseProps()
         vc.sidebarProps = sideProps()
-        vc.animationEnabled = true
+        //vc.animationEnabled = true
 //        let director = PropsDirector2(viewController: vc)
 //        if #available(iOS 10.0, *) {
 //            Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in

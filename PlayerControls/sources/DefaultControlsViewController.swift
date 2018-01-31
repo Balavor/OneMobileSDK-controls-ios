@@ -92,7 +92,7 @@ public final class DefaultControlsViewController: ContentControlsViewController,
     
     @IBOutlet private var sideBarConstraints: AnimationsConstraint!
     
-    public var animationEnabled = false
+    public var animationEnabled = true
     
     public var sidebarProps: SideBarView.Props = [] {
         didSet {
@@ -133,54 +133,63 @@ public final class DefaultControlsViewController: ContentControlsViewController,
     //swiftlint:disable cyclomatic_complexity
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsShouldBeVisible)
         
-        
-        var afterAnimationActions: [() -> ()] = []
-        func afterAnimation(block: @escaping () -> ()) {
-            afterAnimationActions.append(block)
+        var afterSlideAnimationActions: [() -> ()] = []
+        func afterSlideAnimation(block: @escaping () -> ()) {
+            afterSlideAnimationActions.append(block)
         }
         
-        var beforeAnimationActions: [() -> ()] = []
-        func beforeAnimatino(block: @escaping () -> ()) {
-            beforeAnimationActions.append(block)
+        var afterFadeAnimationActions: [() -> ()] = []
+        func afterFadeAnimation(block: @escaping () -> ()) {
+            afterFadeAnimationActions.append(block)
         }
         
         if animationEnabled {
-            let oldState = BottomItemsState(seekerViewHidden: true, airplayButtonHidden: uiProps.airplayButtonHidden, pipButtonHidden: true, settingsButtonHidden: true, videoTitleLabelHidden: true)
-            let newState = BottomItemsState(seekerViewHidden: true, airplayButtonHidden: uiProps.airplayButtonHidden, pipButtonHidden: true, settingsButtonHidden: true, videoTitleLabelHidden: true)
             
-            bottomItemsView.bottomItemsNewState = newState
-            bottomItemsView.airplayBuuton = airPlayView
+            let animationPosition = CABasicAnimation(keyPath: "position")
+            animationPosition.duration = 0.4
+            animationPosition.delegate = Delegate(didStop: { _, completed in
+                guard completed else { return }
+                afterSlideAnimationActions.forEach{$0()}
+            })
             
-            performFadeAnimation(for: shadowView, inHiddenState: uiProps.controlsViewHidden)
-            performFadeAnimation(for: playButton, inHiddenState: uiProps.playButtonHidden)
-            performFadeAnimation(for: pauseButton, inHiddenState: uiProps.pauseButtonHidden)
-            performFadeAnimation(for: replayButton, inHiddenState: uiProps.replayButtonHidden)
-            performFadeAnimation(for: nextButton, inHiddenState: uiProps.nextButtonHidden)
-            performFadeAnimation(for: prevButton, inHiddenState: uiProps.prevButtonHidden)
-            performFadeAnimation(for: seekBackButton, inHiddenState: uiProps.seekBackButtonHidden)
-            performFadeAnimation(for: seekForwardButton, inHiddenState: uiProps.seekForwardButtonHidden)
-            performFadeAnimation(for: compasBodyView, inHiddenState: uiProps.compasBodyViewHidden)
-            performFadeAnimation(for: compasDirectionView, inHiddenState: uiProps.compasDirectionViewHidden)
-            performFadeAnimation(for: retryButton, inHiddenState: uiProps.retryButtonHidden)
-            performFadeAnimation(for: errorLabel, inHiddenState: uiProps.errorLabelHidden)
-            performFadeAnimation(for: liveIndicationView, inHiddenState: uiProps.liveIndicationViewIsHidden)
-            performFadeAnimation(for: airplayActiveLabel, inHiddenState: uiProps.airplayActiveLabelHidden)
+            let animationOpacity = CABasicAnimation(keyPath: "opacity")
+            animationOpacity.duration = 0.4
+            animationOpacity.delegate = Delegate(didStop: { _, completed in
+                guard completed else { return }
+                afterFadeAnimationActions.forEach{$0()}
+            })
             
-            performSideBarAnimation(isHidden: uiProps.sideBarViewHidden)
+            sideBarView.layer.add(animationPosition, forKey: "position")
+            seekerView.layer.add(animationPosition, forKey: "position")
             
-            let seekerBarAnimationType = seekerAnimationType(bottomItemsOldState: bottomItemsView.isHidden, bottomItemsNewState: uiProps.bottomItemsHidden)
-            performSeekerAnimation(animation: seekerBarAnimationType, inHidden: uiProps.seekerViewHidden)
+            shadowView.layer.add(animationOpacity, forKey: "opacity")
+            playButton.layer.add(animationOpacity, forKey: "opacity")
+            pauseButton.layer.add(animationOpacity, forKey: "opacity")
+            replayButton.layer.add(animationOpacity, forKey: "opacity")
+            nextButton.layer.add(animationOpacity, forKey: "opacity")
+            prevButton.layer.add(animationOpacity, forKey: "opacity")
+            seekBackButton.layer.add(animationOpacity, forKey: "opacity")
+            seekForwardButton.layer.add(animationOpacity, forKey: "opacity")
+            compasBodyView.layer.add(animationOpacity, forKey: "opacity")
+            compasDirectionView.layer.add(animationOpacity, forKey: "opacity")
+            retryButton.layer.add(animationOpacity, forKey: "opacity")
+            errorLabel.layer.add(animationOpacity, forKey: "opacity")
+            liveIndicationView.layer.add(animationOpacity, forKey: "opacity")
+            airplayActiveLabel.layer.add(animationOpacity, forKey: "opacity")
+
+        }
         
-        } else {
+        if !isApperared {
             shadowView.isHidden = uiProps.controlsViewHidden
             playButton.isHidden = uiProps.playButtonHidden
             pauseButton.isHidden = uiProps.pauseButtonHidden
             replayButton.isHidden = uiProps.replayButtonHidden
-            nextButton.isHidden = uiProps.nextButtonHidden
-            prevButton.isHidden = uiProps.prevButtonHidden
+
+
             seekBackButton.isHidden = uiProps.seekBackButtonHidden
             seekForwardButton.isHidden = uiProps.seekForwardButtonHidden
             compasBodyView.isHidden = uiProps.compasBodyViewHidden
@@ -189,56 +198,126 @@ public final class DefaultControlsViewController: ContentControlsViewController,
             errorLabel.isHidden = uiProps.errorLabelHidden
             liveIndicationView.isHidden = uiProps.liveIndicationViewIsHidden
             airplayActiveLabel.isHidden = uiProps.airplayActiveLabelHidden
-            
+
             sideBarView.isHidden = uiProps.sideBarViewHidden
-            seekerView.isHidden = uiProps.seekerViewHidden
-        }
-    
-        isLoading = uiProps.loading
-    
-        nextButton.isEnabled = uiProps.nextButtonEnabled
-        prevButton.isEnabled = uiProps.prevButtonEnabled
-        
-        //MARK: BottomItems
-        let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
-        if uiProps.controlsViewHidden {
-            CATransaction.begin()
-            CATransaction.setCompletionBlock({
-                self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
-                self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
-                self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
-                self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
-                self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
-            })
-            performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
-            CATransaction.commit()
-        } else {
-            performBottomItemsSlideAnimation(inHidden: uiProps.controlsViewHidden, withConstant: constant)
-            airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
-            airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
-            subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
-            subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
-            subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
         }
         
+        switch uiProps.seekForwardButtonHidden {
+        case true:
+            seekForwardButton.alpha = 0
+            afterFadeAnimation {
+                self.retryButton.isHidden = true
+            }
+        case false:
+            seekForwardButton.isHidden = false
+            seekForwardButton.alpha = 1
+        }
         
-        if uiProps.seekerViewHidden {
-            // Constraint
-            afterAnimation {
+        switch uiProps.seekBackButtonHidden {
+        case true:
+            seekBackButton.alpha = 0
+            afterFadeAnimation {
+                self.seekBackButton.isHidden = true
+            }
+        case false:
+            seekBackButton.isHidden = false
+            seekBackButton.alpha = 1
+        }
+        
+        switch uiProps.replayButtonHidden {
+        case true:
+            retryButton.alpha = 0
+            afterFadeAnimation {
+                self.retryButton.isHidden = true
+            }
+        case false:
+            retryButton.isHidden = false
+            retryButton.alpha = 1
+        }
+        
+        switch uiProps.pauseButtonHidden {
+        case true:
+            pauseButton.alpha = 0
+            afterFadeAnimation {
+                self.pauseButton.isHidden = true
+            }
+        case false:
+            pauseButton.isHidden = false
+            pauseButton.alpha = 1
+        }
+        
+        switch uiProps.playButtonHidden {
+        case true:
+            playButton.alpha = 0
+            afterFadeAnimation {
+                self.playButton.isHidden = true
+            }
+        case false:
+            playButton.isHidden = false
+            playButton.alpha = 1
+        }
+        
+        switch uiProps.sideBarViewHidden {
+        case true:
+            sideBarConstraints.toggleToInVisible()
+            afterSlideAnimation {
+                self.sideBarView.isHidden = true
+            }
+        case false:
+            self.sideBarView.isHidden = false
+            sideBarConstraints.toggleToVisible()
+        }
+        
+        switch  uiProps.seekerViewHidden {
+        case true:
+            //Вставь сюда констрейны
+            afterSlideAnimation {
                 self.seekerView.isHidden = true
                 self.seekerView.progress = self.uiProps.seekerViewProgress
                 self.seekerView.buffered = self.uiProps.seekerViewBuffered
             }
-        } else {
+        case false:
             self.seekerView.isHidden = false
             self.seekerView.progress = self.uiProps.seekerViewProgress
             self.seekerView.buffered = self.uiProps.seekerViewBuffered
-            // Constrint
-            
+            //Вставь сюда констрейны
         }
-        
         seekerView.updateCurrentTime(text: uiProps.seekerViewCurrentTimeText)
         
+        switch uiProps.nextButtonHidden {
+        case true:
+            nextButton.alpha = 0
+            afterSlideAnimation {
+                self.nextButton.isHidden = true
+            }
+        case false:
+            self.nextButton.isHidden = true
+            nextButton.alpha = 1
+        }
+        nextButton.isEnabled = uiProps.nextButtonEnabled
+        
+        switch uiProps.prevButtonHidden {
+        case true:
+            prevButton.alpha = 0
+            afterFadeAnimation {
+                self.prevButton.isHidden = true
+            }
+        case false:
+            self.prevButton.isHidden = true
+            prevButton.alpha = 1
+        }
+        prevButton.isEnabled = uiProps.prevButtonEnabled
+        
+        //MARK: BottomItems
+        let constant = traitCollection.userInterfaceIdiom == .pad ? 70 : 63
+        
+        airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
+        airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
+        subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
+        subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
+        subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
+        
+        isLoading = uiProps.loading
         
         compasDirectionView.transform = uiProps.compasDirectionViewTransform
         cameraPanGestureRecognizer.isEnabled = uiProps.cameraPanGestureIsEnabled
@@ -309,76 +388,7 @@ public final class DefaultControlsViewController: ContentControlsViewController,
         airPlayView.isHidden = uiProps.airplayButtonHidden
     }
     
-    var animationDuration: CFTimeInterval = 0.4
     
-    func performFadeAnimation(for view: UIView, inHiddenState state: Bool) {
-        let animation = CATransition()
-        animation.type = kCATransitionFade
-        animation.duration = animationDuration
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        view.layer.add(animation, forKey: "hidden")
-        view.isHidden = state
-    }
-    
-    func performSeekerAnimation(animation: AnimationType, inHidden state: Bool) {
-        switch (animation) {
-        case (.none):
-            seekerView.isHidden = state
-        case (.fade):
-            print("fade seeker")
-            let animation = CATransition()
-            animation.type = kCATransitionFade
-            animation.duration = animationDuration
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            seekerView.layer.add(animation, forKey: "hidden")
-            seekerView.isHidden = state
-        }
-    }
-    
-    func performBottomItemsSlideAnimation(inHidden state: Bool, withConstant constant: Int) {
-        switch state {
-        case true:
-            CATransaction.begin()
-            let animation = CABasicAnimation(keyPath: "position")
-            animation.duration = animationDuration
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            self.bottomItemsView.layer.add(animation, forKey: "position")
-            bottomItemsViewConstraint.constant = -(CGFloat(constant) + bottomItemsView.frame.height + seekerView.frame.height)
-            CATransaction.commit()
-        case false:
-            CATransaction.begin()
-            bottomItemsView.isHidden = false
-            let animation = CABasicAnimation(keyPath: "position")
-            animation.duration = animationDuration
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            bottomItemsView.layer.add(animation, forKey: "position")
-            bottomItemsViewConstraint.constant = 0
-            CATransaction.commit()
-        }
-    }
-    
-    func performSideBarAnimation(isHidden: Bool, animated: Bool = true) {
-        if animated {
-            let animation = CABasicAnimation(keyPath: "position")
-            animation.duration = 0.4
-            animation.delegate = Delegate(didStop: { _, completed in
-                guard completed else { return }
-                self.performSideBarAnimation(isHidden: self.uiProps.sideBarViewHidden, animated: false)
-            })
-            
-            self.sideBarView.layer.add(animation, forKey: "position")
-            
-        }
-        
-        switch isHidden {
-        case true:
-            self.sideBarConstraints.toggleToInVisible()
-            if !animated { self.sideBarView.isHidden = true }
-        case false:
-            self.sideBarView.isHidden = false
-            self.sideBarConstraints.toggleToVisible()
-        }
-    }
     
     /// Alpha for shadow view.
     public var shadowViewAlpha = 0.3 as CGFloat
