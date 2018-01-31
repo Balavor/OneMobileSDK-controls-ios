@@ -17,71 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.tintColor = .blue
         vc.props = baseProps()
         vc.sidebarProps = sideProps()
-        let director = PropsDirector2(viewController: vc)
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in
-                director.go()
-            })
-        } else {
-            // Fallback on earlier versions
-        }
+        vc.animationEnabled = true
+//        let director = PropsDirector2(viewController: vc)
+//        if #available(iOS 10.0, *) {
+//            Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in
+//                director.go()
+//            })
+//        } else {
+//            // Fallback on earlier versions
+//        }
     
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
+        
+        
         return true
     }
 }
-
-//func propsAllButtonsVisible() -> [ButtonsProps] {
-//    let props: [ButtonsProps] = [
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .unsupported),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .hidden, airplayState: .hidden, pipState: .unsupported),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .possible(.nop))
-//    ]
-//    return props
-//}
-
-//func propsTwoButtonsVisible() -> [ButtonsProps] {
-//    let props: [ButtonsProps] = [
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .enabled, pipState: .unsupported),
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-//        ButtonsProps(settingsState: .hidden, airplayState: .enabled, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-//
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .possible(.nop)),
-//        ButtonsProps(settingsState: .enabled(.nop), airplayState: .hidden, pipState: .unsupported)
-//    ]
-//    return props
-//}
 
 func propsCombination2() -> [ButtonsProps] {
     let props: [ButtonsProps] = [
