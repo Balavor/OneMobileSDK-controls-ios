@@ -165,6 +165,8 @@ public final class DefaultControlsViewController: ContentControlsViewController,
             
             sideBarView.layer.add(animationPosition, forKey: "position")
             seekerView.layer.add(animationPosition, forKey: "position")
+            bottomItemsView.layer.add(animationPosition, forKey: "position")
+            ccTextLabel.layer.add(animationPosition, forKey: "position")
             
             shadowView.layer.add(animationOpacity, forKey: "opacity")
             playButton.layer.add(animationOpacity, forKey: "opacity")
@@ -200,6 +202,19 @@ public final class DefaultControlsViewController: ContentControlsViewController,
             airplayActiveLabel.isHidden = uiProps.airplayActiveLabelHidden
 
             sideBarView.isHidden = uiProps.sideBarViewHidden
+        }
+        
+        switch uiProps.bottomItemsHidden {
+        case true:
+            bottomItemsViewConstraint.isActive = false
+            bottomItemsToPlayerBottomConstraint.isActive = true
+            afterSlideAnimation {
+                self.bottomItemsView.isHidden = true
+            }
+        case false:
+            self.bottomItemsView.isHidden = false
+            bottomItemsToPlayerBottomConstraint.isActive  = false
+            bottomItemsViewConstraint.isActive = true
         }
         
         switch uiProps.seekForwardButtonHidden {
@@ -272,7 +287,7 @@ public final class DefaultControlsViewController: ContentControlsViewController,
         case true:
             //Вставь сюда констрейны
             afterSlideAnimation {
-                self.seekerView.isHidden = true
+               // self.seekerView.isHidden = true
                 self.seekerView.progress = self.uiProps.seekerViewProgress
                 self.seekerView.buffered = self.uiProps.seekerViewBuffered
             }
