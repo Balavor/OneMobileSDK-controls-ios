@@ -7,8 +7,8 @@ typealias Props = ContentControlsViewController.Props
 func props() -> Props {
     return Props.player(Props.Player(
         playlist: Props.Playlist(
-            next: nil,
-            prev: nil),
+            next: .nop,
+            prev: .nop),
         item: .playable(Props.Controls(
             airplay: .enabled,
             audible: Props.MediaGroupControl(options: []),
@@ -19,7 +19,7 @@ func props() -> Props {
                 moveTo: .nop),
             error: nil,
             legible: .external(
-                external: .available(state: .active(text: "Somthing short")),
+                external: .available(state: .active(text: "Something short")),
                 control: Props.MediaGroupControl(options: [Props.Option(
                     name: "Option1",
                     selected: true,
@@ -44,7 +44,7 @@ func props() -> Props {
             settings: .enabled(.nop),
             sideBarViewHidden: true,
             thumbnail: nil,
-            title: "Long titel"))))
+            title: "Long title"))))
 }
 
 @UIApplicationMain
@@ -58,6 +58,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.backgroundColor = .green
         vc.view.tintColor = .blue
         vc.props = props()
+        
+        let director = PropsDirector()
+        director.propsArray.append(contentsOf: liveVideoScript)
+        director.propsArray.append(contentsOf: noBottomItems)
+        director.propsArray.append(contentsOf: nextVideoInPlaylist)
+
+        
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (timer) in
+                guard let updatedProps = director.updateProps() else { timer.invalidate(); vc.props = props(); return }
+                vc.props = updatedProps
+            }
+        }
+
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc
