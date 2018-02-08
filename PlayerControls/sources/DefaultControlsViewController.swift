@@ -121,6 +121,11 @@ public final class DefaultControlsViewController: ContentControlsViewController 
         uiProps = UIProps(props: props,
                           controlsViewVisible: controlsViewVisible)
         
+        var beforSlideAnimationActions: [() -> ()] = []
+        func beforSlideAnimation(block: @escaping () -> ()) {
+            beforSlideAnimationActions.append(block)
+        }
+        
         var afterSlideAnimationActions: [() -> ()] = []
         func afterSlideAnimation(block: @escaping () -> ()) {
             afterSlideAnimationActions.append(block)
@@ -135,7 +140,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             
             let animationPosition = CABasicAnimation(keyPath: "position")
             animationPosition.duration = animationsDuration
-            animationPosition.delegate = AnimationDelegate(didStop: { _, completed in
+            animationPosition.delegate = AnimationDelegate(didStart: { _ in beforSlideAnimationActions.forEach{$0()} },didStop: { _, completed in
                 guard completed else { return }
                 afterSlideAnimationActions.forEach{$0()}
             })
@@ -153,8 +158,19 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             bottomItemsView.layer.add(animationPosition, forKey: "position")
             ccTextLabel.layer.add(animationPosition, forKey: "position")
             
-            durationTextLabel.layer.add(animationPosition, forKey: "opacity")
+            settingsButton.layer.add(animationPosition, forKey: "position")
+            pipButton.layer.add(animationPosition, forKey: "position")
+            airPlayView.layer.add(animationPosition, forKey: "position")
+            
+            settingsButton.layer.add(animationOpacity, forKey: "opacity")
+            pipButton.layer.add(animationOpacity, forKey: "opacity")
+            airPlayView.layer.add(animationOpacity, forKey: "opacity")
+            
             seekerView.layer.add(animationOpacity, forKey: "opacity")
+            durationTextLabel.layer.add(animationOpacity, forKey: "opacity")
+            seekBackButton.layer.add(animationOpacity, forKey: "opacity")
+            seekForwardButton.layer.add(animationOpacity, forKey: "opacity")
+            
             shadowView.layer.add(animationOpacity, forKey: "opacity")
             playButton.layer.add(animationOpacity, forKey: "opacity")
             pauseButton.layer.add(animationOpacity, forKey: "opacity")
@@ -162,8 +178,6 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             replayButton.layer.add(animationOpacity, forKey: "opacity")
             nextButton.layer.add(animationOpacity, forKey: "opacity")
             prevButton.layer.add(animationOpacity, forKey: "opacity")
-            seekBackButton.layer.add(animationOpacity, forKey: "opacity")
-            seekForwardButton.layer.add(animationOpacity, forKey: "opacity")
             compasBodyView.layer.add(animationOpacity, forKey: "opacity")
             compasDirectionView.layer.add(animationOpacity, forKey: "opacity")
             errorLabel.layer.add(animationOpacity, forKey: "opacity")
@@ -176,6 +190,12 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             bottomItemsVisibleConstraint.isActive = false
             bottomItemsInvisibleConstraint.isActive = true
             afterSlideAnimation {
+                self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
+                self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
+                self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
+                self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
+                self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
+                
                 self.bottomItemsView.isHidden = true
                 self.pipButton.isHidden = self.uiProps.pipButtonHidden
                 self.airPlayView.isHidden = self.uiProps.airplayButtonHidden
@@ -186,30 +206,65 @@ public final class DefaultControlsViewController: ContentControlsViewController 
                 self.settingsButton.isEnabled = self.uiProps.settingsButtonEnabled
                 self.videoTitleLabel.text = self.uiProps.videoTitleLabelText
                 
-                self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
-                self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
-                self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
-                self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
-                self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
             }
         case false:
+            if bottomItemsView.isHidden {
+                settingsButton.layer.removeAnimation(forKey: "position")
+                pipButton.layer.removeAnimation(forKey: "position")
+                airPlayView.layer.removeAnimation(forKey: "position")
+            }
             bottomItemsView.isHidden = false
-            pipButton.isHidden = uiProps.pipButtonHidden
-            airPlayView.isHidden = uiProps.airplayButtonHidden
-            settingsButton.isHidden = uiProps.settingsButtonHidden
-            videoTitleLabel.isHidden = uiProps.videoTitleLabelHidden
             
             pipButton.isEnabled = uiProps.pipButtonEnabled
             settingsButton.isEnabled = uiProps.settingsButtonEnabled
             videoTitleLabel.text = uiProps.videoTitleLabelText
             
-            airplayPipTrailingConstrains.isActive = !uiProps.pipButtonHidden
-            airplayEdgeTrailingConstrains.isActive = uiProps.pipButtonHidden
-            subtitlesAirplayTrailingConstrains.isActive = !uiProps.airplayButtonHidden
-            subtitlesEdgeTrailingConstrains.isActive = uiProps.airplayButtonHidden && uiProps.pipButtonHidden
-            subtitlesPipTrailingConstrains.isActive = uiProps.airplayButtonHidden
-            bottomItemsVisibleConstraint.isActive = true
-            bottomItemsInvisibleConstraint.isActive = false
+            self.bottomItemsVisibleConstraint.isActive = true
+            self.bottomItemsInvisibleConstraint.isActive = false
+            
+            switch self.uiProps.settingsButtonHidden {
+            case true:
+                settingsButton.alpha = 0
+                afterFadeAnimation {
+                    self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
+                    self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
+                    self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
+                    self.settingsButton.isHidden = true
+                }
+            case false:
+                self.settingsButton.isHidden = false
+                self.subtitlesAirplayTrailingConstrains.isActive = !self.uiProps.airplayButtonHidden
+                self.subtitlesEdgeTrailingConstrains.isActive = self.uiProps.airplayButtonHidden && self.uiProps.pipButtonHidden
+                self.subtitlesPipTrailingConstrains.isActive = self.uiProps.airplayButtonHidden
+                settingsButton.alpha = 1
+            }
+            
+            switch self.uiProps.airplayButtonHidden {
+            case true:
+                airPlayView.alpha = 0
+                afterFadeAnimation {
+                    self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
+                    self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
+                    self.airPlayView.isHidden = true
+                }
+            case false:
+                self.airPlayView.isHidden = false
+                self.airplayPipTrailingConstrains.isActive = !self.uiProps.pipButtonHidden
+                self.airplayEdgeTrailingConstrains.isActive = self.uiProps.pipButtonHidden
+                airPlayView.alpha = 1
+            }
+            
+            switch self.uiProps.pipButtonHidden {
+            case true:
+                pipButton.alpha = 0
+                afterFadeAnimation {
+                    self.pipButton.isHidden = true
+                }
+            case false:
+                self.pipButton.isHidden = false
+                pipButton.alpha = 1
+            }
+            
         }
         
         switch uiProps.retryButtonHidden {
@@ -323,7 +378,7 @@ public final class DefaultControlsViewController: ContentControlsViewController 
             }
             
         case false:
-            if bottomItemsView.isHidden {
+            if bottomItemsView.isHidden{
                 seekerView.layer.removeAnimation(forKey: "opacity")
                 durationTextLabel.layer.removeAnimation(forKey: "opacity")
             }

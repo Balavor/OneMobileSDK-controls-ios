@@ -4,9 +4,15 @@ import Foundation
 
 final class AnimationDelegate: NSObject, CAAnimationDelegate {
     let didStop: ((CAAnimation, Bool) -> ())?
+    let didStart: ((CAAnimation) ->())?
     
-    init(didStop: ((CAAnimation, Bool) -> ())? = nil) {
+    init(didStart: ((CAAnimation) ->())? = nil, didStop: ((CAAnimation, Bool) -> ())? = nil) {
         self.didStop = didStop
+        self.didStart = didStart
+    }
+        
+    func animationDidStart(_ anim: CAAnimation) {
+        self.didStart?(anim)
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
