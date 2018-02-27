@@ -24,28 +24,28 @@ class SideBarViewTests: XCTestCase {
             spacingY: 20)
         
         let firstButton = origins[0]
-        XCTAssertEqual(firstButton.x, 100)
-        XCTAssertEqual(firstButton.y, 20)
+        XCTAssertEqual(firstButton.x, 1000)
+        XCTAssertEqual(firstButton.y, 200)
 
         let secondButton = origins[1]
-        XCTAssertEqual(secondButton.x, 150)
-        XCTAssertEqual(secondButton.y, 140)
+        XCTAssertEqual(secondButton.x, 1500)
+        XCTAssertEqual(secondButton.y, 1400)
         
         let thirdButton = origins[2]
-        XCTAssertEqual(thirdButton.x, 125)
-        XCTAssertEqual(thirdButton.y, 210)
+        XCTAssertEqual(thirdButton.x, 1250)
+        XCTAssertEqual(thirdButton.y, 2100)
     }
     
     func test1ButtonVerticalSpacing() {
-        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10], in: 100), 45)
+        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10], in: 100), 450)
     }
     
     func test2ButtonsVerticalSpacing() {
-        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10, 10], in: 98), 26)
+        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10, 10], in: 98), 260)
     }
     
     func test2ButtonsWithDifferentFramesVerticalSpacing() {
-        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10, 20], in: 93), 21)
+        XCTAssertEqual(SideBarView.verticalSpacingForButtons(withHeights: [10, 20], in: 93), 210)
     }
     
     func testZeroHeightVerticalSpacing() {
